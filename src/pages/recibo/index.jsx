@@ -1,28 +1,15 @@
-import React, { useState } from "react";
-import { Button, TextField, Container, Typography, Collapse, IconButton, Box } from '@material-ui/core/';
+import React, { useState, useMemo } from "react";
+import { Button, TextField, Container, Typography, Collapse, IconButton, Grid } from '@material-ui/core/';
 import ReciboPDF from "../../PDF/reciboPDF";
 import { Formik, Field, Form } from 'formik';
 import { schemaRecibo } from '../../utils/schema';
+import palete from '../../image/palete.png';
+import styles from './styles';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import ColorButtonBlue from '../../components/button/Blue';
+import ColorButtonRed from '../../components/button/Red';
 
 const Recibo = () => {
-
-    const [dados, setDados] = useState({
-        name: '',
-        email: '',
-        age: '',
-        gender: '',
-    })
-
-    function onChange(ev) {
-        setDados({
-            ...dados,
-            [ev.target.name]: ev.target.value
-        })
-    }
-
-    function enviei(values, actions) {
-        console.log('enviado', values);
-    }
 
     const MuiComp = ({
         field, // { name, value, onChange, onBlur }
@@ -37,27 +24,44 @@ const Recibo = () => {
 
     return (
         <>
-            <Formik initialValues={{
-                nome: '',
-                quantidade: '',
-                valorUnitario: '',
-            }}
-                validationSchema={schemaRecibo}
-                onSubmit={(values) => {
-                    alert(JSON.stringify(values, null, 2));
-                }}>
+            <Container className={styles().image} style={{ display: 'block' }}>
+                <img src={palete} width='150px' />
+            </Container>
+            <Container className={styles().containerPrincipal} style={{ display: 'block' }}>
+                <Formik initialValues={{
+                    nome: '',
+                    quantidade: '',
+                    valorUnitario: '',
+                    total: '0',
+                }}
+                    validationSchema={schemaRecibo}
+                    onSubmit={(values) => {
+                        alert(JSON.stringify(values, null, 2));
+                    }}>
 
-                {({ values, errors, touched }) => (
-                    <Form>
-                        <Typography style={{ margin: '30px 20px 20px 20px' }} variant="h4" gutterBottom>Recibo</Typography>
-                        <Field name='nome' type='text' component={MuiComp} placeholder="Nome" />
-                        <Field name='quantidade' type='number' component={MuiComp} placeholder="Quantidade" />
-                        <Field name='valorUnitario' type='number' component={MuiComp} placeholder="Valor Unitário" />
-                        <button type='submit'>Enviar</button>
-                        <button onClick={() => ReciboPDF(values)} >Gerar PDF</button>
-                    </Form>
-                )}
-            </Formik>
+                    {({ values, errors, touched }) => (
+                        <Form>
+                            <Typography style={{ margin: '30px 20px 20px 20px' }} variant="h5" gutterBottom>Gerador de recibo</Typography>
+
+                            <Container>
+                                <Field className={styles().textField} name='nome' type='text' component={MuiComp} placeholder="Nome" />
+                                <Field className={styles().textField} name='quantidade' type='number' component={MuiComp} placeholder="Quantidade" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
+                                <Field className={styles().textField} name='valorUnitario' type='number' component={MuiComp} placeholder="Valor Unitário" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
+                                <TextField className={styles().textField} name='total' disabled variant="filled" placeholder="Total" value={Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade))} InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
+                            </Container>
+
+                            <Grid container className={styles().maxSpace}>
+                                <Grid item xs={6}>
+                                    <ColorButtonBlue className={styles().button} type='submit'>Enviar</ColorButtonBlue>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <ColorButtonRed className={styles().button} onClick={() => ReciboPDF(values)} >Gerar PDF</ColorButtonRed>
+                                </Grid>
+                            </Grid>
+                        </Form>
+                    )}
+                </Formik>
+            </Container>
         </>
     );
 }
