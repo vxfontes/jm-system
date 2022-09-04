@@ -1,11 +1,12 @@
-import Cotacao from './pages/cotação';
+import Recibo from './pages/recibo';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-      <Cotacao />
+      <Recibo />
     </div>
   );
 }
 
 export default App;
+
