@@ -13,5 +13,8 @@ export const schemaRecibo = yup.object().shape({
         .positive("O número precisa ser positivo")
         .integer('Quantidade não pode ser um valor decimal')
         .required("Informe a quantidade de paletes"),
-    // createdOn: date().default(() => new Date()),
+    unidade: yup
+        .string()
+        .ensure()
+        .required("Selecione a unidade"),
 })

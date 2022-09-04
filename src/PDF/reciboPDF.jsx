@@ -5,8 +5,13 @@ import jmLogo from '../image/jmLogo.png'
 
 const ReciboPDF = (dados) => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
+    const total = Number(parseFloat(dados.valorUnitario) * parseFloat(dados.quantidade));
 
-    console.log(dados)
+    // data
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    const date = today.toLocaleDateString();
+
     const reportTitle = {
         columns: [
             {
@@ -15,14 +20,15 @@ const ReciboPDF = (dados) => {
                 width: 50,
             },
             {
-                text: "Recibo de x",
+                text: "Recibo de comissão",
                 fontSize: 24,
                 bold: true,
-                margin: [45, 60, 0, 20], //letf top right botton
+                margin: [100, 60, 0, 20], //letf top right botton
                 alignment: 'center',
+                width: 300,
             }, 
             {
-                text: "R$ "+dados.valorUnitario,
+                text: "R$ "+ total,
                 fontSize: 24,
                 bold: true,
                 margin: [0, 60, 30, 20], //letf top right botton

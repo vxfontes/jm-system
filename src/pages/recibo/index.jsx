@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Button, TextField, Container, Typography, Collapse, IconButton, Grid } from '@material-ui/core/';
+import { Button, TextField, Container, Typography, InputLabel, Select, Grid, MenuItem, FormControl } from '@material-ui/core/';
 import ReciboPDF from "../../PDF/reciboPDF";
 import { Formik, Field, Form } from 'formik';
 import { schemaRecibo } from '../../utils/schema';
@@ -17,7 +17,7 @@ const Recibo = () => {
         ...props
     }) => (
         <div>
-            <TextField {...field} {...props} variant="filled" value={values.oldPassword}
+            <TextField {...field} {...props} variant="filled"
                 error={touched[field.name] && Boolean(errors[field.name])} helperText={touched[field.name] && errors[field.name]} />
         </div>
     );
@@ -32,7 +32,7 @@ const Recibo = () => {
                     nome: '',
                     quantidade: '',
                     valorUnitario: '',
-                    total: '0',
+                    unidade: '',
                 }}
                     validationSchema={schemaRecibo}
                     onSubmit={(values) => {
@@ -47,7 +47,14 @@ const Recibo = () => {
                                 <Field className={styles().textField} name='nome' type='text' component={MuiComp} placeholder="Nome" />
                                 <Field className={styles().textField} name='quantidade' type='number' component={MuiComp} placeholder="Quantidade" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
                                 <Field className={styles().textField} name='valorUnitario' type='number' component={MuiComp} placeholder="Valor Unitário" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
-                                <TextField className={styles().textField} name='total' disabled variant="filled" placeholder="Total" value={Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade))} InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
+                                <TextField className={styles().textField} name='total' disabled variant="filled" placeholder="Total" value={Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade))} 
+                                    InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
+                                <TextField select className={styles().textField} name='unidade' variant="filled" label='Unidade'
+                                    onChange={(e) => values.unidade = e.target.value} error={touched.unidade && Boolean(errors.unidade)} 
+                                    helperText={touched.unidade && errors.unidade}>
+                                    <MenuItem value='BR-324'>BR-324</MenuItem>
+                                    <MenuItem value="Sobradinho">Sobradinho</MenuItem>
+                                </TextField>
                             </Container>
 
                             <Grid container className={styles().maxSpace}>
@@ -55,7 +62,7 @@ const Recibo = () => {
                                     <ColorButtonBlue className={styles().button} type='submit'>Enviar</ColorButtonBlue>
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <ColorButtonRed className={styles().button} onClick={() => ReciboPDF(values)} >Gerar PDF</ColorButtonRed>
+                                    <ColorButtonRed className={styles().button} onClick={() => {ReciboPDF(values)}} >Gerar PDF</ColorButtonRed>
                                 </Grid>
                             </Grid>
                         </Form>
