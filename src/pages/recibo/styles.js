@@ -17,7 +17,7 @@ const styles = makeStyles({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: "space-between",
-        paddingBottom: '10px',
+        paddingBottom: '20px',
         paddingTop: '10px',
         maxWidth: '50%',
         maxHeight: "50%",
