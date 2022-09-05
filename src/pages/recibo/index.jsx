@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { Button, TextField, Container, Typography, InputLabel, Select, Grid, MenuItem, FormControl } from '@material-ui/core/';
+import InputMask from 'react-input-mask'
 import ReciboPDF from "../../PDF/reciboPDF";
 import { Formik, Field, Form } from 'formik';
 import { schemaRecibo } from '../../utils/schema';
@@ -8,8 +9,18 @@ import styles from './styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ColorButtonBlue from '../../components/button/Blue';
 import ColorButtonRed from '../../components/button/Red';
+import { cpfMask } from "../../components/cpf";
 
 const Recibo = () => {
+    const [cpf, setCpf] = useState();
+
+    function handleChange(e) {
+        setCpf(cpfMask(e.target.value))
+    }
+
+    function onSubmit(values) {
+        alert(JSON.stringify(values, null, 2));
+    }
 
     const MuiComp = ({
         field, // { name, value, onChange, onBlur }
@@ -35,9 +46,7 @@ const Recibo = () => {
                     unidade: '',
                 }}
                     validationSchema={schemaRecibo}
-                    onSubmit={(values) => {
-                        alert(JSON.stringify(values, null, 2));
-                    }}>
+                    onSubmit={onSubmit}>
 
                     {({ values, errors, touched }) => (
                         <Form>
@@ -45,12 +54,13 @@ const Recibo = () => {
 
                             <Container>
                                 <Field className={styles().textField} name='nome' type='text' component={MuiComp} placeholder="Nome" />
+                                <TextField className={styles().textField} variant="filled" name='cpf' type='text' placeholder="CPF" maxLength='14' value={cpf} onChange={handleChange} />
                                 <Field className={styles().textField} name='quantidade' type='number' component={MuiComp} placeholder="Quantidade" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
                                 <Field className={styles().textField} name='valorUnitario' type='number' component={MuiComp} placeholder="Valor Unitário" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
-                                <TextField className={styles().textField} name='total' disabled variant="filled" placeholder="Total" value={Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade))} 
+                                <TextField className={styles().textField} name='total' disabled variant="filled" placeholder="Total" value={Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade))}
                                     InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
                                 <TextField select className={styles().textField} name='unidade' variant="filled" label='Unidade'
-                                    onChange={(e) => values.unidade = e.target.value} error={touched.unidade && Boolean(errors.unidade)} 
+                                    onChange={(e) => values.unidade = e.target.value} error={touched.unidade && Boolean(errors.unidade)}
                                     helperText={touched.unidade && errors.unidade}>
                                     <MenuItem value='BR-324'>BR-324</MenuItem>
                                     <MenuItem value="Sobradinho">Sobradinho</MenuItem>
@@ -62,7 +72,7 @@ const Recibo = () => {
                                     <ColorButtonBlue className={styles().button} type='submit'>Enviar</ColorButtonBlue>
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <ColorButtonRed className={styles().button} onClick={() => {ReciboPDF(values)}} >Gerar PDF</ColorButtonRed>
+                                    <ColorButtonRed className={styles().button} onClick={() => { console.log(values, cpf); ReciboPDF(values, cpf) }} >Gerar PDF</ColorButtonRed>
                                 </Grid>
                             </Grid>
                         </Form>

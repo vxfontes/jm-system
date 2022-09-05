@@ -1,99 +1,70 @@
-import React from "react";
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import jmLogo from '../image/jmLogo.png'
 
-const ReciboPDF = (dados) => {
+const ReciboPDF = (dados, cpf) => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
     const total = Number(parseFloat(dados.valorUnitario) * parseFloat(dados.quantidade));
 
     // data
+    const date = new Date();
+
     const timeElapsed = Date.now();
     const today = new Date(timeElapsed);
-    const date = today.toLocaleDateString();
+    const data = today.toLocaleDateString();
+
+    const currentMonth = date.getMonth() + 1;
 
     const reportTitle = {
         columns: [
             {
                 image: jmLogo,
-                margin: [30, 60, 0, 0],
+                margin: [30, 50, 0, 0],
                 width: 50,
             },
             {
-                text: "Recibo de comissão",
-                fontSize: 24,
+                text: "Recibo de Comissão",
+                fontSize: 20,
                 bold: true,
                 margin: [100, 60, 0, 20], //letf top right botton
-                alignment: 'center',
-                width: 300,
-            }, 
+                alignment: 'right',
+            },
             {
-                text: "R$ "+ total,
-                fontSize: 24,
+                text: "R$ " + total,
+                fontSize: 20,
                 bold: true,
                 margin: [0, 60, 30, 20], //letf top right botton
                 alignment: 'right',
             }
-          ]
-        };
+        ]
+    };
 
 
-    const details = [{
-        table: {
-            headerRows: 1,
-            widths: ['*', '*'],
-            body: [
-                [
-                    {
-                        text: '',
-                        style: 'tableHeader',
-                        fontSize: 10
-                    },
-                    {
-                        text: '',
-                        style: 'tableHeader',
-                        fontSize: 10
-                    }
-                ],
-                [
-                    {
-                        text: "Nome",
-                        fontSize: 9,
-                        margin: [0, 2, 0, 2]
-                    },
-                    {
-                        text: dados.nome,
-                        fontSize: 9,
-                        margin: [0, 2, 0, 2]
-                    }
-                ],
-                [
-                    {
-                        text: "Valor",
-                        fontSize: 9,
-                        margin: [0, 2, 0, 2]
-                    },
-                    {
-                        text: dados.valorUnitario,
-                        fontSize: 9,
-                        margin: [0, 2, 0, 2]
-                    }
-                ],
-                [
-                    {
-                        text: "Quantidade",
-                        fontSize: 9,
-                        margin: [0, 2, 0, 2]
-                    },
-                    {
-                        text: dados.quantidade,
-                        fontSize: 9,
-                        margin: [0, 2, 0, 2]
-                    }
-                ]
-            ]
-        }, layout: 'headerLineOnly'
-    }];
+    const content = [
+        {
+            text: "Eu " + dados.nome + " inscrito no CPF nº "+cpf+", comprovo o recebimento da comissão referente ao total de " + dados.quantidade + " paletes do valor de " + dados.valorUnitario + " por unidade. Totaliza\-se " + total + " reais referente ao mês " + currentMonth + " de 2022.",
+            fontSize: 12,
+            margin: [15, 30, 15, 0]
+        },
+        {
+            text: 'Feira de Santana, Bahia',
+            alignment: 'right',
+            margin: [15, 70, 15, 0],
+            fontSize: 12,
+        },
+        {
+            text: '__________________________________________________________________',
+            alignment: 'right',
+            margin: [15, 45, 15, 0],
+        },
+        {
+            text: dados.nome,
+            alignment: 'right',
+            margin: [15, 3, 15, 0],
+            fontSize: 12,
+        }
+    ]
+
 
     const rodape = (currentPage, pageCount) => {
         return [
@@ -112,11 +83,11 @@ const ReciboPDF = (dados) => {
         pageMargins: [15, 120, 15, 40],
 
         header: [reportTitle],
-        content: [details],
+        content: [content],
         footer: rodape,
     }
 
-    pdfMake.createPdf(docDefinitions).download();
+    pdfMake.createPdf(docDefinitions).download("Comissao="+dados.nome+"-"+data);
 }
 
 export default ReciboPDF;
