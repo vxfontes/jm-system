@@ -1,25 +1,36 @@
-import React, { useState, useMemo } from "react";
-import { Button, TextField, Container, Typography, InputLabel, Select, Grid, MenuItem, FormControl } from '@material-ui/core/';
-import InputMask from 'react-input-mask'
-import ReciboPDF from "../../PDF/reciboPDF";
+import React, { useState } from "react";
+import { TextField, Container, Typography, Dialog, Grid, MenuItem } from '@material-ui/core/';
+import { AlertTitle, Alert } from '@material-ui/lab';
 import { Formik, Field, Form } from 'formik';
+import InputAdornment from '@material-ui/core/InputAdornment';
+
+// local
+import ReciboPDF from "../../PDF/reciboPDF";
 import { schemaRecibo } from '../../utils/schema';
 import palete from '../../image/palete.png';
 import styles from './styles';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import ColorButtonBlue from '../../components/button/Blue';
 import ColorButtonRed from '../../components/button/Red';
 import { cpfMask } from "../../components/cpf";
 
 const Recibo = () => {
     const [cpf, setCpf] = useState();
+    const [openAlert, setOpenAlert] = useState(false);
 
     function handleChange(e) {
         setCpf(cpfMask(e.target.value))
     }
 
-    function onSubmit(values) {
-        alert(JSON.stringify(values, null, 2));
+    function handleClose() {
+        setOpenAlert(false);
+    };
+
+    function handleOpen() {
+        setOpenAlert(true);
+    };
+
+    const onSubmit = (values) => {
+        handleOpen();
     }
 
     const MuiComp = ({
@@ -50,6 +61,12 @@ const Recibo = () => {
 
                     {({ values, errors, touched }) => (
                         <Form>
+                            <Dialog open={openAlert} onClose={handleClose}>
+                                <Alert severity="info" color="info" variant="filled">
+                                    <AlertTitle><strong>Recibo enviado com sucesso</strong></AlertTitle>
+                                    <p>O recibo no nome de {values.nome} já está pronto</p>
+                                </Alert>
+                            </Dialog>
                             <Typography style={{ margin: '30px 20px 20px 20px' }} variant="h5" gutterBottom>Gerador de recibo</Typography>
 
                             <Container>
@@ -57,7 +74,7 @@ const Recibo = () => {
                                 <TextField className={styles().textField} variant="filled" name='cpf' type='text' placeholder="CPF" maxLength='14' value={cpf} onChange={handleChange} />
                                 <Field className={styles().textField} name='quantidade' type='number' component={MuiComp} placeholder="Quantidade" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
                                 <Field className={styles().textField} name='valorUnitario' type='number' component={MuiComp} placeholder="Valor Unitário" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
-                                <TextField className={styles().textField} name='total' disabled variant="filled" placeholder="Total" value={Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade))}
+                                <TextField className={styles().textField} name='total' disabled variant="filled" placeholder="Total" value={(Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade))).toFixed(2)}
                                     InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
                                 <TextField select className={styles().textField} name='unidade' variant="filled" label='Unidade'
                                     onChange={(e) => values.unidade = e.target.value} error={touched.unidade && Boolean(errors.unidade)}
