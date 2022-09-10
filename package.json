@@ -8,6 +8,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "date-fns": "^2.29.2",
     "formik": "^2.2.9",
     "gh-pages": "^4.0.0",
     "pdfmake": "^0.2.5",

@@ -3,6 +3,7 @@ import { TextField, Container, Typography, Dialog, Grid, MenuItem } from '@mater
 import { AlertTitle, Alert } from '@material-ui/lab';
 import { Formik, Field, Form } from 'formik';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import 'date-fns';
 
 // local
 import ReciboPDF from "../../PDF/reciboPDF";
@@ -17,7 +18,7 @@ const Recibo = () => {
     const [cpf, setCpf] = useState();
     const [openAlert, setOpenAlert] = useState(false);
 
-    function handleChange(e) {
+    function handleChangeCPF(e) {
         setCpf(cpfMask(e.target.value))
     }
 
@@ -47,7 +48,7 @@ const Recibo = () => {
     return (
         <>
             <Container className={styles().image} style={{ display: 'block' }}>
-                <img src={palete} width='150px' />
+                <img src={palete} width='150px' alt="jm-paletes"/>
             </Container>
             <Container className={styles().containerPrincipal} style={{ display: 'block' }}>
                 <Formik initialValues={{
@@ -55,11 +56,12 @@ const Recibo = () => {
                     quantidade: '',
                     valorUnitario: '',
                     unidade: '',
+                    data: ''
                 }}
                     validationSchema={schemaRecibo}
                     onSubmit={onSubmit}>
 
-                    {({ values, errors, touched }) => (
+                    {({ values, errors, touched, handleChange }) => (
                         <Form>
                             <Dialog open={openAlert} onClose={handleClose}>
                                 <Alert severity="info" color="info" variant="filled">
@@ -71,11 +73,14 @@ const Recibo = () => {
 
                             <Container>
                                 <Field className={styles().textField} name='nome' type='text' component={MuiComp} placeholder="Nome" />
-                                <TextField className={styles().textField} variant="filled" name='cpf' type='text' placeholder="CPF" maxLength='14' value={cpf} onChange={handleChange} />
+                                <TextField className={styles().textField} variant="filled" name='cpf' type='text' placeholder="CPF" maxLength='14' value={cpf} onChange={handleChangeCPF} />
                                 <Field className={styles().textField} name='quantidade' type='number' component={MuiComp} placeholder="Quantidade" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
                                 <Field className={styles().textField} name='valorUnitario' type='number' component={MuiComp} placeholder="Valor Unitário" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
                                 <TextField className={styles().textField} name='total' disabled variant="filled" placeholder="Total" value={(Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade))).toFixed(2)}
                                     InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
+                                <TextField name='data' className={styles().textField} type='date' variant="filled" format="dd/MM/yyyy" label='Data'
+                                    value={values.data} onChange={handleChange} error={touched.data && Boolean(errors.data)}
+                                    helperText={touched.data && errors.data} />
                                 <TextField select className={styles().textField} name='unidade' variant="filled" label='Unidade'
                                     onChange={(e) => values.unidade = e.target.value} error={touched.unidade && Boolean(errors.unidade)}
                                     helperText={touched.unidade && errors.unidade}>
@@ -89,13 +94,13 @@ const Recibo = () => {
                                     <ColorButtonBlue className={styles().button} type='submit'>Enviar</ColorButtonBlue>
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <ColorButtonRed className={styles().button} onClick={() => { console.log(values, cpf); ReciboPDF(values, cpf) }} >Gerar PDF</ColorButtonRed>
+                                    <ColorButtonRed className={styles().button} onClick={() => { ReciboPDF(values, cpf) }} >Gerar PDF</ColorButtonRed>
                                 </Grid>
                             </Grid>
                         </Form>
                     )}
-                </Formik>
-            </Container>
+            </Formik>
+        </Container>
         </>
     );
 }

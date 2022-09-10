@@ -17,4 +17,7 @@ export const schemaRecibo = yup.object().shape({
         .string()
         .ensure()
         .required("Selecione a unidade"),
+    data: yup
+        .date()
+        .required("Insira a data do pagamento")
 })
