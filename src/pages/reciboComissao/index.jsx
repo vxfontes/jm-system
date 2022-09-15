@@ -32,6 +32,7 @@ const Recibo = () => {
 
     const onSubmit = (values) => {
         handleOpen();
+        ReciboPDF(values, cpf)
     }
 
     const MuiComp = ({
@@ -87,16 +88,8 @@ const Recibo = () => {
                                     <MenuItem value='BR-324'>BR-324</MenuItem>
                                     <MenuItem value="Sobradinho">Sobradinho</MenuItem>
                                 </TextField>
+                                <ColorButtonBlue className={styles().button} type='submit'>Gerar PDF</ColorButtonBlue>
                             </Container>
-
-                            <Grid container className={styles().maxSpace}>
-                                <Grid item xs={6}>
-                                    <ColorButtonBlue className={styles().button} type='submit'>Enviar</ColorButtonBlue>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <ColorButtonRed className={styles().button} onClick={() => { ReciboPDF(values, cpf) }} >Gerar PDF</ColorButtonRed>
-                                </Grid>
-                            </Grid>
                         </Form>
                     )}
                 </Formik>

@@ -33,16 +33,9 @@ const styles = makeStyles({
     },
 
     button: {
-        width: '90%',
-    },
-
-    maxSpace: {
         width: '70%',
-        alignItems: 'center',
-        textAlign: 'center',
-        justifyContent: 'center',
-        justifyContent: "space-between",
-        marginLeft: '15%'
+        marginTop: '7px',
+        marginBottom: '3%'
     },
 
 });

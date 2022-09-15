@@ -34,6 +34,7 @@ const ReciboEmpresa = () => {
 
     const onSubmit = (values) => {
         handleOpen();
+        ReciboEmpresaPDF(values, cnpj)
     }
 
     const MuiComp = ({
@@ -59,7 +60,7 @@ const ReciboEmpresa = () => {
                 }}
                     validationSchema={schemaRecibo}
                     onSubmit={onSubmit}>
-                    
+
                     {({ values, errors, touched, handleChange }) => (
                         <Form>
                             <Dialog open={openAlert} onClose={handleClose}>
@@ -86,16 +87,11 @@ const ReciboEmpresa = () => {
                                     <MenuItem value='BR-324'>BR-324</MenuItem>
                                     <MenuItem value="Sobradinho">Sobradinho</MenuItem>
                                 </TextField>
+                                {/* <Grid container className={styles().maxSpace}> */}
+                                    <ColorButtonBlue className={styles().button} type='submit'>Gerar PDF</ColorButtonBlue>
+                                {/* </Grid> */}
                             </Container>
 
-                            <Grid container className={styles().maxSpace}>
-                                <Grid item xs={6}>
-                                    <ColorButtonBlue className={styles().button} type='submit'>Enviar</ColorButtonBlue>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <ColorButtonRed className={styles().button} onClick={() => { ReciboEmpresaPDF(values, cnpj) }}>Gerar PDF</ColorButtonRed>
-                                </Grid>
-                            </Grid>
                         </Form>
                     )}
                 </Formik>
