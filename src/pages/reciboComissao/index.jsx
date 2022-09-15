@@ -6,7 +6,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import 'date-fns';
 
 // local
-import ReciboPDF from "../../PDF/reciboPDF";
+import ReciboPDF from "../../PDF/reciboComissaoPDF";
 import { schemaRecibo } from '../../utils/schema';
 import palete from '../../image/palete.png';
 import styles from './styles';
@@ -48,7 +48,7 @@ const Recibo = () => {
     return (
         <>
             <Container className={styles().image} style={{ display: 'block' }}>
-                <img src={palete} width='150px' alt="jm-paletes"/>
+                <img src={palete} width='150px' alt="jm-paletes" />
             </Container>
             <Container className={styles().containerPrincipal} style={{ display: 'block' }}>
                 <Formik initialValues={{
@@ -66,13 +66,13 @@ const Recibo = () => {
                             <Dialog open={openAlert} onClose={handleClose}>
                                 <Alert severity="info" color="info" variant="filled">
                                     <AlertTitle><strong>Recibo enviado com sucesso</strong></AlertTitle>
-                                    <p>O recibo no nome de {values.nome} já está pronto</p>
+                                    <p>O recibo para a empresa {values.nome} já está pronto</p>
                                 </Alert>
                             </Dialog>
-                            <Typography style={{ margin: '30px 20px 20px 20px' }} variant="h5" gutterBottom>Gerador de recibo</Typography>
+                            <Typography style={{ margin: '30px 20px 20px 20px' }} variant="h5" gutterBottom>Gerador de recibo de comissão</Typography>
 
                             <Container>
-                                <Field className={styles().textField} name='nome' type='text' component={MuiComp} placeholder="Nome" />
+                                <Field className={styles().textField} name='nome' type='text' component={MuiComp} placeholder="Nome da empresa" />
                                 <TextField className={styles().textField} variant="filled" name='cpf' type='text' placeholder="CPF" maxLength='14' value={cpf} onChange={handleChangeCPF} />
                                 <Field className={styles().textField} name='quantidade' type='number' component={MuiComp} placeholder="Quantidade" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
                                 <Field className={styles().textField} name='valorUnitario' type='number' component={MuiComp} placeholder="Valor Unitário" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
@@ -99,8 +99,8 @@ const Recibo = () => {
                             </Grid>
                         </Form>
                     )}
-            </Formik>
-        </Container>
+                </Formik>
+            </Container>
         </>
     );
 }
