@@ -32,11 +32,40 @@ const styles = makeStyles({
         maxWidth: '70%',
     },
 
-    button: {
-        width: '70%',
-        marginTop: '7px',
-        marginBottom: '3%'
+    textFieldModal: {
+        marginBottom: '10px',
+        borderRadius: '7px',
+        minWidth: '100%',
+        maxWidth: '100%',
     },
+
+    button: {
+        width: '48%',
+    },
+
+    maxSpace: {
+        width: '70%',
+        alignItems: 'center',
+        textAlign: 'center',
+        justifyContent: 'center',
+        justifyContent: "space-between",
+        marginLeft: '15%'
+    },
+
+    containerPalete: {
+        alignItems: 'center',
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: "space-between",
+        paddingBottom: '20px',
+        paddingTop: '20px',
+        maxWidth: '80%',
+        maxHeight: "80%",
+        marginBottom: '2%',
+        marginTop: '2%',
+        borderRadius: '10px'
+    }
 
 });
 

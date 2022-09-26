@@ -1,11 +1,9 @@
 import React from 'react';
-import Home from './pages/home';
+import RoutesComp from './routes';
 
 const App = () => {
   return (
-    <>
-      <Home />
-    </>
+    <RoutesComp />
   );
 }
 

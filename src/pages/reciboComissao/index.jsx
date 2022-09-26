@@ -7,14 +7,14 @@ import 'date-fns';
 
 // local
 import ReciboPDF from "../../PDF/reciboComissaoPDF";
-import { schemaRecibo } from '../../utils/schema';
+import { schemaReciboComissao } from '../../utils/schema';
 import palete from '../../image/palete.png';
 import styles from './styles';
 import ColorButtonBlue from '../../components/button/Blue';
 import ColorButtonRed from '../../components/button/Red';
 import { cpfMask } from "../../components/cpf";
 
-const Recibo = () => {
+const ReciboComissao = () => {
     const [cpf, setCpf] = useState();
     const [openAlert, setOpenAlert] = useState(false);
 
@@ -59,7 +59,7 @@ const Recibo = () => {
                     unidade: '',
                     data: ''
                 }}
-                    validationSchema={schemaRecibo}
+                    validationSchema={schemaReciboComissao}
                     onSubmit={onSubmit}>
 
                     {({ values, errors, touched, handleChange }) => (
@@ -98,4 +98,4 @@ const Recibo = () => {
     );
 }
 
-export default Recibo;
+export default ReciboComissao;

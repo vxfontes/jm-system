@@ -6,7 +6,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import 'date-fns';
 
 // local
-import { schemaRecibo } from '../../utils/schema';
+import { schemaReciboEmpresa } from '../../utils/schema';
 import palete from '../../image/palete.png';
 import styles from './styles';
 import ColorButtonBlue from '../../components/button/Blue';
@@ -19,6 +19,10 @@ const ReciboEmpresa = () => {
 
     const [cnpj, setCnpj] = useState();
     const [openAlert, setOpenAlert] = useState(false);
+    const perfil = {
+        masc: 'cnpj',
+        inicio: 'A empresa'
+    }
 
     function handleChangeCNPJ(e) {
         setCnpj(cnpjMask(e.target.value))
@@ -34,7 +38,7 @@ const ReciboEmpresa = () => {
 
     const onSubmit = (values) => {
         handleOpen();
-        ReciboEmpresaPDF(values, cnpj)
+        ReciboEmpresaPDF(values, perfil, cnpj)
     }
 
     const MuiComp = ({
@@ -50,15 +54,19 @@ const ReciboEmpresa = () => {
 
     return (
         <>
+            <Container className={styles().image} style={{ display: 'block' }}>
+                <img src={palete} width='150px' alt="jm-paletes" />
+            </Container>
             <Container className={styles().containerPrincipal} style={{ display: 'block' }}>
                 <Formik initialValues={{
                     nome: '',
                     quantidade: '',
                     valorUnitario: '',
                     unidade: '',
+                    tipoDePalete: '',
                     data: ''
                 }}
-                    validationSchema={schemaRecibo}
+                    validationSchema={schemaReciboEmpresa}
                     onSubmit={onSubmit}>
 
                     {({ values, errors, touched, handleChange }) => (
@@ -74,6 +82,12 @@ const ReciboEmpresa = () => {
                             <Container>
                                 <Field className={styles().textField} name='nome' type='text' component={MuiComp} placeholder="Nome da empresa" />
                                 <TextField className={styles().textField} variant="filled" name='cnpj' type='text' placeholder="CNPJ" maxLength='14' value={cnpj} onChange={handleChangeCNPJ} />
+                                <TextField select className={styles().textField} name='tipoDePalete' variant="filled" label='Tipo de Palete'
+                                    onChange={(e) => values.tipoDePalete = e.target.value} error={touched.tipoDePalete && Boolean(errors.tipoDePalete)}
+                                    helperText={touched.tipoDePalete && errors.tipoDePalete}>
+                                    <MenuItem value='Palete PBR'>Palete PBR</MenuItem>
+                                    <MenuItem value="Descartável">Descartável</MenuItem>
+                                </TextField>
                                 <Field className={styles().textField} name='quantidade' type='number' component={MuiComp} placeholder="Quantidade" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
                                 <Field className={styles().textField} name='valorUnitario' type='number' component={MuiComp} placeholder="Valor Unitário" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
                                 <TextField className={styles().textField} name='total' disabled variant="filled" placeholder="Total" value={(Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade))).toFixed(2)}
@@ -87,9 +101,10 @@ const ReciboEmpresa = () => {
                                     <MenuItem value='BR-324'>BR-324</MenuItem>
                                     <MenuItem value="Sobradinho">Sobradinho</MenuItem>
                                 </TextField>
-                                {/* <Grid container className={styles().maxSpace}> */}
+                                <Grid container className={styles().maxSpace}>
+                                    <ColorButtonRed className={styles().button}>Adicionar palete</ColorButtonRed>
                                     <ColorButtonBlue className={styles().button} type='submit'>Gerar PDF</ColorButtonBlue>
-                                {/* </Grid> */}
+                                </Grid>
                             </Container>
 
                         </Form>

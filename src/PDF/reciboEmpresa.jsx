@@ -2,7 +2,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import jmLogo from '../image/jmLogo.png'
 
-const ReciboEmpresaPDF = (dados, cnpj) => {
+const ReciboEmpresaPDF = (dados, perfil, dado) => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
     const total = Number(parseFloat(dados.valorUnitario) * parseFloat(dados.quantidade));
 
@@ -37,13 +37,33 @@ const ReciboEmpresaPDF = (dados, cnpj) => {
 
     const content = [
         {
+            text: perfil.inicio + ' ' + dados.nome + ' de '+perfil.masc+' nº ' + dado + ' está realizando uma compra de ' + dados.quantidade + ' paletes na unidade do(a) ' + dados.unidade + ' de total: ' + total,
+            fontSize: 12,
+            margin: [15, 30, 15, 0]
+        },
+        {
+            style: 'table',
             table: {
                 headerRows: 1,
+                widths: [250, '*', '*'],
                 body: [
-                    ['teste, alo, alo']
-                ]
+                    [{ text: 'Tipo de palete', style: 'tableHeader', alignment: 'center' }, { text: 'Quantidade de paletes', style: 'tableHeader', alignment: 'center' }, { text: 'Valor de cada palete', style: 'tableHeader', alignment: 'center' }],
+                    ['Palete ' + dados.tipoDePalete, dados.quantidade, dados.valorUnitario],
+                ],
             }
-        }
+        },
+        {
+            text: 'Feira de Santana, Bahia',
+            alignment: 'right',
+            margin: [15, 70, 15, 0],
+            fontSize: 12,
+        },
+        {
+            text: (dados.data).slice(8) + ' do mês ' + (dados.data).slice(5, -3) + ' de ' + (dados.data).slice(0, -6),
+            alignment: 'right',
+            margin: [15, 0, 15, 0],
+            fontSize: 12,
+        },
     ]
 
 
@@ -65,10 +85,20 @@ const ReciboEmpresaPDF = (dados, cnpj) => {
 
         header: [reportTitle],
         content: [content],
+        styles: {
+            table: {
+                margin: [15, 30, 15, 0],
+            },
+            tableHeader: {
+                bold: true,
+                fontSize: 13,
+                color: 'black'
+            }
+        },
         footer: rodape,
     }
 
-    pdfMake.createPdf(docDefinitions).download("Recibo="+dados.nome+"-"+data);
+    pdfMake.createPdf(docDefinitions).download("Recibo=" + dados.nome + "-" + data);
 
 }
 
