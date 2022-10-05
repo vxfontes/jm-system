@@ -87,6 +87,7 @@ const ReciboCliente = () => {
                                     helperText={touched.tipoDePalete && errors.tipoDePalete}>
                                     <MenuItem value='Palete PBR'>Palete PBR</MenuItem>
                                     <MenuItem value="Descartável">Descartável</MenuItem>
+                                    <MenuItem value="Chapatex">Chapatex</MenuItem>
                                 </TextField>
                                 <Field className={styles().textField} name='quantidade' type='number' component={MuiComp} placeholder="Quantidade" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
                                 <Field className={styles().textField} name='valorUnitario' type='number' component={MuiComp} placeholder="Valor Unitário" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
@@ -102,7 +103,7 @@ const ReciboCliente = () => {
                                     <MenuItem value="Sobradinho">Sobradinho</MenuItem>
                                 </TextField>
                                 <Grid container className={styles().maxSpace}>
-                                    <ColorButtonRed className={styles().button}>Adicionar palete</ColorButtonRed>
+                                    <ColorButtonRed className={styles().button} onClick={() => adicionar(values)}>Adicionar palete</ColorButtonRed>
                                     <ColorButtonBlue className={styles().button} type='submit'>Gerar PDF</ColorButtonBlue>
                                 </Grid>
                             </Container>
