@@ -19,8 +19,6 @@ const styles = makeStyles({
         justifyContent: "space-between",
         paddingBottom: '20px',
         paddingTop: '10px',
-        maxWidth: '50%',
-        maxHeight: "50%",
         marginBottom: '2%',
         borderRadius: '10px'
     },
@@ -40,7 +38,7 @@ const styles = makeStyles({
     },
 
     button: {
-        width: '48%',
+        width: '100%',
     },
 
     maxSpace: {

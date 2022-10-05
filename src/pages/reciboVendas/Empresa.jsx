@@ -53,11 +53,11 @@ const ReciboEmpresa = () => {
     );
 
     return (
-        <>
+        <Grid container justifyContent="center" alignItems="center">
             <Container className={styles().image} style={{ display: 'block' }}>
                 <img src={palete} width='150px' alt="jm-paletes" />
             </Container>
-            <Container className={styles().containerPrincipal} style={{ display: 'block' }}>
+            <Grid item sm={8} xs={12} className={styles().containerPrincipal} style={{ display: 'block' }}>
                 <Formik initialValues={{
                     nome: '',
                     quantidade: '',
@@ -102,17 +102,20 @@ const ReciboEmpresa = () => {
                                     <MenuItem value='BR-324'>BR-324</MenuItem>
                                     <MenuItem value="Sobradinho">Sobradinho</MenuItem>
                                 </TextField>
-                                <Grid container className={styles().maxSpace}>
-                                    <ColorButtonRed className={styles().button}>Adicionar palete</ColorButtonRed>
-                                    <ColorButtonBlue className={styles().button} type='submit'>Gerar PDF</ColorButtonBlue>
+                                <Grid container className={styles().maxSpace} spacing={1}>
+                                    <Grid item xs={12} sm={6}>
+                                        <ColorButtonRed className={styles().button}>Adicionar palete</ColorButtonRed>
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <ColorButtonBlue className={styles().button} type='submit'>Gerar PDF</ColorButtonBlue>
+                                    </Grid>
                                 </Grid>
                             </Container>
-
                         </Form>
                     )}
                 </Formik>
-            </Container>
-        </>
+            </Grid>
+        </Grid>
     );
 }
 

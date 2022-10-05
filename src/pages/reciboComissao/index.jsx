@@ -47,11 +47,11 @@ const ReciboComissao = () => {
     );
 
     return (
-        <>
+        <Grid container justifyContent="center" alignItems="center">
             <Container className={styles().image} style={{ display: 'block' }}>
                 <img src={palete} width='150px' alt="jm-paletes" />
             </Container>
-            <Container className={styles().containerPrincipal} style={{ display: 'block' }}>
+            <Grid item sm={8} xs={12} className={styles().containerPrincipal} style={{ display: 'block' }}>
                 <Formik initialValues={{
                     nome: '',
                     quantidade: '',
@@ -93,8 +93,8 @@ const ReciboComissao = () => {
                         </Form>
                     )}
                 </Formik>
-            </Container>
-        </>
+            </Grid>
+        </Grid>
     );
 }
 
