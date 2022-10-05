@@ -10,15 +10,16 @@ const styles = makeStyles({
     },
 
     container: {
-        marginTop: "15%",
+        marginTop: "2%",
+        marginBottom:'5%',
         width: '80%',
         maxWidth: '80%',
         gap: '20px'
     },
 
     paper: {
-        height: 300,
-        width: '33.33333%',
+        height: 200,
+        width: '80%',
         marginLeft: '20px',
         marginRight: '100px',
         marginBottom: '20px',

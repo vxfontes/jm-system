@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './styles';
-import { Container, Typography, Box } from '@material-ui/core';
+import { Container, Typography, Box, Grid } from '@material-ui/core';
 import ColorButtonBlue from '../../components/button/Blue';
 import { Link } from 'react-router-dom';
+import ColorButtonRed from '../../components/button/Red';
 
 const Home = () => {
 
@@ -16,9 +17,9 @@ const Home = () => {
                         </ColorButtonBlue>
                     </Link>
                     <Link to='/empresa' style={{ textDecoration: 'none' }}>
-                        <ColorButtonBlue className={styles().paper}>
+                        <ColorButtonRed className={styles().paper}>
                             <Typography variant='h5'>Recibo compra para <strong>empresas</strong></Typography>
-                        </ColorButtonBlue>
+                        </ColorButtonRed>
                     </Link>
                     <Link to='/cliente' style={{ textDecoration: 'none' }}>
                         <ColorButtonBlue className={styles().paper}>
