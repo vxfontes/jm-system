@@ -48,7 +48,7 @@ const ReciboEmpresaPDF = (dados, perfil, dado) => {
                 widths: [250, '*', '*'],
                 body: [
                     [{ text: 'Tipo de palete', style: 'tableHeader', alignment: 'center' }, { text: 'Quantidade de paletes', style: 'tableHeader', alignment: 'center' }, { text: 'Valor de cada palete', style: 'tableHeader', alignment: 'center' }],
-                    ['Palete ' + dados.tipoDePalete, dados.quantidade, dados.valorUnitario],
+                    [dados.tipoDePalete, dados.quantidade, dados.valorUnitario],
                 ],
             }
         },

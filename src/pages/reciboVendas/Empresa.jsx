@@ -86,7 +86,7 @@ const ReciboEmpresa = () => {
                                     onChange={(e) => values.tipoDePalete = e.target.value} error={touched.tipoDePalete && Boolean(errors.tipoDePalete)}
                                     helperText={touched.tipoDePalete && errors.tipoDePalete}>
                                     <MenuItem value='Palete PBR'>Palete PBR</MenuItem>
-                                    <MenuItem value="Descartável">Descartável</MenuItem>
+                                    <MenuItem value="Palete Descartável">Descartável</MenuItem>
                                     <MenuItem value="Chapatex">Chapatex</MenuItem>
                                 </TextField>
                                 <Field className={styles().textField} name='quantidade' type='number' component={MuiComp} placeholder="Quantidade" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
