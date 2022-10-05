@@ -103,7 +103,7 @@ const ReciboCliente = () => {
                                     <MenuItem value="Sobradinho">Sobradinho</MenuItem>
                                 </TextField>
                                 <Grid container className={styles().maxSpace}>
-                                    <ColorButtonRed className={styles().button} onClick={() => adicionar(values)}>Adicionar palete</ColorButtonRed>
+                                    <ColorButtonRed className={styles().button}>Adicionar palete</ColorButtonRed>
                                     <ColorButtonBlue className={styles().button} type='submit'>Gerar PDF</ColorButtonBlue>
                                 </Grid>
                             </Container>
