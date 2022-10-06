@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './styles';
-import { Container, Typography, Box, Grid } from '@material-ui/core';
+import { Container, Typography } from '@material-ui/core';
 import ColorButtonBlue from '../../components/button/Blue';
 import { Link } from 'react-router-dom';
 import ColorButtonRed from '../../components/button/Red';

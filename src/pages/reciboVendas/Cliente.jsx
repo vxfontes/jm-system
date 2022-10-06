@@ -98,7 +98,7 @@ const ReciboCliente = () => {
                             {vendas.map((palete) => {
                                 key++;
                                 return (
-                                    <TableRow>
+                                    <TableRow key={key}>
                                         <TableCell component="th" scope="row">{palete.tipoDePalete}</TableCell>
                                         <TableCell align="center">R$ {palete.valorUnitario}</TableCell>
                                         <TableCell align="center">{palete.quantidade}</TableCell>

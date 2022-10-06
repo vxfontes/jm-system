@@ -11,7 +11,6 @@ import { schemaReciboComissao } from '../../utils/schema';
 import palete from '../../image/palete.png';
 import styles from './styles';
 import ColorButtonBlue from '../../components/button/Blue';
-import ColorButtonRed from '../../components/button/Red';
 import { cpfMask } from "../../components/cpf";
 
 const ReciboComissao = () => {
