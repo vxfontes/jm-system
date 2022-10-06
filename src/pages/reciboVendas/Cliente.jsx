@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Container, Typography, Dialog, Grid, MenuItem } from '@material-ui/core/';
+import { TextField, Container, Typography, Dialog, Grid, MenuItem, TableCell, TableBody, TableHead, TableRow, Table, DialogContent, DialogTitle } from '@material-ui/core/';
 import { AlertTitle, Alert } from '@material-ui/lab';
 import { Formik, Field, Form } from 'formik';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -19,6 +19,9 @@ const ReciboCliente = () => {
 
     const [cpf, setCpf] = useState();
     const [openAlert, setOpenAlert] = useState(false);
+    const [openModal, setOpenModal] = React.useState(false);
+    const [vendas, setVendas] = useState([]);
+    let key = 0;
     const perfil = {
         masc: 'cpf',
         inicio: 'O cliente'
@@ -36,9 +39,34 @@ const ReciboCliente = () => {
         setOpenAlert(true);
     };
 
+    const handleClickOpenModal = () => {
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
     const onSubmit = (values) => {
         handleOpen();
-        ReciboEmpresaPDF(values, perfil, cpf)
+        ReciboEmpresaPDF(values, vendas, perfil, cpf)
+    }
+
+    const adicionar = (values) => {
+        const total = (Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade))).toFixed(2);
+
+        const newVenda = [
+            ...vendas,
+            {
+                tipoDePalete: values.tipoDePalete,
+                valorUnitario: values.valorUnitario,
+                quantidade: values.quantidade,
+                total: total,
+            },
+        ];
+
+        setVendas(newVenda);
+        handleClickOpenModal();
     }
 
     const MuiComp = ({
@@ -54,6 +82,35 @@ const ReciboCliente = () => {
 
     return (
         <Grid container justifyContent="center" alignItems="center">
+
+            <Dialog fullWidth={true} maxWidth='sm' open={openModal} onClose={handleCloseModal}>
+                <DialogTitle>Paletes comprados</DialogTitle>
+                <DialogContent>
+                    <Table>
+                        <TableHead>
+                            <TableCell align="left"><Typography variant="body1" gutterBottom>Tipo de Palete</Typography></TableCell>
+                            <TableCell align="left"><Typography variant="body1" gutterBottom>Valor por unidade</Typography></TableCell>
+                            <TableCell align="left"><Typography variant="body1" gutterBottom>Quantidade</Typography></TableCell>
+                            <TableCell align="left"><Typography variant="body1" gutterBottom>Total</Typography></TableCell>
+                        </TableHead>
+
+                        <TableBody>
+                            {vendas.map((palete) => {
+                                key++;
+                                return (
+                                    <TableRow>
+                                        <TableCell component="th" scope="row">{palete.tipoDePalete}</TableCell>
+                                        <TableCell align="center">R$ {palete.valorUnitario}</TableCell>
+                                        <TableCell align="center">{palete.quantidade}</TableCell>
+                                        <TableCell align="center">R$ {palete.total}</TableCell>
+                                    </TableRow>
+                                )
+                            })}
+                        </TableBody>
+                    </Table>
+                </DialogContent>
+            </Dialog>
+
             <Container className={styles().image} style={{ display: 'block' }}>
                 <img src={palete} width='150px' alt="jm-paletes" />
             </Container>
@@ -80,7 +137,7 @@ const ReciboCliente = () => {
                             <Typography style={{ margin: '30px 20px 20px 20px' }} variant="h5" gutterBottom>Recibo de compra para clientes</Typography>
 
                             <Container>
-                                <Field className={styles().textField} name='nome' type='text' component={MuiComp} placeholder="Nome da empresa" />
+                                <Field className={styles().textField} name='nome' type='text' component={MuiComp} placeholder="Nome do cliente" />
                                 <TextField className={styles().textField} variant="filled" name='cpf' type='text' placeholder="CPF" maxLength='14' value={cpf} onChange={handleChangeCPF} />
                                 <TextField select className={styles().textField} name='tipoDePalete' variant="filled" label='Tipo de Palete'
                                     onChange={(e) => values.tipoDePalete = e.target.value} error={touched.tipoDePalete && Boolean(errors.tipoDePalete)}
@@ -104,7 +161,7 @@ const ReciboCliente = () => {
                                 </TextField>
                                 <Grid container className={styles().maxSpace} spacing={1}>
                                     <Grid item xs={12} sm={6}>
-                                        <ColorButtonRed className={styles().button}>Adicionar palete</ColorButtonRed>
+                                        <ColorButtonRed className={styles().button} onClick={() => adicionar(values)}>Adicionar palete</ColorButtonRed>
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <ColorButtonBlue className={styles().button} type='submit'>Gerar PDF</ColorButtonBlue>

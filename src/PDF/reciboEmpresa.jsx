@@ -2,13 +2,17 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import jmLogo from '../image/jmLogo.png'
 
-const ReciboEmpresaPDF = (dados, perfil, dado) => {
+const ReciboEmpresaPDF = (dados, vendas, perfil, dado) => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
     const total = Number(parseFloat(dados.valorUnitario) * parseFloat(dados.quantidade));
 
     const timeElapsed = Date.now();
     const today = new Date(timeElapsed);
     const data = today.toLocaleDateString();
+
+    const paletes = vendas.map((v) => {
+        return [v.tipoDePalete, v.quantidade, "R$ "+v.valorUnitario, "R$ "+v.total]
+    })
 
     const reportTitle = {
         columns: [
@@ -45,10 +49,10 @@ const ReciboEmpresaPDF = (dados, perfil, dado) => {
             style: 'table',
             table: {
                 headerRows: 1,
-                widths: [250, '*', '*'],
+                widths: [170, '*', '*', '*'],
                 body: [
-                    [{ text: 'Tipo de palete', style: 'tableHeader', alignment: 'center' }, { text: 'Quantidade de paletes', style: 'tableHeader', alignment: 'center' }, { text: 'Valor de cada palete', style: 'tableHeader', alignment: 'center' }],
-                    [dados.tipoDePalete, dados.quantidade, dados.valorUnitario],
+                    [{ text: 'Tipo de palete', style: 'tableHeader', alignment: 'center' }, { text: 'Quantidade de paletes', style: 'tableHeader', alignment: 'center' }, { text: 'Valor de cada palete', style: 'tableHeader', alignment: 'center' }, { text: 'Total', style: 'tableHeader', alignment: 'center' }],
+                    ...paletes,
                 ],
             }
         },
