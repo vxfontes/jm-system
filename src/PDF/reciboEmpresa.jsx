@@ -4,13 +4,14 @@ import jmLogo from '../image/jmLogo.png'
 
 const ReciboEmpresaPDF = (dados, vendas, perfil, dado) => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
-    const total = Number(parseFloat(dados.valorUnitario) * parseFloat(dados.quantidade));
+    let total = 0;
 
     const timeElapsed = Date.now();
     const today = new Date(timeElapsed);
     const data = today.toLocaleDateString();
 
     const paletes = vendas.map((v) => {
+        total = Number(parseFloat(total) + (parseFloat(v.total))).toFixed(2);
         return [v.tipoDePalete, v.quantidade, "R$ "+v.valorUnitario, "R$ "+v.total]
     })
 
@@ -53,6 +54,7 @@ const ReciboEmpresaPDF = (dados, vendas, perfil, dado) => {
                 body: [
                     [{ text: 'Tipo de palete', style: 'tableHeader', alignment: 'center' }, { text: 'Quantidade de paletes', style: 'tableHeader', alignment: 'center' }, { text: 'Valor de cada palete', style: 'tableHeader', alignment: 'center' }, { text: 'Total', style: 'tableHeader', alignment: 'center' }],
                     ...paletes,
+                    [{text: 'Total', style: 'tableHeader'}, {text: '---', alignment: 'center'}, {text: '---', alignment: 'center'}, {text: 'R$ '+total}]
                 ],
             }
         },
@@ -63,7 +65,7 @@ const ReciboEmpresaPDF = (dados, vendas, perfil, dado) => {
             fontSize: 12,
         },
         {
-            text: (dados.data).slice(8) + ' do mês ' + (dados.data).slice(5, -3) + ' de ' + (dados.data).slice(0, -6),
+            text: (dados.data).slice(8) + '/' + (dados.data).slice(5, -3) + ' de ' + (dados.data).slice(0, -6),
             alignment: 'right',
             margin: [15, 0, 15, 0],
             fontSize: 12,
