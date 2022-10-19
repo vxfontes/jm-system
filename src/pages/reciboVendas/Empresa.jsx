@@ -21,6 +21,7 @@ const ReciboEmpresa = () => {
 
 
     const [cnpj, setCnpj] = useState();
+    const [quantTotal, setQuantTotal] = useState(0);
     const [openAlert, setOpenAlert] = useState(false);
     const [openModal, setOpenModal] = React.useState(false);
     const [vendas, setVendas] = useState([]);
@@ -52,11 +53,12 @@ const ReciboEmpresa = () => {
 
     const onSubmit = (values) => {
         handleOpen();
-        ReciboEmpresaPDF(values, vendas, perfil, cnpj)
+        ReciboEmpresaPDF(values, vendas, perfil, cnpj, quantTotal)
     }
 
     const adicionar = (values) => {
         const total = (Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade))).toFixed(2);
+        setQuantTotal(Number(parseInt(values.quantidade)) + quantTotal);
 
         const newVenda = [
             ...vendas,
@@ -151,7 +153,7 @@ const ReciboEmpresa = () => {
                                     <MenuItem value={"Palete Descartável"}>Descartável</MenuItem>
                                     <MenuItem value={"Chapatex"}>Chapatex</MenuItem>
                                 </TextField>
-                                <Field className={styles().textField} name='quantidade' type='number' component={MuiComp} placeholder="Quantidade" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
+                                <Field className={styles().textField} name='quantidade' type='number' component={MuiComp} placeholder="Quantidade" />
                                 <Field className={styles().textField} name='valorUnitario' type='number' component={MuiComp} placeholder="Valor Unitário" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
                                 <TextField className={styles().textField} name='total' disabled variant="filled" placeholder="Total" value={(Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade))).toFixed(2)}
                                     InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />

@@ -12,9 +12,9 @@ const RoutesComp = () => {
         <Router>
             <Routes>
                 <Route exact path="/jm-system" element={<Home />} />
-                <Route exact path="/comissao" element={<ReciboComissao />} />
-                <Route exact path="/empresa" element={<ReciboEmpresa />} />
-                <Route exact path="/cliente" element={<ReciboCliente />} />
+                <Route exact path="/jm-system/comissao" element={<ReciboComissao />} />
+                <Route exact path="/jm-system/empresa" element={<ReciboEmpresa />} />
+                <Route exact path="/jm-system/cliente" element={<ReciboCliente />} />
             </Routes>
         </Router>
     );

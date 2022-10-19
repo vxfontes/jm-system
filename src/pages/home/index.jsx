@@ -11,17 +11,17 @@ const Home = () => {
         <>
             <Container className={styles().root}>
                 <Container className={styles().container}>
-                    <Link to='/comissao' style={{ textDecoration: 'none' }}>
+                    <Link to='/jm-system/comissao' style={{ textDecoration: 'none' }}>
                         <ColorButtonBlue className={styles().paper}>
                             <Typography variant='h5'>Recibo de <strong>comissão</strong></Typography>
                         </ColorButtonBlue>
                     </Link>
-                    <Link to='/empresa' style={{ textDecoration: 'none' }}>
+                    <Link to='/jm-system/empresa' style={{ textDecoration: 'none' }}>
                         <ColorButtonRed className={styles().paper}>
                             <Typography variant='h5'>Recibo compra para <strong>empresas</strong></Typography>
                         </ColorButtonRed>
                     </Link>
-                    <Link to='/cliente' style={{ textDecoration: 'none' }}>
+                    <Link to='/jm-system/cliente' style={{ textDecoration: 'none' }}>
                         <ColorButtonBlue className={styles().paper}>
                             <Typography variant='h5'>Recibo compra para <br /><strong>pessoa física</strong></Typography>
                         </ColorButtonBlue>

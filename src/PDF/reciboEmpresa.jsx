@@ -2,7 +2,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import jmLogo from '../image/jmLogo.png'
 
-const ReciboEmpresaPDF = (dados, vendas, perfil, dado) => {
+const ReciboEmpresaPDF = (dados, vendas, perfil, dado, quantTotal) => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
     let total = 0;
 
@@ -42,7 +42,7 @@ const ReciboEmpresaPDF = (dados, vendas, perfil, dado) => {
 
     const content = [
         {
-            text: perfil.inicio + ' ' + dados.nome + ' de '+perfil.masc+' nº ' + dado + ' está realizando uma compra de ' + dados.quantidade + ' paletes na unidade do(a) ' + dados.unidade + ' de total: ' + total,
+            text: perfil.inicio + ' ' + dados.nome + ' de '+perfil.masc+' nº ' + dado + ' está realizando uma compra de ' + quantTotal + ' itens na unidade do(a) ' + dados.unidade + ' de total: ' + total,
             fontSize: 12,
             margin: [15, 30, 15, 0]
         },
