@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Dashboard from './pages/dashboard';
 import CompraPalete from './pages/despesa';
 import Despesas from './pages/despesa/despesas';
 import Home from './pages/home';
@@ -19,6 +20,7 @@ const RoutesComp = () => {
                 <Route exact path="/jm-system/cliente" element={<ReciboCliente />} />
                 <Route exact path="/jm-system/comprovante" element={<CompraPalete />} />
                 <Route exact path="/jm-system/despesas" element={<Despesas />} />
+                <Route exact path="/jm-system/dashboard" element={<Dashboard />} />
             </Routes>
         </Router>
     );
