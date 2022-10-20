@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TextField, Container, Typography, Dialog, Grid, MenuItem, TableCell, TableBody, TableHead, TableRow, Table, DialogContent, DialogTitle } from '@material-ui/core/';
 import { AlertTitle, Alert } from '@material-ui/lab';
 import { Formik, Field, Form } from 'formik';
-import { collection, addDoc, getDocs } from 'firebase/firestore'
+import { collection, addDoc } from 'firebase/firestore'
 import InputAdornment from '@material-ui/core/InputAdornment';
 import 'date-fns';
 
@@ -15,7 +15,6 @@ import ColorButtonRed from '../../components/button/Red';
 import { cpfMask } from "../../components/cpf";
 import ReciboEmpresaPDF from "../../PDF/reciboEmpresa";
 import { dataBaseApp } from "../../firebase";
-import { useEffect } from "react";
 
 const ReciboCliente = () => {
 
@@ -30,15 +29,6 @@ const ReciboCliente = () => {
         masc: 'cpf',
         inicio: 'O cliente'
     }
-    
-    useEffect(() => {
-        const getVendas = async () => {
-            const data = await getDocs(refTabela);
-            console.log(data);
-        };
-
-        getVendas();
-    }, []);
 
     async function enviandoValores(values, total) {
         try {
@@ -46,11 +36,18 @@ const ReciboCliente = () => {
                 type: 'cliente',
                 quantidade: values.quantidade,
                 valor: values.valorUnitario,
-                total: total,
+                total: Number(parseFloat(total)),
+                tipo: values.tipoDePalete,
+                data: values.data,
+                comprador: {
+                    nome: values.nome,
+                    dado: cpf,
+                    unidade: values.unidade,
+                }
             });
-            console.log(docRef)
         } catch (e) {
             console.error("Error adding document: ", e);
+            alert("Erro ao salvar, reinicie e tente novamente")
         }
     }
 
