@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Container, Typography, Dialog, Grid, MenuItem } from '@material-ui/core/';
 import { AlertTitle, Alert } from '@material-ui/lab';
+import { collection, addDoc } from 'firebase/firestore';
 import { Formik, Field, Form } from 'formik';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import 'date-fns';
@@ -12,10 +13,31 @@ import palete from '../../image/palete.png';
 import styles from './styles';
 import ColorButtonBlue from '../../components/button/Blue';
 import { cpfMask } from "../../components/cpf";
+import { dataBaseApp } from "../../firebase";
 
 const ReciboComissao = () => {
+    const refTabela = collection(dataBaseApp, "comissao")
     const [cpf, setCpf] = useState();
     const [openAlert, setOpenAlert] = useState(false);
+
+    async function enviandoValores(values, total) {
+        try {
+            const docRef = await addDoc(refTabela, {
+                quantidade: values.quantidade,
+                valor: values.valorUnitario,
+                total: Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade)).toFixed(2),
+                data: values.data,
+                funcionario: {
+                    nome: values.nome,
+                    cpf: cpf,
+                    unidade: values.unidade
+                }
+            });
+        } catch (e) {
+            console.error("Error adding document: ", e);
+            alert("Erro ao salvar, reinicie e tente novamente")
+        }
+    }
 
     function handleChangeCPF(e) {
         setCpf(cpfMask(e.target.value))
@@ -30,6 +52,7 @@ const ReciboComissao = () => {
     };
 
     const onSubmit = (values) => {
+        enviandoValores(values);
         handleOpen();
         ReciboPDF(values, cpf)
     }
@@ -66,7 +89,7 @@ const ReciboComissao = () => {
                             <Dialog open={openAlert} onClose={handleClose}>
                                 <Alert severity="info" color="info" variant="filled">
                                     <AlertTitle><strong>Recibo enviado com sucesso</strong></AlertTitle>
-                                    <p>O recibo para a empresa {values.nome} já está pronto</p>
+                                    <p>O recibo de comissão de {values.nome} já está pronto</p>
                                 </Alert>
                             </Dialog>
                             <Typography style={{ margin: '30px 20px 20px 20px' }} variant="h5" gutterBottom>Gerador de recibo de comissão</Typography>
