@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TextField, Container, Typography, Dialog, Grid, MenuItem, TableCell, TableBody, TableHead, TableRow, Table, DialogContent, DialogTitle } from '@material-ui/core/';
 import { AlertTitle, Alert } from '@material-ui/lab';
 import { Formik, Field, Form } from 'formik';
+import { collection, addDoc, getDocs } from 'firebase/firestore'
 import InputAdornment from '@material-ui/core/InputAdornment';
 import 'date-fns';
 
@@ -13,10 +14,12 @@ import ColorButtonBlue from '../../components/button/Blue';
 import ColorButtonRed from '../../components/button/Red';
 import { cpfMask } from "../../components/cpf";
 import ReciboEmpresaPDF from "../../PDF/reciboEmpresa";
+import { dataBaseApp } from "../../firebase";
+import { useEffect } from "react";
 
 const ReciboCliente = () => {
 
-
+    const refTabela = collection(dataBaseApp, "vendasRecibos")
     const [cpf, setCpf] = useState();
     const [quantTotal, setQuantTotal] = useState(0);
     const [openAlert, setOpenAlert] = useState(false);
@@ -26,6 +29,29 @@ const ReciboCliente = () => {
     const perfil = {
         masc: 'cpf',
         inicio: 'O cliente'
+    }
+    
+    useEffect(() => {
+        const getVendas = async () => {
+            const data = await getDocs(refTabela);
+            console.log(data);
+        };
+
+        getVendas();
+    }, []);
+
+    async function enviandoValores(values, total) {
+        try {
+            const docRef = await addDoc(refTabela, {
+                type: 'cliente',
+                quantidade: values.quantidade,
+                valor: values.valorUnitario,
+                total: total,
+            });
+            console.log(docRef)
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
     }
 
     function handleChangeCPF(e) {
@@ -52,10 +78,12 @@ const ReciboCliente = () => {
         handleOpen();
         ReciboEmpresaPDF(values, vendas, perfil, cpf, quantTotal)
     }
-
+    
     const adicionar = (values) => {
         const total = (Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade))).toFixed(2);
         setQuantTotal(Number(parseInt(values.quantidade)) + quantTotal);
+
+        enviandoValores(values, total);
 
         const newVenda = [
             ...vendas,
