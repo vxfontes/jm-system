@@ -70,3 +70,24 @@ export const schemaCompraPalete = yup.object().shape({
         .date()
         .required("Insira a data do pagamento")
 })
+
+export const schemaDespesas = yup.object().shape({
+    valor: yup
+        .number()
+        .positive("O número precisa ser positivo")
+        .required("Informe o valor da despesa"),
+    tipoDeDespesa: yup
+        .string()
+        .ensure()
+        .required("Selecione o tipo de despesa"),
+    unidade: yup
+        .string()
+        .ensure()
+        .required("Selecione a unidade"),
+    nomeDaDespesa: yup
+        .string()
+        .required("Informe qual foi a despesa"),
+    data: yup
+        .date()
+        .required("Insira a data do pagamento")
+})

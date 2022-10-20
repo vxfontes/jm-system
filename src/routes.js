@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import CompraPalete from './pages/despesa';
+import Despesas from './pages/despesa/despesas';
 import Home from './pages/home';
 import ReciboComissao from './pages/reciboComissao';
 import ReciboCliente from './pages/reciboVendas/Cliente';
@@ -17,6 +18,7 @@ const RoutesComp = () => {
                 <Route exact path="/jm-system/empresa" element={<ReciboEmpresa />} />
                 <Route exact path="/jm-system/cliente" element={<ReciboCliente />} />
                 <Route exact path="/jm-system/comprovante" element={<CompraPalete />} />
+                <Route exact path="/jm-system/despesas" element={<Despesas />} />
             </Routes>
         </Router>
     );

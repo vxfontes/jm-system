@@ -26,6 +26,7 @@ const CompraPalete = () => {
                 total: Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade)).toFixed(2),
                 data: values.data,
                 unidade: values.unidade,
+                tipoDePalete: values.tipoDePalete,
             });
         } catch (e) {
             console.error("Error adding document: ", e);

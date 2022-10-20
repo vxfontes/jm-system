@@ -57,7 +57,6 @@ const SideBar = () => {
           <Typography variant="h5"><strong>JM Paletes</strong></Typography>
 
           {/* opções */}
-          {/* {showOptions && */}
           <Hidden smDown>
             <Box className={classes.options}>
               <a className={classes.link} href='/jm-system/comprovante'>
@@ -65,11 +64,15 @@ const SideBar = () => {
                   Compra de palete
                 </Typography>
               </a>
+              <a className={classes.link} href='/jm-system/despesas'>
+                <Typography variant="h6">
+                  Cadastro de despesas
+                </Typography>
+              </a>
             </Box>
           </Hidden>
 
           {/* menu */}
-          {/* {showMenu && <> */}
           <Hidden mdUp>
             <IconButton edge='end' aria-label="menu" onClick={handleOpen}>
               <Menu  style={{ color: '#fff' }} />
@@ -88,6 +91,11 @@ const SideBar = () => {
               <a className={classes.link} href='/jm-system/comprovante'>
                 <Typography variant="h6">
                   <strong>Compra de palete</strong>
+                </Typography>
+              </a>
+              <a className={classes.link} href='/jm-system/despesas'>
+                <Typography variant="h6">
+                  <strong>Cadastro de despesas</strong>
                 </Typography>
               </a>
             </Box>
