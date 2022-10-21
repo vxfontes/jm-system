@@ -36,13 +36,14 @@ const ReciboEmpresa = () => {
     async function enviandoValores(values, total) {
         try {
             const docRef = await addDoc(refTabela, {
-                type: 'empresa',
                 quantidade: values.quantidade,
+                type: 'venda',
                 valor: values.valorUnitario,
                 total: Number(parseFloat(total)),
                 tipo: values.tipoDePalete,
                 data: values.data,
                 comprador: {
+                    type: 'empresa',
                     nome: values.nome,
                     dado: cnpj,
                     unidade: values.unidade,
