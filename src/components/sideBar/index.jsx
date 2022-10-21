@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
     color: '#fff',
     fontWeight: 'bold',
-    marginLeft: '10px',
+    marginLeft: '25px',
     [theme.breakpoints.down('md')]: {
       margin: '20px 0 0 20px',
     }
