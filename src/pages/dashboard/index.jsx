@@ -130,7 +130,7 @@ const Dashboard = () => {
                 loading ? (
                     <>
                         <h1>foi</h1>
-                        {/* <MainDashboard /> */}
+                        <MainDashboard />
                     </>
                 ) : (
                     <h1>carregando...</h1>
