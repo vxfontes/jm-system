@@ -1,7 +1,11 @@
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, where, query, orderBy } from 'firebase/firestore'
 import { useEffect, useState } from 'react';
 import { dataBaseApp } from "../../firebase";
 import MainDashboard from './dashboard';
+import { format } from 'date-fns';
+
+const timeElapsed = Date.now();
+const today = format(new Date(timeElapsed), 'yyyy-MM-01').toString();
 
 const Dashboard = () => {
     const vendasRecibos = collection(dataBaseApp, "vendasRecibos");
@@ -19,6 +23,12 @@ const Dashboard = () => {
     const [despesas, setDespesas] = useState([]);
     const [compra, setCompra] = useState([]);
 
+    // const [monthvendas, setMonthvendas] = useState([]);
+    // const [monthcomissao, setMonthcomissao] = useState([]);
+    const [month, setMonth] = useState([]);
+    // const [month, setMonth] = useState([]);
+
+    const [erroLenght, setErroLenght] = useState([])
     const [loading, setLoading] = useState(false);
     const [initCalc, setInitCalc] = useState(false);
 
@@ -26,6 +36,14 @@ const Dashboard = () => {
         getDocs(vendasRecibos).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setVendas(data)
+        }).then(async () => {
+            let getting = await getDocs(query(vendasRecibos, where("data", ">", today), orderBy("data", "desc")));
+            let db = (getting.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+            if (db.length !== 0) {
+                setMonth(db)
+            } else {
+                setErroLenght(...erroLenght, ['vendas'])
+            }
         }).catch((error) => {
             alert("Não foi possível conectar-se com o banco de dados");
             console.log(error.response);
@@ -36,6 +54,14 @@ const Dashboard = () => {
         getDocs(comissaoRecibos).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setComissao(data)
+        }).then(async () => {
+            let getting = await getDocs(query(comissaoRecibos, where("data", ">", today), orderBy("data", "desc")));
+            let db = (getting.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+            if (db.length !== 0) {
+                setMonth(prevState => [...prevState, ...db])
+            } else {
+                setErroLenght(...erroLenght, ['comissão'])
+            }
         }).catch((error) => {
             alert("Não foi possível conectar-se com o banco de dados");
             console.log(error);
@@ -46,6 +72,14 @@ const Dashboard = () => {
         getDocs(despesasCd).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setDespesas(data)
+        }).then(async () => {
+            let getting = await getDocs(query(despesasCd, where("data", ">", today), orderBy("data", "desc")));
+            let db = (getting.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+            if (db.length !== 0) {
+                setMonth(prevState => [...prevState, ...db])
+            } else {
+                setErroLenght(...erroLenght, ['despesa'])
+            }
         }).catch((error) => {
             alert("Não foi possível conectar-se com o banco de dados");
             console.log(error);
@@ -57,10 +91,27 @@ const Dashboard = () => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setCompra(data)
             empty = response.empty;
+        }).then(async () => {
+            let getting = await getDocs(query(compraPalete, where("data", ">", today), orderBy("data", "desc")));
+            let db = (getting.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+            if (db.length !== 0) {
+                setMonth(prevState => [...prevState, ...db])
+            } else {
+                setErroLenght(...erroLenght, ['compra'])
+            }
         }).catch((error) => {
             alert("Não foi possível conectar-se com o banco de dados");
             console.log(error);
         })
+    }
+
+    function sortMonth() {
+        function SortArray(x, y) {
+            if (x.data < y.data) { return 1; }
+            if (x.data > y.data) { return -1; }
+            return 0;
+        }
+        month.sort(SortArray);
     }
 
     useEffect(() => {
@@ -88,6 +139,8 @@ const Dashboard = () => {
         console.log("total venda", totalVendas)
         console.log("total despesa", totalDespesas)
         console.log("total comissao", totalComissao)
+        console.log("valor mes", month)
+        console.log('erro tamanho', erroLenght)
         console.log(saidasTotais, lucroLiq, paletesVenda, paletesCompra);
     }
 
@@ -112,13 +165,12 @@ const Dashboard = () => {
         })
     }
 
-    
-
     // principal da pagina
     if (initCalc === true) {
         somaTotais()
         saidasTotais = (totalComissao + totalCompras + totalDespesas);
         lucroLiq = totalVendas - saidasTotais;
+        sortMonth()
         consoles()
     } else {
         console.log('carregando dados');
