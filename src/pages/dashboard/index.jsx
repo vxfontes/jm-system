@@ -1,4 +1,4 @@
-import { collection, getDocs, where, query, orderBy } from 'firebase/firestore'
+import { collection, getDocs, where, query, orderBy, setDoc, doc } from 'firebase/firestore'
 import { useEffect, useState } from 'react';
 import { dataBaseApp } from "../../firebase";
 import MainDashboard from './dashboard';
@@ -6,6 +6,13 @@ import { format } from 'date-fns';
 
 const timeElapsed = Date.now();
 const today = format(new Date(timeElapsed), 'yyyy-MM-01').toString();
+let data, empty, db;
+let totalVendas = 0, totalCompras = 0, totalComissao = 0, totalDespesas = 0;
+let paletesVenda = 0, paletesCompra = 0;
+let saidasTotais = 0, lucroLiq = 0;
+let totalVendasMes = 0, totalComprasMes = 0, totalComissaoMes = 0, totalDespesasMes = 0;
+let paletesVendaMes = 0, paletesCompraMes = 0;
+let saidasTotaisMes = 0, lucroLiqMes = 0;
 
 const Dashboard = () => {
     const vendasRecibos = collection(dataBaseApp, "vendasRecibos");
@@ -13,20 +20,13 @@ const Dashboard = () => {
     const compraPalete = collection(dataBaseApp, "compraPalete");
     const despesasCd = collection(dataBaseApp, "despesas");
 
-    let data, empty
-    let totalVendas = 0, totalCompras = 0, totalComissao = 0, totalDespesas = 0;
-    let paletesVenda = 0, paletesCompra = 0;
-    let saidasTotais = 0, lucroLiq = 0;
 
-    const [vendas, setVendas] = useState({});
+    const [vendas, setVendas] = useState([]);
     const [comissao, setComissao] = useState([]);
     const [despesas, setDespesas] = useState([]);
     const [compra, setCompra] = useState([]);
 
-    // const [monthvendas, setMonthvendas] = useState([]);
-    // const [monthcomissao, setMonthcomissao] = useState([]);
     const [month, setMonth] = useState([]);
-    // const [month, setMonth] = useState([]);
 
     const [erroLenght, setErroLenght] = useState([])
     const [loading, setLoading] = useState(false);
@@ -38,7 +38,7 @@ const Dashboard = () => {
             setVendas(data)
         }).then(async () => {
             let getting = await getDocs(query(vendasRecibos, where("data", ">", today), orderBy("data", "desc")));
-            let db = (getting.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+            db = (getting.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             if (db.length !== 0) {
                 setMonth(db)
             } else {
@@ -93,7 +93,7 @@ const Dashboard = () => {
             empty = response.empty;
         }).then(async () => {
             let getting = await getDocs(query(compraPalete, where("data", ">", today), orderBy("data", "desc")));
-            let db = (getting.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+            db = (getting.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             if (db.length !== 0) {
                 setMonth(prevState => [...prevState, ...db])
             } else {
@@ -131,7 +131,7 @@ const Dashboard = () => {
                 window.location.replace("/jm-system/");
             }
         }, 3000)
-    }, [empty]);
+    }, []);
 
 
     function consoles() {
@@ -141,7 +141,25 @@ const Dashboard = () => {
         console.log("total comissao", totalComissao)
         console.log("valor mes", month)
         console.log('erro tamanho', erroLenght)
-        console.log(saidasTotais, lucroLiq, paletesVenda, paletesCompra);
+        console.log('total', saidasTotais, lucroLiq, paletesVenda, paletesCompra);
+        console.log('mes', saidasTotaisMes, lucroLiqMes, paletesVendaMes, paletesCompraMes);
+    }
+
+    function enviarMes() {
+        setDoc(doc(dataBaseApp, "months", "mainMonth"), {
+            mes: today,
+            saidasTotais: saidasTotaisMes,
+            lucroLiq: lucroLiqMes,
+            paletesVenda: paletesVendaMes,
+            paletesCompra: paletesCompraMes,
+        });
+        setDoc(doc(dataBaseApp, "months", today), {
+            mes: today,
+            saidasTotais: saidasTotaisMes,
+            lucroLiq: lucroLiqMes,
+            paletesVenda: paletesVendaMes,
+            paletesCompra: paletesCompraMes,
+        });
     }
 
     function somaTotais() {
@@ -165,12 +183,51 @@ const Dashboard = () => {
         })
     }
 
+    function somasMensais() {
+        if (month.length !== 0) {
+            month.map((dataMonth) => {
+                if (dataMonth.type === 'venda') {
+                    let dt = Number(parseFloat(dataMonth.total))
+                    totalVendasMes = (totalVendasMes + dt)
+                    paletesVendaMes = paletesVendaMes + dataMonth.quantidade
+                }
+                
+                if (dataMonth.type === 'compra') {
+                    let dt = Number(parseFloat(dataMonth.total))
+                    totalComprasMes = (totalComprasMes + dt)
+                    paletesCompraMes = paletesCompraMes + dataMonth.quantidade
+                }
+                
+                if (dataMonth.type === 'despesa') {
+                    let dt = Number(parseFloat(dataMonth.valor))
+                    totalDespesasMes = (totalDespesasMes + dt)
+                }
+                
+                if (dataMonth.type === 'comissao') {
+                    let dt = Number(parseFloat(dataMonth.total))
+                    totalComissaoMes = (totalComissaoMes + dt)
+                }
+            })
+        } else {
+            alert("Não foi possível realizar a leitura dos dados mensais")
+        }
+    }
+
     // principal da pagina
     if (initCalc === true) {
+        sortMonth() //array do mês atual
+        somasMensais() 
         somaTotais()
+
+        // totais
         saidasTotais = (totalComissao + totalCompras + totalDespesas);
         lucroLiq = totalVendas - saidasTotais;
-        sortMonth()
+
+        // mes atual
+        saidasTotaisMes = (totalComissaoMes + totalComprasMes + totalDespesasMes);
+        lucroLiqMes = totalVendasMes - saidasTotaisMes;
+        
+        enviarMes()
         consoles()
     } else {
         console.log('carregando dados');
