@@ -26,6 +26,7 @@ const Despesas = () => {
                 valor: values.valor,
                 data: values.data,
                 unidade: values.unidade,
+                type: 'despesa'
             });
         } catch (e) {
             console.error("Error adding document: ", e);

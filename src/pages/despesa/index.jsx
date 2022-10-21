@@ -27,6 +27,7 @@ const CompraPalete = () => {
                 data: values.data,
                 unidade: values.unidade,
                 tipoDePalete: values.tipoDePalete,
+                type: 'compra'
             });
         } catch (e) {
             console.error("Error adding document: ", e);
