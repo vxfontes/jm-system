@@ -1,7 +1,7 @@
-import { collection, getDocs, where, query, orderBy, setDoc, doc } from 'firebase/firestore'
+import { collection, getDocs, where, query, orderBy, setDoc, doc, getDoc } from 'firebase/firestore'
 import { useEffect, useState } from 'react';
 import { dataBaseApp } from "../../firebase";
-import MainDashboard from './dashboard';
+import MainDashboard from './mainDashboard';
 import { format } from 'date-fns';
 
 const timeElapsed = Date.now();
@@ -19,6 +19,7 @@ const Dashboard = () => {
     const comissaoRecibos = collection(dataBaseApp, "comissao");
     const compraPalete = collection(dataBaseApp, "compraPalete");
     const despesasCd = collection(dataBaseApp, "despesas");
+    const gettingMeses = collection(dataBaseApp, "months");
 
 
     const [vendas, setVendas] = useState([]);
@@ -27,6 +28,8 @@ const Dashboard = () => {
     const [compra, setCompra] = useState([]);
 
     const [month, setMonth] = useState([]);
+    const [meses, setMeses] = useState([]);
+    const [totalTd, setTotalTd] = useState({})
 
     const [erroLenght, setErroLenght] = useState([])
     const [loading, setLoading] = useState(false);
@@ -105,6 +108,15 @@ const Dashboard = () => {
         })
     }
 
+    function getMeses() {
+        getDocs(gettingMeses).then((response) => {
+            data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+            setMeses(data);
+        }).then(() => {
+            console.log(meses);
+        })
+    }
+
     function sortMonth() {
         function SortArray(x, y) {
             if (x.data < y.data) { return 1; }
@@ -150,6 +162,7 @@ const Dashboard = () => {
             mes: today,
             saidasTotais: saidasTotaisMes,
             lucroLiq: lucroLiqMes,
+            lucroBruto: totalVendasMes,
             paletesVenda: paletesVendaMes,
             paletesCompra: paletesCompraMes,
         });
@@ -157,8 +170,26 @@ const Dashboard = () => {
             mes: today,
             saidasTotais: saidasTotaisMes,
             lucroLiq: lucroLiqMes,
+            lucroBruto: totalVendasMes,
             paletesVenda: paletesVendaMes,
             paletesCompra: paletesCompraMes,
+        });
+    }
+
+    function enviarTotal() {
+        setTotalTd({
+            saidasTotais: saidasTotais,
+            lucroLiq: lucroLiq,
+            lucroBruto: totalVendas,
+            paletesVenda: paletesVenda,
+            paletesCompra: paletesCompra,
+        });
+        setDoc(doc(dataBaseApp, "total", "main"), {
+            saidasTotais: saidasTotais,
+            lucroLiq: lucroLiq,
+            lucroBruto: totalVendas,
+            paletesVenda: paletesVenda,
+            paletesCompra: paletesCompra,
         });
     }
 
@@ -191,18 +222,18 @@ const Dashboard = () => {
                     totalVendasMes = (totalVendasMes + dt)
                     paletesVendaMes = paletesVendaMes + dataMonth.quantidade
                 }
-                
+
                 if (dataMonth.type === 'compra') {
                     let dt = Number(parseFloat(dataMonth.total))
                     totalComprasMes = (totalComprasMes + dt)
                     paletesCompraMes = paletesCompraMes + dataMonth.quantidade
                 }
-                
+
                 if (dataMonth.type === 'despesa') {
                     let dt = Number(parseFloat(dataMonth.valor))
                     totalDespesasMes = (totalDespesasMes + dt)
                 }
-                
+
                 if (dataMonth.type === 'comissao') {
                     let dt = Number(parseFloat(dataMonth.total))
                     totalComissaoMes = (totalComissaoMes + dt)
@@ -216,7 +247,7 @@ const Dashboard = () => {
     // principal da pagina
     if (initCalc === true) {
         sortMonth() //array do mês atual
-        somasMensais() 
+        somasMensais()
         somaTotais()
 
         // totais
@@ -226,8 +257,9 @@ const Dashboard = () => {
         // mes atual
         saidasTotaisMes = (totalComissaoMes + totalComprasMes + totalDespesasMes);
         lucroLiqMes = totalVendasMes - saidasTotaisMes;
-        
+
         enviarMes()
+        enviarTotal()
         consoles()
     } else {
         console.log('carregando dados');
@@ -239,7 +271,7 @@ const Dashboard = () => {
                 loading ? (
                     <>
                         <h1>foi</h1>
-                        <MainDashboard />
+                        {/* <MainDashboard /> */}
                     </>
                 ) : (
                     <h1>carregando...</h1>
