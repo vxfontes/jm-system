@@ -52,7 +52,8 @@ Sistema simples focado em gerar PDFs de recibos para uma empresa de venda de pal
 :heavy_check_mark: React Router Dom;\
 :heavy_check_mark: Git hub pages;\
 :heavy_check_mark: Yup;\
-:heavy_check_mark: Material UI;
+:heavy_check_mark: Material UI;\
+:heavy_check_mark: Firebase;
 
 ## :rocket: Tecnologias ##
 
@@ -61,6 +62,7 @@ Tecnologias principais:
 - [React](https://pt-br.reactjs.org/)
 - [Material UI v4](https://v4.mui.com)
 - [PDFMake](http://pdfmake.org/index.html#/)
+- [Firebase](https://firebase.google.com)
 
 
 Made with :heart: by <a href="https://github.com/vxfontes" target="_blank">vxfontes</a>
