@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Dialog, Box, Slide, Hidden, Link, Button } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, IconButton, Dialog, Box, Slide, Hidden, Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import { Menu, Close } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core';
-import { palette } from '@material-ui/system';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -59,21 +59,21 @@ const SideBar = () => {
           {/* opções */}
           <Hidden smDown>
             <Box className={classes.options}>
-              <a className={classes.link} href='/jm-system/dashboard'>
+              <Link className={classes.link} to='/jm-system/dashboard'>
                 <Typography variant="h6">
                   Dashboard
                 </Typography>
-              </a>
-              <a className={classes.link} href='/jm-system/comprovante'>
+              </Link>
+              <Link className={classes.link} to='/jm-system/comprovante'>
                 <Typography variant="h6">
                   Compra de palete
                 </Typography>
-              </a>
-              <a className={classes.link} href='/jm-system/despesas'>
+              </Link>
+              <Link className={classes.link} to='/jm-system/despesas'>
                 <Typography variant="h6">
                   Cadastro de despesas
                 </Typography>
-              </a>
+              </Link>
             </Box>
           </Hidden>
 
@@ -93,21 +93,21 @@ const SideBar = () => {
               </IconButton>
             </Box>
             <Box className={classes.dialog}>
-              <a className={classes.link} href='/jm-system/dashboard'>
+              <Link className={classes.link} to='/jm-system/dashboard'>
                 <Typography variant="h6">
                   <strong>Dashboard</strong>
                 </Typography>
-              </a>
-              <a className={classes.link} href='/jm-system/comprovante'>
+              </Link>
+              <Link className={classes.link} to='/jm-system/comprovante'>
                 <Typography variant="h6">
                   <strong>Compra de palete</strong>
                 </Typography>
-              </a>
-              <a className={classes.link} href='/jm-system/despesas'>
+              </Link>
+              <Link className={classes.link} to='/jm-system/despesas'>
                 <Typography variant="h6">
                   <strong>Cadastro de despesas</strong>
                 </Typography>
-              </a>
+              </Link>
             </Box>
           </Dialog>
         </Toolbar>
