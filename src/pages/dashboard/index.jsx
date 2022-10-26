@@ -343,7 +343,19 @@ const Dashboard = () => {
             return {
                 categories: [...mes],
                 series: [{
-                    name: 'paletes venda',
+                    name: 'paletes vendidos',
+                    data: [...result],
+                }]
+            }
+        }
+        if (type === 'Paletes Comprados') {
+            const result = meses.map((mes) => mes.paletesCompra,)
+            const mes = meses.map((mes) => mes.mes,)
+
+            return {
+                categories: [...mes],
+                series: [{
+                    name: 'paletes comprados',
                     data: [...result],
                 }]
             }
@@ -375,6 +387,7 @@ const Dashboard = () => {
             databaseLiquido: loadData('Lucro Líquido'),
             saidasTotais: loadData('Saidas Totais'),
             paletesVenda: loadData('Paletes Vendidos'),
+            paletesCompra: loadData('Paletes Comprados'),
         }
 
         // consoles()

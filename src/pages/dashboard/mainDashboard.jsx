@@ -3,6 +3,7 @@ import { Box, Card, CardActionArea, CardContent, Divider, Grid, Table, TableBody
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import useStyles from './styles';
 import Chart from "react-apexcharts";
 
@@ -180,7 +181,7 @@ const MainDashboard = (propsDash) => {
             <Grid className={classes.paper} container direction='row' justifyContent='center' alignItems="center" spacing={5}>
 
                 {/* card de paletes */}
-                <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+                <Grid item xl={3} lg={3} md={3} sm={6} xs={12}>
                     <CardActionArea className={classes.actionArea}>
                         <Card className={classes.card}>
                             <StorefrontIcon className={classes.icons} />
@@ -199,8 +200,28 @@ const MainDashboard = (propsDash) => {
                     </CardActionArea>
                 </Grid>
 
+                {/* card de paletes */}
+                <Grid item xl={3} lg={3} md={3} sm={6} xs={12}>
+                    <CardActionArea className={classes.actionArea}>
+                        <Card className={classes.card} style={{ backgroundColor: '#08d898' }}>
+                            <AddCircleOutlineIcon className={classes.icons} />
+                            <CardContent style={{ height: '100%', width: '100%' }}>
+                                <Grid container direction='row' justifyContent='space-between' alignItems="flex-start" spacing={4}>
+                                    <Grid item xl={7} lg={7} md={7} sm={7} xs={7}>
+                                        <Typography className={classes.text} variant="h5" component="h2">{propsDash.main.paletesCompra} paletes</Typography>
+                                        <Typography className={classes.lilText} variant="body2" component="p">Paletes comprados no mês</Typography>
+                                    </Grid>
+                                    <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
+                                        <Chart options={optionsLineBt} series={propsDash.database.paletesCompra.series} type="line" width="100" />
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </Card>
+                    </CardActionArea>
+                </Grid>
+
                 {/* card de lucro */}
-                <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
+                <Grid item xl={3} lg={3} md={3} sm={6} xs={12}>
                     <CardActionArea className={classes.actionArea}>
                         <Card className={classes.card} style={{ backgroundColor: '#208ce4' }}>
                             <LocalAtmIcon className={classes.icons} />
@@ -220,7 +241,7 @@ const MainDashboard = (propsDash) => {
                 </Grid>
 
                 {/* card lateral */}
-                <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+                <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
                     <Grid style={{ marginBottom: 10 }} item xl={12} lg={12} md={12} sm={12} xs={12}>
                         <CardActionArea className={classes.actionArea}>
                             <Card className={classes.cardRight} style={{ backgroundColor: '#ffb41c' }}>
