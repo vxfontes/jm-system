@@ -59,6 +59,11 @@ const SideBar = () => {
           {/* opções */}
           <Hidden smDown>
             <Box className={classes.options}>
+              <a className={classes.link} href='/jm-system/dashboard'>
+                <Typography variant="h6">
+                  Dashboard
+                </Typography>
+              </a>
               <a className={classes.link} href='/jm-system/comprovante'>
                 <Typography variant="h6">
                   Compra de palete
