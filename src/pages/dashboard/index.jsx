@@ -271,17 +271,6 @@ const Dashboard = () => {
 
     // GRAFICOS 
     function loadDataPrincipal() {
-        // const result = meses.map((mes) => {
-        //     return [
-        //         mes.mes, mes.lucroLiq, mes.lucroBruto, mes.saidasTotais
-        //     ]
-        // })
-
-        // return [
-        //     ["Mês", "Lucro Líquido", "Lucro Bruto", "Total de Despesas"],
-        //     ...result
-        // ]
-
         const mes = meses.map((mes) => mes.mes,)
         const resultLiq = meses.map((mes) => mes.lucroLiq,)
         const resultBt = meses.map((mes) => mes.lucroBruto,)
@@ -380,7 +369,7 @@ const Dashboard = () => {
             {
                 loading ? (
                     <>
-                        <h1>foi</h1>
+                        {/* <h1>foi</h1> */}
                         <MainDashboard totalGeral={totalGeral} month={month} meses={meses} main={main} database={databases} />
                     </>
                 ) : (
