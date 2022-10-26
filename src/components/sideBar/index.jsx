@@ -93,6 +93,11 @@ const SideBar = () => {
               </IconButton>
             </Box>
             <Box className={classes.dialog}>
+              <a className={classes.link} href='/jm-system/dashboard'>
+                <Typography variant="h6">
+                  <strong>Dashboard</strong>
+                </Typography>
+              </a>
               <a className={classes.link} href='/jm-system/comprovante'>
                 <Typography variant="h6">
                   <strong>Compra de palete</strong>
