@@ -13,6 +13,7 @@
     "chart.js": "^3.9.1",
     "date-fns": "^2.29.2",
     "firebase": "^9.12.1",
+    "firebase-tools": "^11.15.0",
     "formik": "^2.2.9",
     "gh-pages": "^4.0.0",
     "pdfmake": "^0.2.5",
@@ -32,7 +33,6 @@
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://vxfontes.github.io/jm-system/",
   "eslintConfig": {
     "extends": [
       "react-app",
