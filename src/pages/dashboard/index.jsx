@@ -6,7 +6,9 @@ import { format } from 'date-fns';
 
 const timeElapsed = Date.now();
 const today = format(new Date(timeElapsed), 'yyyy-MM-01').toString();
-let data, empty, db;
+const mes = format(new Date(timeElapsed), 'MM-yyyy').toString();
+
+let data, empty, db, totalGeral = {};
 let totalVendas = 0, totalCompras = 0, totalComissao = 0, totalDespesas = 0;
 let paletesVenda = 0, paletesCompra = 0;
 let saidasTotais = 0, lucroLiq = 0;
@@ -14,13 +16,18 @@ let totalVendasMes = 0, totalComprasMes = 0, totalComissaoMes = 0, totalDespesas
 let paletesVendaMes = 0, paletesCompraMes = 0;
 let saidasTotaisMes = 0, lucroLiqMes = 0;
 
+// ao fim de todo processo, as variaveis utilizadas no dashboard serao: 
+// lucro total, lucro total liquido, despesas, quant paletes vendidos e comprados = totalGeral
+// ultimas compras e vendas = month
+
+
 const Dashboard = () => {
     const vendasRecibos = collection(dataBaseApp, "vendasRecibos");
     const comissaoRecibos = collection(dataBaseApp, "comissao");
     const compraPalete = collection(dataBaseApp, "compraPalete");
     const despesasCd = collection(dataBaseApp, "despesas");
     const gettingMeses = collection(dataBaseApp, "months");
-
+    const gettingMainMonth = collection(dataBaseApp, "mainMonth");
 
     const [vendas, setVendas] = useState([]);
     const [comissao, setComissao] = useState([]);
@@ -29,12 +36,13 @@ const Dashboard = () => {
 
     const [month, setMonth] = useState([]);
     const [meses, setMeses] = useState([]);
-    const [totalTd, setTotalTd] = useState({})
+    const [main, setMain] = useState([]);
 
-    const [erroLenght, setErroLenght] = useState([])
+    const [erroLenght, setErroLenght] = useState([]);
     const [loading, setLoading] = useState(false);
     const [initCalc, setInitCalc] = useState(false);
 
+    // as 4 funções abaixo puxam do banco de dados e ja implementam pegar os mais recentes
     function getVendas() {
         getDocs(vendasRecibos).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
@@ -112,9 +120,18 @@ const Dashboard = () => {
         getDocs(gettingMeses).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setMeses(data);
-        }).then(() => {
-            console.log(meses);
-        })
+        }).catch((error) => {
+            alert("Não foi possível conectar-se com o banco de dados");
+            console.log(error);
+        });
+        
+        getDocs(gettingMainMonth).then((response) => {
+            data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+            setMain(data);
+        }).catch((error) => {
+            alert("Não foi possível conectar-se com o banco de dados");
+            console.log(error);
+        });
     }
 
     function sortMonth() {
@@ -132,6 +149,7 @@ const Dashboard = () => {
         getComissao();
         getDespesas();
         getCompra();
+        getMeses();
         setTimeout(() => {
             // carrega e verifica se a ultima função recebe um array vazio
             // se sim - nao termina o loading e redireciona usuario
@@ -153,12 +171,13 @@ const Dashboard = () => {
         console.log("total comissao", totalComissao)
         console.log("valor mes", month)
         console.log('erro tamanho', erroLenght)
-        console.log('total', saidasTotais, lucroLiq, paletesVenda, paletesCompra);
+        console.log('total', totalGeral);
         console.log('mes', saidasTotaisMes, lucroLiqMes, paletesVendaMes, paletesCompraMes);
+        console.log('imprimindo meses', meses);
     }
 
     function enviarMes() {
-        setDoc(doc(dataBaseApp, "months", "mainMonth"), {
+        setDoc(doc(dataBaseApp, "mainMonth", "mainMonth"), {
             mes: today,
             saidasTotais: saidasTotaisMes,
             lucroLiq: lucroLiqMes,
@@ -166,7 +185,7 @@ const Dashboard = () => {
             paletesVenda: paletesVendaMes,
             paletesCompra: paletesCompraMes,
         });
-        setDoc(doc(dataBaseApp, "months", today), {
+        setDoc(doc(dataBaseApp, "months", mes), {
             mes: today,
             saidasTotais: saidasTotaisMes,
             lucroLiq: lucroLiqMes,
@@ -177,13 +196,14 @@ const Dashboard = () => {
     }
 
     function enviarTotal() {
-        setTotalTd({
+        totalGeral = {
             saidasTotais: saidasTotais,
             lucroLiq: lucroLiq,
             lucroBruto: totalVendas,
             paletesVenda: paletesVenda,
             paletesCompra: paletesCompra,
-        });
+        };
+        
         setDoc(doc(dataBaseApp, "total", "main"), {
             saidasTotais: saidasTotais,
             lucroLiq: lucroLiq,
