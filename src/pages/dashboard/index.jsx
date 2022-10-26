@@ -138,7 +138,7 @@ const Dashboard = () => {
         });
     }
 
-    function sortMonth() {
+    function sortMonth(month) {
         function SortArray(x, y) {
             if (x.data < y.data) { return 1; }
             if (x.data > y.data) { return -1; }
@@ -352,7 +352,7 @@ const Dashboard = () => {
 
     // principal da pagina
     if (initCalc === true) {
-        sortMonth() //array do mês atual
+        sortMonth(month) //array do mês atual
         somasMensais()
         somaTotais()
 
@@ -367,6 +367,8 @@ const Dashboard = () => {
         enviarMes()
         enviarTotal()
         ultimasAlteracoes = month.slice(0, 7);
+        sortMonth(ultimasAlteracoes)
+
         databases = {
             databasePrincipal: loadDataPrincipal(),
             databaseBruto: loadData('Lucro Bruto'),

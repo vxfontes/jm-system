@@ -55,7 +55,7 @@ const Home = () => {
                     </Card>
                 </Grid>
 
-                <Grid className={styles().grid} item xs={12} sm={12} md={3} lg={4}>
+                <Grid className={styles().grid} item xs={12} sm={12} md={6} lg={4}>
                     <Card className={styles().rooters}>
                         <CardContent>
                             <Typography variant="h5" component="h2">
