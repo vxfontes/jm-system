@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core';
-import { BorderBottom } from '@material-ui/icons';
 import deitado from '../../image/paleteDeitado.JPG';
 import emPe from '../../image/paleteEmPe.JPG';
 

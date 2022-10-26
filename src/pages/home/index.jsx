@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './styles';
-import { Box, Button, Card, CardActions, CardContent, AppBar, Grid, Toolbar, Typography } from '@material-ui/core';
+import { Box, Button, Card, CardActions, CardContent, Grid, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import SideBar from '../../components/sideBar';
 
