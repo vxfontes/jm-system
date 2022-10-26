@@ -1,4 +1,4 @@
-import { collection, getDocs, where, query, orderBy, setDoc, doc, getDoc } from 'firebase/firestore'
+import { collection, getDocs, where, query, orderBy, setDoc, doc } from 'firebase/firestore'
 import { useEffect, useState } from 'react';
 import { dataBaseApp } from "../../firebase";
 import MainDashboard from './mainDashboard';
@@ -8,7 +8,7 @@ const timeElapsed = Date.now();
 const today = format(new Date(timeElapsed), 'yyyy-MM-01').toString();
 const mes = format(new Date(timeElapsed), 'MM-yyyy').toString();
 
-let data, empty, db, totalGeral = {};
+let data, empty, db, totalGeral = {}, databases = {};
 let totalVendas = 0, totalCompras = 0, totalComissao = 0, totalDespesas = 0;
 let paletesVenda = 0, paletesCompra = 0;
 let saidasTotais = 0, lucroLiq = 0;
@@ -19,6 +19,7 @@ let saidasTotaisMes = 0, lucroLiqMes = 0;
 // ao fim de todo processo, as variaveis utilizadas no dashboard serao: 
 // lucro total, lucro total liquido, despesas, quant paletes vendidos e comprados = totalGeral
 // ultimas compras e vendas = month
+// mes atual = main
 
 
 const Dashboard = () => {
@@ -124,10 +125,12 @@ const Dashboard = () => {
             alert("Não foi possível conectar-se com o banco de dados");
             console.log(error);
         });
-        
+
         getDocs(gettingMainMonth).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-            setMain(data);
+            data.map((d) => {
+                setMain(d)
+            })
         }).catch((error) => {
             alert("Não foi possível conectar-se com o banco de dados");
             console.log(error);
@@ -174,11 +177,12 @@ const Dashboard = () => {
         console.log('total', totalGeral);
         console.log('mes', saidasTotaisMes, lucroLiqMes, paletesVendaMes, paletesCompraMes);
         console.log('imprimindo meses', meses);
+        console.log('database', databases)
     }
 
     function enviarMes() {
         setDoc(doc(dataBaseApp, "mainMonth", "mainMonth"), {
-            mes: today,
+            mes: mes,
             saidasTotais: saidasTotaisMes,
             lucroLiq: lucroLiqMes,
             lucroBruto: totalVendasMes,
@@ -186,7 +190,7 @@ const Dashboard = () => {
             paletesCompra: paletesCompraMes,
         });
         setDoc(doc(dataBaseApp, "months", mes), {
-            mes: today,
+            mes: mes,
             saidasTotais: saidasTotaisMes,
             lucroLiq: lucroLiqMes,
             lucroBruto: totalVendasMes,
@@ -203,7 +207,7 @@ const Dashboard = () => {
             paletesVenda: paletesVenda,
             paletesCompra: paletesCompra,
         };
-        
+
         setDoc(doc(dataBaseApp, "total", "main"), {
             saidasTotais: saidasTotais,
             lucroLiq: lucroLiq,
@@ -264,6 +268,85 @@ const Dashboard = () => {
         }
     }
 
+
+    // GRAFICOS 
+    function loadDataPrincipal() {
+        // const result = meses.map((mes) => {
+        //     return [
+        //         mes.mes, mes.lucroLiq, mes.lucroBruto, mes.saidasTotais
+        //     ]
+        // })
+
+        // return [
+        //     ["Mês", "Lucro Líquido", "Lucro Bruto", "Total de Despesas"],
+        //     ...result
+        // ]
+
+        const mes = meses.map((mes) => mes.mes,)
+        const resultLiq = meses.map((mes) => mes.lucroLiq,)
+        const resultBt = meses.map((mes) => mes.lucroBruto,)
+        const saidas = meses.map((mes) => mes.saidasTotais,)
+
+        return {
+            categories: [...mes],
+            series: [
+                {
+                    name: 'Lucro Líquido',
+                    data: [...resultLiq]
+                },
+                {
+                    name: 'Lucro Bruto',
+                    data: [...resultBt]
+                },
+                {
+                    name: 'Saidas Totais',
+                    data: [...saidas]
+                },
+            ]
+        }
+    }
+
+    function loadData(type) {
+        if (type === 'Lucro Bruto') {
+            const result = meses.map((mes) => mes.lucroBruto,)
+            const mes = meses.map((mes) => mes.mes,)
+
+            return {
+                categories: [...mes],
+                series: [{
+                    name: 'bruto',
+                    data: [...result],
+                }]
+            }
+        }
+
+        if (type === 'Lucro Líquido') {
+            const result = meses.map((mes) => mes.lucroLiq,)
+            const mes = meses.map((mes) => mes.mes,)
+
+            return {
+                categories: [...mes],
+                series: [{
+                    name: 'liquido',
+                    data: [...result],
+                }]
+            }
+        }
+
+        if (type === 'Saidas Totais') {
+            const result = meses.map((mes) => mes.saidasTotais,)
+            const mes = meses.map((mes) => mes.mes,)
+
+            return {
+                categories: [...mes],
+                series: [{
+                    name: 'saidas totais',
+                    data: [...result],
+                }]
+            }
+        }
+    }
+
     // principal da pagina
     if (initCalc === true) {
         sortMonth() //array do mês atual
@@ -280,7 +363,14 @@ const Dashboard = () => {
 
         enviarMes()
         enviarTotal()
-        consoles()
+        databases = {
+            databasePrincipal: loadDataPrincipal(),
+            databaseBruto: loadData('Lucro Bruto'),
+            databaseLiquido: loadData('Lucro Líquido'),
+            saidasTotais: loadData('Saidas Totais')
+        }
+
+        // consoles()
     } else {
         console.log('carregando dados');
     }
@@ -291,7 +381,7 @@ const Dashboard = () => {
                 loading ? (
                     <>
                         <h1>foi</h1>
-                        {/* <MainDashboard /> */}
+                        <MainDashboard totalGeral={totalGeral} month={month} meses={meses} main={main} database={databases} />
                     </>
                 ) : (
                     <h1>carregando...</h1>
