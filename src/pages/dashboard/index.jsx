@@ -8,7 +8,7 @@ const timeElapsed = Date.now();
 const today = format(new Date(timeElapsed), 'yyyy-MM-01').toString();
 const mes = format(new Date(timeElapsed), 'MM-yyyy').toString();
 
-let data, empty, db, totalGeral = {}, databases = {};
+let data, empty, db, totalGeral = {}, databases = {}, ultimasAlteracoes = [];
 let totalVendas = 0, totalCompras = 0, totalComissao = 0, totalDespesas = 0;
 let paletesVenda = 0, paletesCompra = 0;
 let saidasTotais = 0, lucroLiq = 0;
@@ -334,6 +334,19 @@ const Dashboard = () => {
                 }]
             }
         }
+
+        if (type === 'Paletes Vendidos') {
+            const result = meses.map((mes) => mes.paletesVenda,)
+            const mes = meses.map((mes) => mes.mes,)
+
+            return {
+                categories: [...mes],
+                series: [{
+                    name: 'paletes venda',
+                    data: [...result],
+                }]
+            }
+        }
     }
 
     // principal da pagina
@@ -352,11 +365,13 @@ const Dashboard = () => {
 
         enviarMes()
         enviarTotal()
+        ultimasAlteracoes = month.slice(0, 7);
         databases = {
             databasePrincipal: loadDataPrincipal(),
             databaseBruto: loadData('Lucro Bruto'),
             databaseLiquido: loadData('Lucro Líquido'),
-            saidasTotais: loadData('Saidas Totais')
+            saidasTotais: loadData('Saidas Totais'),
+            paletesVenda: loadData('Paletes Vendidos'),
         }
 
         // consoles()
@@ -370,7 +385,7 @@ const Dashboard = () => {
                 loading ? (
                     <>
                         {/* <h1>foi</h1> */}
-                        <MainDashboard totalGeral={totalGeral} month={month} meses={meses} main={main} database={databases} />
+                        <MainDashboard totalGeral={totalGeral} month={ultimasAlteracoes} meses={meses} main={main} database={databases} />
                     </>
                 ) : (
                     <h1>carregando...</h1>
