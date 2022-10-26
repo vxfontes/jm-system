@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './styles';
 import { Box, Button, Card, CardActions, CardContent, AppBar, Grid, Toolbar, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import SideBar from '../../components/sideBar';
 
 const Home = () => {
 
@@ -9,11 +10,7 @@ const Home = () => {
         <>
             <Box className={styles().image}>
             </Box>
-            <AppBar>
-                <Toolbar>
-                    JM Paletes
-                </Toolbar>
-            </AppBar>
+            <SideBar />
             <Grid className={styles().root} container direction="row" justifyContent="center">
 
                 <Grid className={styles().grid} item xs={12} sm={12} md={6} lg={4}>

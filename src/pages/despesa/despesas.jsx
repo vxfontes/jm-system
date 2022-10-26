@@ -7,41 +7,31 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import 'date-fns';
 
 // local
-import ReciboPDF from "../../PDF/reciboComissaoPDF";
-import { schemaReciboComissao } from '../../utils/schema';
+import ComprovantePDF from "../../PDF/comprovanteCompra";
+import { schemaDespesas } from '../../utils/schema';
 import palete from '../../image/palete.png';
 import styles from './styles';
 import ColorButtonBlue from '../../components/button/Blue';
-import { cpfMask } from "../../components/cpf";
 import { dataBaseApp } from "../../firebase";
 
-const ReciboComissao = () => {
-    const refTabela = collection(dataBaseApp, "comissao")
-    const [cpf, setCpf] = useState();
+const Despesas = () => {
+    const refTabela = collection(dataBaseApp, "despesas");
     const [openAlert, setOpenAlert] = useState(false);
 
-    async function enviandoValores(values, total) {
+    async function enviandoValores(values) {
         try {
             const docRef = await addDoc(refTabela, {
-                quantidade: values.quantidade,
-                valor: values.valorUnitario,
-                total: Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade)).toFixed(2),
+                nomeDaDespesa: values.nomeDaDespesa,
+                tipoDeDespesa: values.tipoDeDespesa,
+                valor: values.valor,
                 data: values.data,
-                type: 'comissao',
-                funcionario: {
-                    nome: values.nome,
-                    cpf: cpf,
-                    unidade: values.unidade
-                }
+                unidade: values.unidade,
+                type: 'despesa'
             });
         } catch (e) {
             console.error("Error adding document: ", e);
             alert("Erro ao salvar, reinicie e tente novamente")
         }
-    }
-
-    function handleChangeCPF(e) {
-        setCpf(cpfMask(e.target.value))
     }
 
     function handleClose() {
@@ -55,7 +45,6 @@ const ReciboComissao = () => {
     const onSubmit = (values) => {
         enviandoValores(values);
         handleOpen();
-        ReciboPDF(values, cpf)
     }
 
     const MuiComp = ({
@@ -76,32 +65,38 @@ const ReciboComissao = () => {
             </Container>
             <Grid item sm={8} xs={12} className={styles().containerPrincipal} style={{ display: 'block' }}>
                 <Formik initialValues={{
-                    nome: '',
-                    quantidade: '',
-                    valorUnitario: '',
+                    nomeDaDespesa: '',
+                    tipoDeDespesa: '',
+                    valor: '',
+                    data: '',
                     unidade: '',
-                    data: ''
                 }}
-                    validationSchema={schemaReciboComissao}
+                    validationSchema={schemaDespesas}
                     onSubmit={onSubmit}>
 
                     {({ values, errors, touched, handleChange }) => (
                         <Form>
                             <Dialog open={openAlert} onClose={handleClose}>
                                 <Alert severity="info" color="info" variant="filled">
-                                    <AlertTitle><strong>Recibo enviado com sucesso</strong></AlertTitle>
-                                    <p>O recibo de comissão de {values.nome} já está pronto</p>
+                                    <AlertTitle><strong>Despesa adicionada</strong></AlertTitle>
+                                    <p>Despesa cadastrada com sucesso</p>
                                 </Alert>
                             </Dialog>
-                            <Typography style={{ margin: '30px 20px 20px 20px' }} variant="h5" gutterBottom>Gerador de recibo de comissão</Typography>
+                            <Typography style={{ margin: '30px 20px 20px 20px' }} variant="h5" gutterBottom>Cadastro de despesas</Typography>
 
                             <Container>
-                                <Field className={styles().textField} name='nome' type='text' component={MuiComp} placeholder="Nome do funcionário" />
-                                <TextField className={styles().textField} variant="filled" name='cpf' type='text' placeholder="CPF" maxLength='14' value={cpf} onChange={handleChangeCPF} />
-                                <Field className={styles().textField} name='quantidade' type='number' component={MuiComp} placeholder="Quantidade" />
-                                <Field className={styles().textField} name='valorUnitario' type='number' component={MuiComp} placeholder="Valor Unitário" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
-                                <TextField className={styles().textField} name='total' disabled variant="filled" placeholder="Total" value={(Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade))).toFixed(2)}
-                                    InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
+                                <Field className={styles().textField} name='nomeDaDespesa' type='text' component={MuiComp} placeholder="Nome da Despesa" />
+                                <TextField select className={styles().textField} name='tipoDeDespesa' variant="filled" label='Tipo de Despesa'
+                                    onChange={(e) => values.tipoDeDespesa = e.target.value} error={touched.tipoDeDespesa && Boolean(errors.tipoDeDespesa)}
+                                    helperText={touched.tipoDeDespesa && errors.tipoDeDespesa}>
+                                    <MenuItem value={'Água'}>Água</MenuItem>
+                                    <MenuItem value={"Luz"}>Luz</MenuItem>
+                                    <MenuItem value={"Internet"}>Internet</MenuItem>
+                                    <MenuItem value={"Aluguel"}>Aluguel</MenuItem>
+                                    <MenuItem value={"Gasolina"}>Gasolina</MenuItem>
+                                    <MenuItem value={"Outros"}>Outros</MenuItem>
+                                </TextField>
+                                <Field className={styles().textField} name='valor' type='number' component={MuiComp} placeholder="Valor" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
                                 <TextField name='data' className={styles().textField} type='date' variant="filled" format="dd/MM/yyyy" label='Data'
                                     value={values.data} onChange={handleChange} error={touched.data && Boolean(errors.data)}
                                     helperText={touched.data && errors.data} />
@@ -111,7 +106,7 @@ const ReciboComissao = () => {
                                     <MenuItem value='BR-324'>BR-324</MenuItem>
                                     <MenuItem value="Sobradinho">Sobradinho</MenuItem>
                                 </TextField>
-                                <ColorButtonBlue className={styles().button} type='submit'>Gerar PDF</ColorButtonBlue>
+                                <ColorButtonBlue className={styles().button} type='submit'>Salvar Despesa</ColorButtonBlue>
                             </Container>
                         </Form>
                     )}
@@ -121,4 +116,4 @@ const ReciboComissao = () => {
     );
 }
 
-export default ReciboComissao;
+export default Despesas;

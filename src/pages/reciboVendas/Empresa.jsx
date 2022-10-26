@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core/';
 import { AlertTitle, Alert } from '@material-ui/lab';
 import { Formik, Field, Form } from 'formik';
+import { collection, addDoc } from 'firebase/firestore'
 import InputAdornment from '@material-ui/core/InputAdornment';
 import 'date-fns';
 
@@ -12,6 +13,7 @@ import 'date-fns';
 import { schemaReciboEmpresa } from '../../utils/schema';
 import palete from '../../image/palete.png';
 import styles from './styles';
+import { dataBaseApp } from "../../firebase";
 import ColorButtonBlue from '../../components/button/Blue';
 import ColorButtonRed from '../../components/button/Red';
 import { cnpjMask } from "../../components/cnpj";
@@ -19,7 +21,7 @@ import ReciboEmpresaPDF from "../../PDF/reciboEmpresa";
 
 const ReciboEmpresa = () => {
 
-
+    const refTabela = collection(dataBaseApp, "vendasRecibos")
     const [cnpj, setCnpj] = useState();
     const [quantTotal, setQuantTotal] = useState(0);
     const [openAlert, setOpenAlert] = useState(false);
@@ -29,6 +31,28 @@ const ReciboEmpresa = () => {
     const perfil = {
         masc: 'cnpj',
         inicio: 'A empresa'
+    }
+
+    async function enviandoValores(values, total) {
+        try {
+            const docRef = await addDoc(refTabela, {
+                quantidade: values.quantidade,
+                type: 'venda',
+                valor: values.valorUnitario,
+                total: Number(parseFloat(total)),
+                tipo: values.tipoDePalete,
+                data: values.data,
+                comprador: {
+                    type: 'empresa',
+                    nome: values.nome,
+                    dado: cnpj,
+                    unidade: values.unidade,
+                }
+            });
+        } catch (e) {
+            console.error("Error adding document: ", e);
+            alert("Erro ao salvar, reinicie e tente novamente")
+        }
     }
 
     function handleChangeCNPJ(e) {
@@ -59,6 +83,8 @@ const ReciboEmpresa = () => {
     const adicionar = (values) => {
         const total = (Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade))).toFixed(2);
         setQuantTotal(Number(parseInt(values.quantidade)) + quantTotal);
+
+        enviandoValores(values, total);
 
         const newVenda = [
             ...vendas,
