@@ -1,7 +1,7 @@
-import { collection, getDocs, where, query, orderBy, setDoc, doc } from 'firebase/firestore'
+import { collection, getDocs, where, query, orderBy, setDoc, doc, getDoc } from 'firebase/firestore'
 import { useEffect, useState } from 'react';
 import { dataBaseApp } from "../../firebase";
-import MainDashboard from './dashboard';
+import MainDashboard from './mainDashboard';
 import { format } from 'date-fns';
 
 const timeElapsed = Date.now();
@@ -36,9 +36,9 @@ const Dashboard = () => {
 
     const [month, setMonth] = useState([]);
     const [meses, setMeses] = useState([]);
-    const [main, setMain] = useState([])
+    const [main, setMain] = useState([]);
 
-    const [erroLenght, setErroLenght] = useState([])
+    const [erroLenght, setErroLenght] = useState([]);
     const [loading, setLoading] = useState(false);
     const [initCalc, setInitCalc] = useState(false);
 
@@ -123,14 +123,15 @@ const Dashboard = () => {
         }).catch((error) => {
             alert("Não foi possível conectar-se com o banco de dados");
             console.log(error);
-        })
+        });
+        
         getDocs(gettingMainMonth).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setMain(data);
         }).catch((error) => {
             alert("Não foi possível conectar-se com o banco de dados");
             console.log(error);
-        })
+        });
     }
 
     function sortMonth() {
@@ -201,7 +202,8 @@ const Dashboard = () => {
             lucroBruto: totalVendas,
             paletesVenda: paletesVenda,
             paletesCompra: paletesCompra,
-        }
+        };
+        
         setDoc(doc(dataBaseApp, "total", "main"), {
             saidasTotais: saidasTotais,
             lucroLiq: lucroLiq,
