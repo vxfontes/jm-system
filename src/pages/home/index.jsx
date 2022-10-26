@@ -13,7 +13,7 @@ const Home = () => {
             <SideBar />
             <Grid className={styles().root} container direction="row" justifyContent="center">
 
-                <Grid className={styles().grid} item xs={12} sm={12} md={6} lg={4}>
+                <Grid className={styles().grid} item xs={12} sm={12} md={6} lg={4} xl={5}>
                     <Card className={styles().rooters}>
                         <CardContent>
                             <Typography variant="h5" component="h2">
@@ -34,7 +34,7 @@ const Home = () => {
                     </Card>
                 </Grid>
 
-                <Grid className={styles().grid} item xs={12} sm={12} md={6} lg={4}>
+                <Grid className={styles().grid} item xs={12} sm={12} md={6} lg={4} xl={5}>
                     <Card className={styles().rooters}>
                         <CardContent>
                             <Typography variant="h5" component="h2">
@@ -55,7 +55,7 @@ const Home = () => {
                     </Card>
                 </Grid>
 
-                <Grid className={styles().grid} item xs={12} sm={12} md={6} lg={4}>
+                <Grid className={styles().grid} item xs={12} sm={12} md={6} lg={4} xl={5}>
                     <Card className={styles().rooters}>
                         <CardContent>
                             <Typography variant="h5" component="h2">
