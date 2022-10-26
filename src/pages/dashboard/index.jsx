@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { dataBaseApp } from "../../firebase";
 import MainDashboard from './mainDashboard';
 import { format } from 'date-fns';
+import { Box, CircularProgress, Grid } from '@material-ui/core';
 
 const timeElapsed = Date.now();
 const today = format(new Date(timeElapsed), 'yyyy-MM-01').toString();
@@ -388,7 +389,15 @@ const Dashboard = () => {
                         <MainDashboard totalGeral={totalGeral} month={ultimasAlteracoes} meses={meses} main={main} database={databases} />
                     </>
                 ) : (
-                    <h1>carregando...</h1>
+                    <Grid container direction="row" justifyContent="center" alignItems="center" style={{
+                        width: '100%',
+                        height: '100vh',
+                        backgroundColor: '#208ce4',
+                        display: 'flex',
+                        textAlign: 'center'
+                    }}>
+                        <CircularProgress style={{ color: 'white', fontSize: '400px' }} />
+                    </Grid>
                 )
             }
         </>
