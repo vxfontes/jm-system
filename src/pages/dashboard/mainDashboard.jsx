@@ -1,20 +1,28 @@
 // import { Chart } from "react-google-charts";
-import { Box, Card, CardActionArea, CardContent, Divider, Grid, Hidden, Table, TableBody, TableCell, TableRow, Typography } from '@material-ui/core';
+import {
+    Box, Button, Card, CardActionArea, CardContent, Dialog,
+    DialogContent, DialogContentText, DialogTitle,
+    Divider, Grid, Table, TableBody, TableCell, TableRow,
+    Typography, useMediaQuery, useTheme
+} from '@material-ui/core';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import useStyles from './styles';
 import Chart from "react-apexcharts";
-import SideBar from '../../components/sideBar';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { dataBaseApp } from '../../firebase';
+import { deleteDoc, doc } from 'firebase/firestore';
+import { Details, RemoveRedEye } from '@material-ui/icons';
 
 
 // propsDash: {
 //     main,
 //     totalGeral,
 //     months = [], 
-//     meses = [],
 //     database = {
 //         databasePrincipal,
 //         databaseBruto,
@@ -26,6 +34,30 @@ import { Link } from 'react-router-dom';
 
 const MainDashboard = (propsDash) => {
     const classes = useStyles();
+    const theme = useTheme();
+    const [openModal, setOpenModal] = useState(false);
+    const [openModalView, setOpenModalView] = useState(false);
+    const showLess = useMediaQuery(theme.breakpoints.only('lg'));
+    const showMore = useMediaQuery(theme.breakpoints.only('xl'));
+    const showSomething = useMediaQuery(theme.breakpoints.down('md'));
+
+    console.log(propsDash.month.all);
+
+    function handleClose() {
+        setOpenModal(false);
+    };
+
+    function handleOpen() {
+        setOpenModal(true);
+    };
+
+    function handleCloseView() {
+        setOpenModalView(false);
+    };
+
+    function handleOpenView() {
+        setOpenModalView(true);
+    };
 
     const optionsLineBt = {
         chart: {
@@ -96,8 +128,10 @@ const MainDashboard = (propsDash) => {
         }
     }
 
-    function comprasEVendas() {
-        const result = propsDash.month.map((month) => {
+    function comprasEVendas(get) {
+        const sort = get;
+        const result = sort.map((month) => {
+            console.log(month);
 
             if (month.type === "comissao") {
                 return (
@@ -107,9 +141,12 @@ const MainDashboard = (propsDash) => {
                                 <Typography variant='body1' className={classes.nomeDestaque} align='left'>{month.funcionario.nome}</Typography>
                                 <Typography variant='body2' align='left'>Funcionário</Typography>
                             </Grid>
-                            <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
+                            <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
                                 <Typography variant='body1' className={classes.nomeDestaque} align='right'>R$ {month.total}</Typography>
                                 <Typography variant='body2' align='right' className={classes.despesa}>Despesa: comissão</Typography>
+                            </Grid>
+                            <Grid item xl={1} lg={1} md={1} sm={1} xs={1}>
+                                <DeleteOutlineIcon className={classes.actionArea} fontSize='medium' color='secondary' onClick={() => handleDelete(month, "comissao")} />
                             </Grid>
                         </Grid>
                         <Divider />
@@ -125,9 +162,12 @@ const MainDashboard = (propsDash) => {
                                 <Typography variant='body1' className={classes.nomeDestaque} align='left'>{month.nomeDaDespesa}</Typography>
                                 <Typography variant='body2' align='left'>{month.tipoDeDespesa}</Typography>
                             </Grid>
-                            <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
+                            <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
                                 <Typography variant='body1' className={classes.nomeDestaque} align='right'>R$ {month.valor}</Typography>
                                 <Typography variant='body2' align='right' className={classes.despesa}>Despesa: {month.unidade}</Typography>
+                            </Grid>
+                            <Grid item xl={1} lg={1} md={1} sm={1} xs={1}>
+                                <DeleteOutlineIcon className={classes.actionArea} fontSize='medium' color='secondary' onClick={() => handleDelete(month, "despesas")} />
                             </Grid>
                         </Grid>
                         <Divider />
@@ -143,9 +183,13 @@ const MainDashboard = (propsDash) => {
                                 <Typography variant='body1' className={classes.nomeDestaque} align='left'>{month.tipoDePalete}</Typography>
                                 <Typography variant='body2' align='left'>{month.quantidade} paletes por {month.valor} reais</Typography>
                             </Grid>
-                            <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
+                            <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
                                 <Typography variant='body1' className={classes.nomeDestaque} align='right'>R$ {month.total}</Typography>
                                 <Typography variant='body2' align='right' className={classes.despesa}>Compra: {month.unidade}</Typography>
+                            </Grid>
+                            <Grid item xl={1} lg={1} md={1} sm={1} xs={1}>
+                                {/* <RemoveRedEye className={classes.actionArea} fontSize='medium' color='primary' onClick={handleOpenView} /> */}
+                                <DeleteOutlineIcon className={classes.actionArea} fontSize='medium' color='secondary' onClick={() => handleDelete(month, "compraPalete")} />
                             </Grid>
                         </Grid>
                         <Divider />
@@ -161,9 +205,12 @@ const MainDashboard = (propsDash) => {
                                 <Typography variant='body1' className={classes.nomeDestaque} align='left'>{month.tipo}</Typography>
                                 <Typography variant='body2' align='left'>{month.quantidade} paletes por {month.valor} reais</Typography>
                             </Grid>
-                            <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
+                            <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
                                 <Typography variant='body1' className={classes.nomeDestaque} align='right'>R$ {month.total}</Typography>
                                 <Typography variant='body2' align='right' className={classes.venda}>Venda: {month.comprador.nome}</Typography>
+                            </Grid>
+                            <Grid item xl={1} lg={1} md={1} sm={1} xs={1}>
+                                <DeleteOutlineIcon className={classes.actionArea} fontSize='medium' color='secondary' onClick={() => handleDelete(month, "vendasRecibos")} />
                             </Grid>
                         </Grid>
                         <Divider />
@@ -175,6 +222,41 @@ const MainDashboard = (propsDash) => {
         return (
             result
         )
+    }
+
+    function details(month) {
+        return (
+            <Dialog fullWidth={true} maxWidth='sm' open={openModalView} onClose={handleCloseView}>
+                <DialogContent>
+                    <Typography variant='h5'>Compra: </Typography>
+                    <Table>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell><Typography>Tipo de Palete</Typography></TableCell>
+                                <TableCell><Typography>{month.tipoDePalete}</Typography></TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell><Typography>Quantidade</Typography></TableCell>
+                                <TableCell><Typography>{month.quantidade}</Typography></TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell><Typography>Valor por unidade</Typography></TableCell>
+                                <TableCell><Typography>R$ {month.valor}</Typography></TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell><Typography>Total da compra</Typography></TableCell>
+                                <TableCell><Typography>R$ {month.total}</Typography></TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </DialogContent>
+            </Dialog>
+        )
+    }
+
+    async function handleDelete(month, type) {
+        const ref = doc(dataBaseApp, type, month.id);
+        await deleteDoc(ref)
     }
 
     return (
@@ -244,19 +326,19 @@ const MainDashboard = (propsDash) => {
                 {/* card lateral */}
                 <Grid container style={{ marginLeft: 10, marginRight: 10 }} xl={12} lg={12} md={12} sm={12} xs={12} spacing={2}>
                     <Grid item xl={2} lg={2} md={2} sm={12} xs={12}>
-                    <Link style={{ textDecoration: 'none', color: '#fff', }} to='/jm-system/' refresh="true">
-                        <CardActionArea className={classes.actionArea}>
-                            <Card className={classes.cardRight} style={{ backgroundColor: '#08d898' }}>
-                                <CardContent className={classes.lucros}>
-                                    <Grid container direction='row' justifyContent='center' alignItems="center" spacing={0}>
-                                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                                            <Typography className={classes.text} variant="subtitle1">Cadastro</Typography>
-                                            <Typography className={classes.lilText} variant="caption">Área de cadastro</Typography>
+                        <Link style={{ textDecoration: 'none', color: '#fff', }} to='/jm-system/' refresh="true">
+                            <CardActionArea className={classes.actionArea}>
+                                <Card className={classes.cardRight} style={{ backgroundColor: '#08d898' }}>
+                                    <CardContent className={classes.lucros}>
+                                        <Grid container direction='row' justifyContent='center' alignItems="center" spacing={0}>
+                                            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                                                <Typography className={classes.text} variant="subtitle1">Cadastro</Typography>
+                                                <Typography className={classes.lilText} variant="caption">Área de cadastro</Typography>
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
-                                </CardContent>
-                            </Card>
-                        </CardActionArea>
+                                    </CardContent>
+                                </Card>
+                            </CardActionArea>
                         </Link>
                     </Grid>
                     <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
@@ -303,10 +385,20 @@ const MainDashboard = (propsDash) => {
 
                 <Grid item className={classes.lateral} xl={4} lg={4} md={4} sm={12} xs={12}>
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                        {comprasEVendas()}
-                        <Hidden only="lg">
-                            <Typography variant='body1' style={{ marginTop: '2vh' }}>Alterações mais recentes cadastradas</Typography>
-                        </Hidden>
+                        {showLess && (
+                            comprasEVendas(propsDash.month.slice5)
+                        )}
+
+                        {showSomething && (
+                            comprasEVendas(propsDash.month.slice6)
+                        )}
+
+                        {showMore && (
+                            comprasEVendas(propsDash.month.slice7)
+                        )}
+                        <Button onClick={handleOpen} style={{ marginTop: '1vh' }} color='primary'>
+                            Ver mais
+                        </Button>
                     </Grid>
                 </Grid>
 
@@ -340,6 +432,13 @@ const MainDashboard = (propsDash) => {
                     </Grid>
                 </Grid>
             </Grid>
+
+            <Dialog fullWidth={true} maxWidth='sm' open={openModal} onClose={handleClose}>
+                <DialogTitle>Exibindo todos os acontecimentos do mês</DialogTitle>
+                <DialogContent>
+                    {comprasEVendas(propsDash.month.all)}
+                </DialogContent>
+            </Dialog>
         </Grid>
     );
 }

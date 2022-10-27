@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => (
         
         paper: {
             width: '97%',
-            height: '92vh',
+            height: '97vh',
             margin: 0,
             padding: 0,
             backgroundColor: '#e8f4fc',

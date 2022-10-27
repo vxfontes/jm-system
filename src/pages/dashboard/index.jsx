@@ -17,7 +17,7 @@ const mes = format(new Date(timeElapsed), 'MM-yyyy').toString();
 
 
 const Dashboard = () => {
-    let data, empty, db, totalGeral = {}, databases = {}, ultimasAlteracoes = [];
+    let data, empty, db, totalGeral = {}, databases = {}, ultimasAlteracoes = [], arrayAlteracoes = {};
     let totalVendas = 0, totalCompras = 0, totalComissao = 0, totalDespesas = 0;
     let paletesVenda = 0, paletesCompra = 0;
     let saidasTotais = 0, lucroLiq = 0;
@@ -380,8 +380,13 @@ const Dashboard = () => {
 
         enviarMes()
         enviarTotal()
-        ultimasAlteracoes = month.slice(0, 6);
-        sortMonth(ultimasAlteracoes)
+        arrayAlteracoes = {
+            all: month,
+            slice6: month.slice(0, 6),
+            slice5: month.slice(0, 5),
+            slice7: month.slice(0, 7),
+        }
+
 
         databases = {
             databasePrincipal: loadDataPrincipal(),
@@ -402,7 +407,7 @@ const Dashboard = () => {
             {
                 loading ? (
                     <>
-                        <MainDashboard totalGeral={totalGeral} month={ultimasAlteracoes} main={main} database={databases} />
+                        <MainDashboard totalGeral={totalGeral} month={arrayAlteracoes} main={main} database={databases} />
                     </>
                 ) : (
                     <Grid container direction="row" justifyContent="center" alignItems="center" style={{
