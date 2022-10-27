@@ -39,11 +39,11 @@ const ReciboCliente = () => {
                 total: Number(parseFloat(total)),
                 tipo: values.tipoDePalete,
                 data: values.data,
+                unidade: values.unidade,
                 comprador: {
-                    type: 'cliente',
+                    type: 'Cliente',
                     nome: values.nome,
                     dado: cpf,
-                    unidade: values.unidade,
                 }
             });
         } catch (e) {

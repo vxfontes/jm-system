@@ -28,10 +28,10 @@ const ReciboComissao = () => {
                 total: Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade)).toFixed(2),
                 data: values.data,
                 type: 'comissao',
+                unidade: values.unidade,
                 funcionario: {
                     nome: values.nome,
                     cpf: cpf,
-                    unidade: values.unidade
                 }
             });
         } catch (e) {

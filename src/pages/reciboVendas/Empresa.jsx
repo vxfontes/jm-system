@@ -42,11 +42,11 @@ const ReciboEmpresa = () => {
                 total: Number(parseFloat(total)),
                 tipo: values.tipoDePalete,
                 data: values.data,
+                unidade: values.unidade,
                 comprador: {
-                    type: 'empresa',
+                    type: 'Empresa',
                     nome: values.nome,
                     dado: cnpj,
-                    unidade: values.unidade,
                 }
             });
         } catch (e) {
