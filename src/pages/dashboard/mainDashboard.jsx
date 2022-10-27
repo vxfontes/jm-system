@@ -1,11 +1,13 @@
 // import { Chart } from "react-google-charts";
-import { Box, Card, CardActionArea, CardContent, Divider, Grid, Table, TableBody, TableCell, TableRow, Typography } from '@material-ui/core';
+import { Box, Card, CardActionArea, CardContent, Divider, Grid, Hidden, Table, TableBody, TableCell, TableRow, Typography } from '@material-ui/core';
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import useStyles from './styles';
 import Chart from "react-apexcharts";
+import SideBar from '../../components/sideBar';
+import { Link } from 'react-router-dom';
 
 
 // propsDash: {
@@ -24,7 +26,6 @@ import Chart from "react-apexcharts";
 
 const MainDashboard = (propsDash) => {
     const classes = useStyles();
-    console.log(propsDash);
 
     const optionsLineBt = {
         chart: {
@@ -181,18 +182,18 @@ const MainDashboard = (propsDash) => {
             <Grid className={classes.paper} container direction='row' justifyContent='center' alignItems="center" spacing={5}>
 
                 {/* card de paletes */}
-                <Grid item xl={3} lg={3} md={3} sm={6} xs={12}>
+                <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
                     <CardActionArea className={classes.actionArea}>
                         <Card className={classes.card}>
                             <StorefrontIcon className={classes.icons} />
                             <CardContent style={{ height: '100%', width: '100%' }}>
-                                <Grid container direction='row' justifyContent='space-between' alignItems="flex-start" spacing={4}>
-                                    <Grid item xl={7} lg={7} md={7} sm={7} xs={7}>
-                                        <Typography className={classes.text} variant="h5" component="h2">{propsDash.main.paletesVenda} paletes</Typography>
-                                        <Typography className={classes.lilText} variant="body2" component="p">Paletes vendidos no mês</Typography>
+                                <Grid container direction='row' justifyContent='space-between' alignItems="flex-start" spacing={0}>
+                                    <Grid item xl={7} lg={8} md={7} sm={7} xs={7}>
+                                        <Typography className={classes.text} variant="h5" component="h2" align='left'>{propsDash.main.paletesVenda} paletes</Typography>
+                                        <Typography className={classes.lilText} variant="body2" component="p" align='left'>Paletes vendidos no mês</Typography>
                                     </Grid>
-                                    <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
-                                        <Chart options={optionsLineBt} series={propsDash.database.paletesVenda.series} type="line" width="100" />
+                                    <Grid item xl={5} lg={4} md={5} sm={5} xs={5}>
+                                        <Chart options={optionsLineBt} series={propsDash.database.paletesVenda.series} type="line" width="100%" />
                                     </Grid>
                                 </Grid>
                             </CardContent>
@@ -201,18 +202,18 @@ const MainDashboard = (propsDash) => {
                 </Grid>
 
                 {/* card de paletes */}
-                <Grid item xl={3} lg={3} md={3} sm={6} xs={12}>
+                <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
                     <CardActionArea className={classes.actionArea}>
                         <Card className={classes.card} style={{ backgroundColor: '#08d898' }}>
                             <AddCircleOutlineIcon className={classes.icons} />
                             <CardContent style={{ height: '100%', width: '100%' }}>
-                                <Grid container direction='row' justifyContent='space-between' alignItems="flex-start" spacing={4}>
-                                    <Grid item xl={7} lg={7} md={7} sm={7} xs={7}>
-                                        <Typography className={classes.text} variant="h5" component="h2">{propsDash.main.paletesCompra} paletes</Typography>
-                                        <Typography className={classes.lilText} variant="body2" component="p">Paletes comprados no mês</Typography>
+                                <Grid container direction='row' justifyContent='space-between' alignItems="flex-start" spacing={0}>
+                                    <Grid item xl={7} lg={8} md={7} sm={7} xs={7}>
+                                        <Typography className={classes.text} variant="h5" component="h2" align='left'>{propsDash.main.paletesCompra} paletes</Typography>
+                                        <Typography className={classes.lilText} variant="body2" align='left'>Paletes comprados no mês</Typography>
                                     </Grid>
-                                    <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
-                                        <Chart options={optionsLineBt} series={propsDash.database.paletesCompra.series} type="line" width="100" />
+                                    <Grid item xl={5} lg={4} md={5} sm={5} xs={5}>
+                                        <Chart options={optionsLineBt} series={propsDash.database.paletesCompra.series} type="line" width="100%" />
                                     </Grid>
                                 </Grid>
                             </CardContent>
@@ -221,18 +222,18 @@ const MainDashboard = (propsDash) => {
                 </Grid>
 
                 {/* card de lucro */}
-                <Grid item xl={3} lg={3} md={3} sm={6} xs={12}>
+                <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
                     <CardActionArea className={classes.actionArea}>
                         <Card className={classes.card} style={{ backgroundColor: '#208ce4' }}>
                             <LocalAtmIcon className={classes.icons} />
                             <CardContent style={{ height: '100%', width: '100%' }}>
                                 <Grid container direction='row' justifyContent='space-between' alignItems="flex-start" spacing={4}>
                                     <Grid item xl={7} lg={7} md={7} sm={7} xs={7}>
-                                        <Typography className={classes.text} variant="h5" component="h2">R${propsDash.main.lucroBruto} reais</Typography>
-                                        <Typography className={classes.lilText} variant="body2" component="p">Lucro bruto do mês</Typography>
+                                        <Typography className={classes.text} variant="h5" component="h2" align='left'>R${propsDash.main.lucroBruto} reais</Typography>
+                                        <Typography className={classes.lilText} variant="body2" component="p" align='left'>Lucro bruto do mês</Typography>
                                     </Grid>
                                     <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
-                                        <Chart options={optionsLineBt} series={propsDash.database.databaseBruto.series} type="line" width="100" />
+                                        <Chart options={optionsLineBt} series={propsDash.database.databaseBruto.series} type="line" width="100%" />
                                     </Grid>
                                 </Grid>
                             </CardContent>
@@ -241,8 +242,24 @@ const MainDashboard = (propsDash) => {
                 </Grid>
 
                 {/* card lateral */}
-                <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
-                    <Grid style={{ marginBottom: 10 }} item xl={12} lg={12} md={12} sm={12} xs={12}>
+                <Grid container style={{ marginLeft: 10, marginRight: 10 }} xl={12} lg={12} md={12} sm={12} xs={12} spacing={2}>
+                    <Grid item xl={2} lg={2} md={2} sm={12} xs={12}>
+                    <Link style={{ textDecoration: 'none', color: '#fff', }} to='/jm-system/' refresh="true">
+                        <CardActionArea className={classes.actionArea}>
+                            <Card className={classes.cardRight} style={{ backgroundColor: '#08d898' }}>
+                                <CardContent className={classes.lucros}>
+                                    <Grid container direction='row' justifyContent='center' alignItems="center" spacing={0}>
+                                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                                            <Typography className={classes.text} variant="subtitle1">Cadastro</Typography>
+                                            <Typography className={classes.lilText} variant="caption">Área de cadastro</Typography>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                            </Card>
+                        </CardActionArea>
+                        </Link>
+                    </Grid>
+                    <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
                         <CardActionArea className={classes.actionArea}>
                             <Card className={classes.cardRight} style={{ backgroundColor: '#ffb41c' }}>
                                 <CardContent className={classes.lucros}>
@@ -259,9 +276,9 @@ const MainDashboard = (propsDash) => {
                             </Card>
                         </CardActionArea>
                     </Grid>
-                    <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                    <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
                         <CardActionArea className={classes.actionArea}>
-                            <Card className={classes.cardRight} style={{ backgroundColor: '#08d898' }}>
+                            <Card className={classes.cardRight} style={{ backgroundColor: '#6034b4' }}>
                                 <CardContent className={classes.lucros}>
                                     <Grid container direction='row' justifyContent='center' alignItems="center" spacing={0}>
                                         <Grid item xl={2} lg={2} md={2} sm={2} xs={2}>
@@ -278,17 +295,21 @@ const MainDashboard = (propsDash) => {
                     </Grid>
                 </Grid>
 
-                <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+                <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
                     <Box className={classes.graficoPrincipal}>
                         <Chart options={optionsLineThree} series={propsDash.database.databasePrincipal.series} type="bar" width="100%" />
                     </Box>
                 </Grid>
-                <Grid item className={classes.lateral} xl={3} lg={3} md={3} sm={12} xs={12}>
+
+                <Grid item className={classes.lateral} xl={4} lg={4} md={4} sm={12} xs={12}>
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                         {comprasEVendas()}
-                        <Typography variant='body1' style={{ marginTop: '2vh' }}>Alterações mais recentes cadastradas</Typography>
+                        <Hidden only="lg">
+                            <Typography variant='body1' style={{ marginTop: '2vh' }}>Alterações mais recentes cadastradas</Typography>
+                        </Hidden>
                     </Grid>
                 </Grid>
+
                 <Grid item className={classes.lateral2} xl={3} lg={3} md={3} sm={12} xs={12}>
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                         <Typography variant='h5'>Total cadastrado no sistema: </Typography>

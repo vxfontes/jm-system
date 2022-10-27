@@ -5,12 +5,13 @@ import { Link } from 'react-router-dom';
 import SideBar from '../../components/sideBar';
 
 const Home = () => {
+    localStorage.clear();
 
     return (
         <>
             <Box className={styles().image}>
             </Box>
-            <SideBar />
+            <SideBar color={'primary'} />
             <Grid className={styles().root} container direction="row" justifyContent="center">
 
                 <Grid className={styles().grid} item xs={12} sm={12} md={6} lg={4} xl={5}>

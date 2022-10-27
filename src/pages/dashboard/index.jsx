@@ -24,6 +24,7 @@ let saidasTotaisMes = 0, lucroLiqMes = 0;
 
 
 const Dashboard = () => {
+    
     const vendasRecibos = collection(dataBaseApp, "vendasRecibos");
     const comissaoRecibos = collection(dataBaseApp, "comissao");
     const compraPalete = collection(dataBaseApp, "compraPalete");
@@ -45,8 +46,8 @@ const Dashboard = () => {
     const [initCalc, setInitCalc] = useState(false);
 
     // as 4 funções abaixo puxam do banco de dados e ja implementam pegar os mais recentes
-    function getVendas() {
-        getDocs(vendasRecibos).then((response) => {
+    async function getVendas() {
+        await getDocs(vendasRecibos).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setVendas(data)
         }).then(async () => {
@@ -63,8 +64,8 @@ const Dashboard = () => {
         })
     }
 
-    function getComissao() {
-        getDocs(comissaoRecibos).then((response) => {
+    async function getComissao() {
+        await getDocs(comissaoRecibos).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setComissao(data)
         }).then(async () => {
@@ -81,8 +82,8 @@ const Dashboard = () => {
         })
     }
 
-    function getDespesas() {
-        getDocs(despesasCd).then((response) => {
+    async function getDespesas() {
+        await getDocs(despesasCd).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setDespesas(data)
         }).then(async () => {
@@ -99,8 +100,8 @@ const Dashboard = () => {
         })
     }
 
-    function getCompra() {
-        getDocs(compraPalete).then((response) => {
+    async function getCompra() {
+        await getDocs(compraPalete).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setCompra(data)
             empty = response.empty;
@@ -118,8 +119,8 @@ const Dashboard = () => {
         })
     }
 
-    function getMeses() {
-        getDocs(gettingMeses).then((response) => {
+    async function getMeses() {
+        await getDocs(gettingMeses).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setMeses(data);
         }).catch((error) => {
@@ -148,6 +149,7 @@ const Dashboard = () => {
     }
 
     useEffect(() => {
+        localStorage.clear();
         setInitCalc(false)
         getVendas()
         getComissao();
@@ -164,7 +166,7 @@ const Dashboard = () => {
                 window.alert('Erro ao receber dados, por favor cadastre algum item')
                 window.location.replace("/jm-system/");
             }
-        }, 3000)
+        }, 10000)
     }, []);
 
 
@@ -378,7 +380,7 @@ const Dashboard = () => {
 
         enviarMes()
         enviarTotal()
-        ultimasAlteracoes = month.slice(0, 7);
+        ultimasAlteracoes = month.slice(0, 6);
         sortMonth(ultimasAlteracoes)
 
         databases = {
@@ -400,8 +402,7 @@ const Dashboard = () => {
             {
                 loading ? (
                     <>
-                        {/* <h1>foi</h1> */}
-                        <MainDashboard totalGeral={totalGeral} month={ultimasAlteracoes} meses={meses} main={main} database={databases} />
+                        <MainDashboard totalGeral={totalGeral} month={ultimasAlteracoes} main={main} database={databases} />
                     </>
                 ) : (
                     <Grid container direction="row" justifyContent="center" alignItems="center" style={{
