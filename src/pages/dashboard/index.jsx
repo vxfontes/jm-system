@@ -383,7 +383,7 @@ const Dashboard = () => {
         arrayAlteracoes = {
             all: month,
             slice6: month.slice(0, 6),
-            slice5: month.slice(0, 5),
+            slice4: month.slice(0, 4),
             slice7: month.slice(0, 7),
         }
 
