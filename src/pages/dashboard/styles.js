@@ -128,6 +128,11 @@ const useStyles = makeStyles((theme) => (
 
         margin: {
             margin: '5px 0 3px 0'
+        },
+
+        dialog: {
+            borderRadius: '20px',
+            // padding: 200,
         }
 
     })

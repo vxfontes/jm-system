@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { dataBaseApp } from '../../firebase';
 import { deleteDoc, doc } from 'firebase/firestore';
-import { Details, RemoveRedEye } from '@material-ui/icons';
+import { RemoveRedEye } from '@material-ui/icons';
 
 
 // propsDash: {
@@ -40,8 +40,7 @@ const MainDashboard = (propsDash) => {
     const showLess = useMediaQuery(theme.breakpoints.only('lg'));
     const showMore = useMediaQuery(theme.breakpoints.only('xl'));
     const showSomething = useMediaQuery(theme.breakpoints.down('md'));
-
-    console.log(propsDash.month.all);
+    const [monthAtual, setMonthAtual] = useState({})
 
     function handleClose() {
         setOpenModal(false);
@@ -130,22 +129,22 @@ const MainDashboard = (propsDash) => {
 
     function comprasEVendas(get) {
         const sort = get;
-        const result = sort.map((month) => {
-            console.log(month);
 
+        const result = sort.map((month) => {
             if (month.type === "comissao") {
                 return (
                     <>
-                        <Grid className={classes.margin} container direction='row' justifyContent='flex-start' alignItems="center" spacing={0}>
+                        <Grid className={classes.margin} container direction='row' justifyContent='space-between' alignItems="center" spacing={0}>
                             <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
                                 <Typography variant='body1' className={classes.nomeDestaque} align='left'>{month.funcionario.nome}</Typography>
                                 <Typography variant='body2' align='left'>Funcionário</Typography>
                             </Grid>
-                            <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
+                            <Grid item style={{ marginRight: -20 }} xl={4} lg={4} md={4} sm={4} xs={4}>
                                 <Typography variant='body1' className={classes.nomeDestaque} align='right'>R$ {month.total}</Typography>
                                 <Typography variant='body2' align='right' className={classes.despesa}>Despesa: comissão</Typography>
                             </Grid>
                             <Grid item xl={1} lg={1} md={1} sm={1} xs={1}>
+                                <RemoveRedEye className={classes.actionArea} fontSize='medium' color='primary' onClick={() => { setMonthAtual(month); handleOpenView() }} />
                                 <DeleteOutlineIcon className={classes.actionArea} fontSize='medium' color='secondary' onClick={() => handleDelete(month, "comissao")} />
                             </Grid>
                         </Grid>
@@ -157,16 +156,17 @@ const MainDashboard = (propsDash) => {
             if (month.type === "despesa") {
                 return (
                     <>
-                        <Grid className={classes.margin} container direction='row' justifyContent='flex-start' alignItems="center" spacing={0}>
+                        <Grid className={classes.margin} container direction='row' justifyContent='space-between' alignItems="center" spacing={0}>
                             <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
                                 <Typography variant='body1' className={classes.nomeDestaque} align='left'>{month.nomeDaDespesa}</Typography>
                                 <Typography variant='body2' align='left'>{month.tipoDeDespesa}</Typography>
                             </Grid>
-                            <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
+                            <Grid item style={{ marginRight: -20 }} xl={4} lg={4} md={4} sm={4} xs={4}>
                                 <Typography variant='body1' className={classes.nomeDestaque} align='right'>R$ {month.valor}</Typography>
                                 <Typography variant='body2' align='right' className={classes.despesa}>Despesa: {month.unidade}</Typography>
                             </Grid>
                             <Grid item xl={1} lg={1} md={1} sm={1} xs={1}>
+                                <RemoveRedEye className={classes.actionArea} fontSize='medium' color='primary' onClick={() => { setMonthAtual(month); handleOpenView() }} />
                                 <DeleteOutlineIcon className={classes.actionArea} fontSize='medium' color='secondary' onClick={() => handleDelete(month, "despesas")} />
                             </Grid>
                         </Grid>
@@ -178,17 +178,17 @@ const MainDashboard = (propsDash) => {
             if (month.type === "compra") {
                 return (
                     <>
-                        <Grid className={classes.margin} container direction='row' justifyContent='flex-start' alignItems="center" spacing={0}>
+                        <Grid className={classes.margin} container direction='row' justifyContent='space-between' alignItems="center" spacing={0}>
                             <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
                                 <Typography variant='body1' className={classes.nomeDestaque} align='left'>{month.tipoDePalete}</Typography>
                                 <Typography variant='body2' align='left'>{month.quantidade} paletes por {month.valor} reais</Typography>
                             </Grid>
-                            <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
+                            <Grid item style={{ marginRight: -20 }} xl={4} lg={4} md={4} sm={4} xs={4}>
                                 <Typography variant='body1' className={classes.nomeDestaque} align='right'>R$ {month.total}</Typography>
                                 <Typography variant='body2' align='right' className={classes.despesa}>Compra: {month.unidade}</Typography>
                             </Grid>
                             <Grid item xl={1} lg={1} md={1} sm={1} xs={1}>
-                                {/* <RemoveRedEye className={classes.actionArea} fontSize='medium' color='primary' onClick={handleOpenView} /> */}
+                                <RemoveRedEye className={classes.actionArea} fontSize='medium' color='primary' onClick={() => { setMonthAtual(month); handleOpenView() }} />
                                 <DeleteOutlineIcon className={classes.actionArea} fontSize='medium' color='secondary' onClick={() => handleDelete(month, "compraPalete")} />
                             </Grid>
                         </Grid>
@@ -200,16 +200,17 @@ const MainDashboard = (propsDash) => {
             if (month.type === "venda") {
                 return (
                     <>
-                        <Grid className={classes.margin} container direction='row' justifyContent='flex-start' alignItems="center" spacing={0}>
+                        <Grid className={classes.margin} container direction='row' justifyContent='space-between' alignItems="center" spacing={0}>
                             <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
                                 <Typography variant='body1' className={classes.nomeDestaque} align='left'>{month.tipo}</Typography>
                                 <Typography variant='body2' align='left'>{month.quantidade} paletes por {month.valor} reais</Typography>
                             </Grid>
-                            <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
+                            <Grid item style={{ marginRight: -20 }} xl={4} lg={4} md={4} sm={4} xs={4}>
                                 <Typography variant='body1' className={classes.nomeDestaque} align='right'>R$ {month.total}</Typography>
                                 <Typography variant='body2' align='right' className={classes.venda}>Venda: {month.comprador.nome}</Typography>
                             </Grid>
                             <Grid item xl={1} lg={1} md={1} sm={1} xs={1}>
+                                <RemoveRedEye className={classes.actionArea} fontSize='medium' color='primary' onClick={() => { setMonthAtual(month); handleOpenView() }} />
                                 <DeleteOutlineIcon className={classes.actionArea} fontSize='medium' color='secondary' onClick={() => handleDelete(month, "vendasRecibos")} />
                             </Grid>
                         </Grid>
@@ -221,36 +222,6 @@ const MainDashboard = (propsDash) => {
 
         return (
             result
-        )
-    }
-
-    function details(month) {
-        return (
-            <Dialog fullWidth={true} maxWidth='sm' open={openModalView} onClose={handleCloseView}>
-                <DialogContent>
-                    <Typography variant='h5'>Compra: </Typography>
-                    <Table>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell><Typography>Tipo de Palete</Typography></TableCell>
-                                <TableCell><Typography>{month.tipoDePalete}</Typography></TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell><Typography>Quantidade</Typography></TableCell>
-                                <TableCell><Typography>{month.quantidade}</Typography></TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell><Typography>Valor por unidade</Typography></TableCell>
-                                <TableCell><Typography>R$ {month.valor}</Typography></TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell><Typography>Total da compra</Typography></TableCell>
-                                <TableCell><Typography>R$ {month.total}</Typography></TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                </DialogContent>
-            </Dialog>
         )
     }
 
@@ -433,10 +404,135 @@ const MainDashboard = (propsDash) => {
                 </Grid>
             </Grid>
 
-            <Dialog fullWidth={true} maxWidth='sm' open={openModal} onClose={handleClose}>
+            <Dialog className={classes.dialog} fullWidth={true} maxWidth='sm' open={openModal} onClose={handleClose}>
                 <DialogTitle>Exibindo todos os acontecimentos do mês</DialogTitle>
                 <DialogContent>
                     {comprasEVendas(propsDash.month.all)}
+                </DialogContent>
+            </Dialog>
+
+            <Dialog style={{ backgroundColor: '#1212' }} fullWidth={true} maxWidth='sm' open={openModalView} onClose={handleCloseView}>
+                <DialogContent className={classes.dialog}>
+                    {monthAtual.type === "compra" && (
+                        <Typography variant='h5'>Compra: </Typography>
+                    )}
+
+                    {monthAtual.type === "despesa" && (
+                        <Typography variant='h5'>Despesa: </Typography>
+                    )}
+
+                    {monthAtual.type === "venda" && (
+                        <Typography variant='h5'>Venda: </Typography>
+                    )}
+
+                    {monthAtual.type === "comissao" && (
+                        <Typography variant='h5'>Comissão: </Typography>
+                    )}
+
+                    <Table>
+                        <TableBody>
+                            {monthAtual.type === "compra" && (
+                                <>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>Tipo de Palete</Typography></TableCell>
+                                        <TableCell><Typography>{monthAtual.tipoDePalete}</Typography></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>Quantidade</Typography></TableCell>
+                                        <TableCell><Typography>{monthAtual.quantidade}</Typography></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>Valor por unidade</Typography></TableCell>
+                                        <TableCell><Typography>R$ {monthAtual.valor}</Typography></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>Total da compra</Typography></TableCell>
+                                        <TableCell><Typography>R$ {monthAtual.total}</Typography></TableCell>
+                                    </TableRow>
+                                </>
+                            )}
+
+                            {monthAtual.type === "venda" && (
+                                <>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>{monthAtual.comprador.type}</Typography></TableCell>
+                                        <TableCell><Typography>{monthAtual.comprador.nome}</Typography></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>Dados</Typography></TableCell>
+                                        <TableCell><Typography>{monthAtual.comprador.dado}</Typography></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>Tipo de Palete</Typography></TableCell>
+                                        <TableCell><Typography>{monthAtual.tipo}</Typography></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>Quantidade</Typography></TableCell>
+                                        <TableCell><Typography>{monthAtual.quantidade}</Typography></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>Valor por unidade</Typography></TableCell>
+                                        <TableCell><Typography>R$ {monthAtual.valor}</Typography></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>Total da compra</Typography></TableCell>
+                                        <TableCell><Typography>R$ {monthAtual.total}</Typography></TableCell>
+                                    </TableRow>
+                                </>
+                            )}
+
+                            {monthAtual.type === "comissao" && (
+                                <>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>Nome do funcionario</Typography></TableCell>
+                                        <TableCell><Typography>{monthAtual.funcionario.nome}</Typography></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>CPF do funcionario</Typography></TableCell>
+                                        <TableCell><Typography>{monthAtual.funcionario.cpf}</Typography></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>Quantidade</Typography></TableCell>
+                                        <TableCell><Typography>{monthAtual.quantidade}</Typography></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>Valor por unidade</Typography></TableCell>
+                                        <TableCell><Typography>R$ {monthAtual.valor}</Typography></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>Total da compra</Typography></TableCell>
+                                        <TableCell><Typography>R$ {monthAtual.total}</Typography></TableCell>
+                                    </TableRow>
+                                </>
+                            )}
+
+                            {monthAtual.type === "despesa" && (
+                                <>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>Gasto</Typography></TableCell>
+                                        <TableCell><Typography>{monthAtual.nomeDaDespesa}</Typography></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>Tipo de despesa</Typography></TableCell>
+                                        <TableCell><Typography>{monthAtual.tipoDeDespesa}</Typography></TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell><Typography className={classes.nomeDestaque}>Valor da despesa</Typography></TableCell>
+                                        <TableCell><Typography>R$ {monthAtual.valor}</Typography></TableCell>
+                                    </TableRow>
+                                </>
+                            )}
+
+                            <TableRow>
+                                <TableCell><Typography className={classes.nomeDestaque}>Unidade da compra</Typography></TableCell>
+                                <TableCell><Typography>{monthAtual.unidade}</Typography></TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell><Typography className={classes.nomeDestaque}>Data</Typography></TableCell>
+                                <TableCell><Typography>{(monthAtual.data)}</Typography></TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
                 </DialogContent>
             </Dialog>
         </Grid>
