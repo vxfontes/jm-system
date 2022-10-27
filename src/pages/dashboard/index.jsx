@@ -9,13 +9,6 @@ const timeElapsed = Date.now();
 const today = format(new Date(timeElapsed), 'yyyy-MM-01').toString();
 const mes = format(new Date(timeElapsed), 'MM-yyyy').toString();
 
-let data, empty, db, totalGeral = {}, databases = {}, ultimasAlteracoes = [];
-let totalVendas = 0, totalCompras = 0, totalComissao = 0, totalDespesas = 0;
-let paletesVenda = 0, paletesCompra = 0;
-let saidasTotais = 0, lucroLiq = 0;
-let totalVendasMes = 0, totalComprasMes = 0, totalComissaoMes = 0, totalDespesasMes = 0;
-let paletesVendaMes = 0, paletesCompraMes = 0;
-let saidasTotaisMes = 0, lucroLiqMes = 0;
 
 // ao fim de todo processo, as variaveis utilizadas no dashboard serao: 
 // lucro total, lucro total liquido, despesas, quant paletes vendidos e comprados = totalGeral
@@ -24,6 +17,13 @@ let saidasTotaisMes = 0, lucroLiqMes = 0;
 
 
 const Dashboard = () => {
+    let data, empty, db, totalGeral = {}, databases = {}, ultimasAlteracoes = [];
+    let totalVendas = 0, totalCompras = 0, totalComissao = 0, totalDespesas = 0;
+    let paletesVenda = 0, paletesCompra = 0;
+    let saidasTotais = 0, lucroLiq = 0;
+    let totalVendasMes = 0, totalComprasMes = 0, totalComissaoMes = 0, totalDespesasMes = 0;
+    let paletesVendaMes = 0, paletesCompraMes = 0;
+    let saidasTotaisMes = 0, lucroLiqMes = 0;
     
     const vendasRecibos = collection(dataBaseApp, "vendasRecibos");
     const comissaoRecibos = collection(dataBaseApp, "comissao");
@@ -166,7 +166,7 @@ const Dashboard = () => {
                 window.alert('Erro ao receber dados, por favor cadastre algum item')
                 window.location.replace("/jm-system/");
             }
-        }, 10000)
+        }, 5000)
     }, []);
 
 
