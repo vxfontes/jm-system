@@ -242,7 +242,6 @@ const MainDashboard = (propsDash) => {
         // console.log(copy)
         // setMonthsAll(copy);
         window.location.replace('/jm-system')
-        window.location.reload()
     }
 
     return (
