@@ -13,10 +13,11 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import useStyles from './styles';
 import Chart from "react-apexcharts";
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { dataBaseApp } from '../../firebase';
 import { deleteDoc, doc } from 'firebase/firestore';
-import { RemoveRedEye } from '@material-ui/icons';
+import { LaptopWindows, RemoveRedEye } from '@material-ui/icons';
+import { useEffect } from 'react';
 
 
 // propsDash: {
@@ -37,10 +38,12 @@ const MainDashboard = (propsDash) => {
     const theme = useTheme();
     const [openModal, setOpenModal] = useState(false);
     const [openModalView, setOpenModalView] = useState(false);
+    const [deleted, setDeleted] = useState(false);
     const showLess = useMediaQuery(theme.breakpoints.only('lg'));
     const showMore = useMediaQuery(theme.breakpoints.only('xl'));
     const showSomething = useMediaQuery(theme.breakpoints.down('md'));
     const [monthAtual, setMonthAtual] = useState({})
+    const [monthsAll, setMonthsAll] = useState([...propsDash.month.all]);
 
     function handleClose() {
         setOpenModal(false);
@@ -225,9 +228,21 @@ const MainDashboard = (propsDash) => {
         )
     }
 
+    function deleting(alteracao, defaults) {
+        if(alteracao.id !== defaults.id)
+            return alteracao
+    }
+
     async function handleDelete(month, type) {
         const ref = doc(dataBaseApp, type, month.id);
         await deleteDoc(ref)
+        alert("Deletado com sucesso");
+        // let copy = [...monthsAll];
+        // copy.filter(mes => deleting(mes, month))
+        // console.log(copy)
+        // setMonthsAll(copy);
+        window.location.replace('/jm-system')
+        window.location.reload()
     }
 
     return (
@@ -407,7 +422,7 @@ const MainDashboard = (propsDash) => {
             <Dialog className={classes.dialog} fullWidth={true} maxWidth='sm' open={openModal} onClose={handleClose}>
                 <DialogTitle>Exibindo todos os acontecimentos do mês</DialogTitle>
                 <DialogContent>
-                    {comprasEVendas(propsDash.month.all)}
+                    {comprasEVendas(monthsAll)}
                 </DialogContent>
             </Dialog>
 
