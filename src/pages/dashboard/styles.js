@@ -5,30 +5,35 @@ const useStyles = makeStyles((theme) => (
     {
         container: {
             width: '100%',
-            height: '100vh',
+            height: '88vh',
+            marginTop: '7vh',
             margin: 0,
             padding: 0,
             backgroundColor: 'white',
             textAlign: 'center',
-            [theme.breakpoints.only('sm')]: {
+            [theme.breakpoints.down('sm')]: {
                 height: '100%',
-            }
+            },
+            [theme.breakpoints.only('lg')]: {
+                marginTop: '1vh',
+            },
         },
         
         paper: {
             width: '97%',
-            height: '95vh',
+            height: '97vh',
             margin: 0,
             padding: 0,
             backgroundColor: '#e8f4fc',
             textAlign: 'center',
             borderRadius: '20px',
-            [theme.breakpoints.only('xs')]: {
+            [theme.breakpoints.down('sm')]: {
                 width: '100%',
                 borderRadius: '0px',
                 height: '100%',
             }
         },
+
 
         card: {
             position: 'relative',
@@ -45,10 +50,14 @@ const useStyles = makeStyles((theme) => (
             position: 'relative',
             borderRadius: 16,
             backgroundColor: '#208ce4',
-            minWidth: 256,
+            minWidth: '100%',
             boxShadow: 'none',
             display: 'flex',
-            textAlign: 'flex-start'
+            textAlign: 'flex-start',
+            [theme.breakpoints.up('lg')]: {
+                padding: 10,
+                minWidth: '93%',
+            }
         },
 
         actionArea: {
@@ -71,7 +80,10 @@ const useStyles = makeStyles((theme) => (
 
         icons: {
             color: 'white',
-            fontSize: 30
+            fontSize: 30,
+            [theme.breakpoints.only('lg')]: {
+                fontSize: 26,
+            }
         },
 
         lucros: {
@@ -88,8 +100,8 @@ const useStyles = makeStyles((theme) => (
             backgroundColor: '#fff',
             padding: '3%',
             borderRadius: '20px',
-            height: '95%',
-            width: '95%'
+            height: '90%',
+            width: '90%'
         },
 
         lateral: {
@@ -116,6 +128,11 @@ const useStyles = makeStyles((theme) => (
 
         margin: {
             margin: '5px 0 3px 0'
+        },
+
+        dialog: {
+            borderRadius: '20px',
+            // padding: 200,
         }
 
     })

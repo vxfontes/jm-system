@@ -60,8 +60,8 @@ const styles = makeStyles((theme) => ({
             maxWidth: 310,
         },
         [theme.breakpoints.up('lg')]: {
-            minWidth: 390,
-            maxWidth: 390,
+            minWidth: 310,
+            maxWidth: 310,
             marginTop: 100,
         },
         [theme.breakpoints.up('xl')]: {

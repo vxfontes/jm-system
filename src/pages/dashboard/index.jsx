@@ -9,13 +9,6 @@ const timeElapsed = Date.now();
 const today = format(new Date(timeElapsed), 'yyyy-MM-01').toString();
 const mes = format(new Date(timeElapsed), 'MM-yyyy').toString();
 
-let data, empty, db, totalGeral = {}, databases = {}, ultimasAlteracoes = [];
-let totalVendas = 0, totalCompras = 0, totalComissao = 0, totalDespesas = 0;
-let paletesVenda = 0, paletesCompra = 0;
-let saidasTotais = 0, lucroLiq = 0;
-let totalVendasMes = 0, totalComprasMes = 0, totalComissaoMes = 0, totalDespesasMes = 0;
-let paletesVendaMes = 0, paletesCompraMes = 0;
-let saidasTotaisMes = 0, lucroLiqMes = 0;
 
 // ao fim de todo processo, as variaveis utilizadas no dashboard serao: 
 // lucro total, lucro total liquido, despesas, quant paletes vendidos e comprados = totalGeral
@@ -24,6 +17,14 @@ let saidasTotaisMes = 0, lucroLiqMes = 0;
 
 
 const Dashboard = () => {
+    let data, empty, db, totalGeral = {}, databases = {}, ultimasAlteracoes = [], arrayAlteracoes = {};
+    let totalVendas = 0, totalCompras = 0, totalComissao = 0, totalDespesas = 0;
+    let paletesVenda = 0, paletesCompra = 0;
+    let saidasTotais = 0, lucroLiq = 0;
+    let totalVendasMes = 0, totalComprasMes = 0, totalComissaoMes = 0, totalDespesasMes = 0;
+    let paletesVendaMes = 0, paletesCompraMes = 0;
+    let saidasTotaisMes = 0, lucroLiqMes = 0;
+    
     const vendasRecibos = collection(dataBaseApp, "vendasRecibos");
     const comissaoRecibos = collection(dataBaseApp, "comissao");
     const compraPalete = collection(dataBaseApp, "compraPalete");
@@ -45,8 +46,8 @@ const Dashboard = () => {
     const [initCalc, setInitCalc] = useState(false);
 
     // as 4 funções abaixo puxam do banco de dados e ja implementam pegar os mais recentes
-    function getVendas() {
-        getDocs(vendasRecibos).then((response) => {
+    async function getVendas() {
+        await getDocs(vendasRecibos).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setVendas(data)
         }).then(async () => {
@@ -63,8 +64,8 @@ const Dashboard = () => {
         })
     }
 
-    function getComissao() {
-        getDocs(comissaoRecibos).then((response) => {
+    async function getComissao() {
+        await getDocs(comissaoRecibos).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setComissao(data)
         }).then(async () => {
@@ -81,8 +82,8 @@ const Dashboard = () => {
         })
     }
 
-    function getDespesas() {
-        getDocs(despesasCd).then((response) => {
+    async function getDespesas() {
+        await getDocs(despesasCd).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setDespesas(data)
         }).then(async () => {
@@ -99,8 +100,8 @@ const Dashboard = () => {
         })
     }
 
-    function getCompra() {
-        getDocs(compraPalete).then((response) => {
+    async function getCompra() {
+        await getDocs(compraPalete).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setCompra(data)
             empty = response.empty;
@@ -118,8 +119,8 @@ const Dashboard = () => {
         })
     }
 
-    function getMeses() {
-        getDocs(gettingMeses).then((response) => {
+    async function getMeses() {
+        await getDocs(gettingMeses).then((response) => {
             data = (response.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setMeses(data);
         }).catch((error) => {
@@ -138,7 +139,7 @@ const Dashboard = () => {
         });
     }
 
-    function sortMonth() {
+    function sortMonth(month) {
         function SortArray(x, y) {
             if (x.data < y.data) { return 1; }
             if (x.data > y.data) { return -1; }
@@ -148,6 +149,7 @@ const Dashboard = () => {
     }
 
     useEffect(() => {
+        localStorage.clear();
         setInitCalc(false)
         getVendas()
         getComissao();
@@ -164,7 +166,7 @@ const Dashboard = () => {
                 window.alert('Erro ao receber dados, por favor cadastre algum item')
                 window.location.replace("/jm-system/");
             }
-        }, 3000)
+        }, 5000)
     }, []);
 
 
@@ -343,7 +345,19 @@ const Dashboard = () => {
             return {
                 categories: [...mes],
                 series: [{
-                    name: 'paletes venda',
+                    name: 'paletes vendidos',
+                    data: [...result],
+                }]
+            }
+        }
+        if (type === 'Paletes Comprados') {
+            const result = meses.map((mes) => mes.paletesCompra,)
+            const mes = meses.map((mes) => mes.mes,)
+
+            return {
+                categories: [...mes],
+                series: [{
+                    name: 'paletes comprados',
                     data: [...result],
                 }]
             }
@@ -352,7 +366,7 @@ const Dashboard = () => {
 
     // principal da pagina
     if (initCalc === true) {
-        sortMonth() //array do mês atual
+        sortMonth(month) //array do mês atual
         somasMensais()
         somaTotais()
 
@@ -366,13 +380,21 @@ const Dashboard = () => {
 
         enviarMes()
         enviarTotal()
-        ultimasAlteracoes = month.slice(0, 7);
+        arrayAlteracoes = {
+            all: month,
+            slice6: month.slice(0, 6),
+            slice4: month.slice(0, 4),
+            slice7: month.slice(0, 7),
+        }
+
+
         databases = {
             databasePrincipal: loadDataPrincipal(),
             databaseBruto: loadData('Lucro Bruto'),
             databaseLiquido: loadData('Lucro Líquido'),
             saidasTotais: loadData('Saidas Totais'),
             paletesVenda: loadData('Paletes Vendidos'),
+            paletesCompra: loadData('Paletes Comprados'),
         }
 
         // consoles()
@@ -385,8 +407,7 @@ const Dashboard = () => {
             {
                 loading ? (
                     <>
-                        {/* <h1>foi</h1> */}
-                        <MainDashboard totalGeral={totalGeral} month={ultimasAlteracoes} meses={meses} main={main} database={databases} />
+                        <MainDashboard totalGeral={totalGeral} month={arrayAlteracoes} main={main} database={databases} />
                     </>
                 ) : (
                     <Grid container direction="row" justifyContent="center" alignItems="center" style={{

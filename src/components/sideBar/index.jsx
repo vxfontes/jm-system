@@ -38,7 +38,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const SideBar = () => {
+const SideBar = ({ color }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -52,7 +52,7 @@ const SideBar = () => {
 
   return (
     <>
-      <AppBar position="fixed">
+      <AppBar position="fixed" color={color}>
         <Toolbar className={classes.toolbar}>
           <Typography variant="h5"><strong>JM Paletes</strong></Typography>
 
