@@ -1,9 +1,7 @@
 <div align="center" id="top"> 
-  <img src="./.github/app.gif" alt="Jm Paletes" />
+  <img src="./src/image/jmLogo.png" alt="Jm Paletes" />
 
   &#xa0;
-
-  <a href="https://vxfontes.github.io/jm-system/">Demo</a>
 </div>
 
 <h1 align="center">Jm Paletes</h1>
@@ -15,22 +13,12 @@
 
   <img alt="Repository size" src="https://img.shields.io/github/repo-size/vxfontes/jm-system?color=56BEB8">
 
-  <img alt="License" src="https://img.shields.io/github/license/vxfontes/jm-system?color=56BEB8">
-
   <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/vxfontes/jm-system?color=56BEB8" /> -->
 
   <!-- <img alt="Github forks" src="https://img.shields.io/github/forks/vxfontes/jm-system?color=56BEB8" /> -->
 
   <!-- <img alt="Github stars" src="https://img.shields.io/github/stars/vxfontes/jm-system?color=56BEB8" /> -->
 </p>
-
-<!-- Status -->
-
-<!-- <h4 align="center"> 
-	🚧  Jm Paletes 🚀 Under construction...  🚧
-</h4> 
-
-<hr> -->
 
 <p align="center">
   <a href="#dart-sobre">Sobre</a> &#xa0; | &#xa0; 
@@ -43,7 +31,8 @@
 
 ## :dart: Sobre ##
 
-Sistema simples focado em gerar PDFs de recibos para uma empresa de venda de paletes no estado da Bahia
+Sistema para uma empresa de paletes da Bahia, onde gera-se recibos para comissão de funcionário e vendas além do cadastro de compras e despesas. 
+Implementado um dashboard com as informações da empresa como: lucro bruto, lucro líquido, despesas e outros.
 
 ## :sparkles: Ferramentas ##
 
@@ -53,6 +42,7 @@ Sistema simples focado em gerar PDFs de recibos para uma empresa de venda de pal
 :heavy_check_mark: Git hub pages;\
 :heavy_check_mark: Yup;\
 :heavy_check_mark: Material UI;\
+:heavy_check_mark: ApexCharts;\
 :heavy_check_mark: Firebase;
 
 ## :rocket: Tecnologias ##
@@ -63,6 +53,7 @@ Tecnologias principais:
 - [Material UI v4](https://v4.mui.com)
 - [PDFMake](http://pdfmake.org/index.html#/)
 - [Firebase](https://firebase.google.com)
+- [Apexcarts](apexcharts.com/)
 
 
 Made with :heart: by <a href="https://github.com/vxfontes" target="_blank">vxfontes</a>
