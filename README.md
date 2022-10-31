@@ -12,6 +12,10 @@
   <img alt="Github language count" src="https://img.shields.io/github/languages/count/vxfontes/jm-system?color=56BEB8">
 
   <img alt="Repository size" src="https://img.shields.io/github/repo-size/vxfontes/jm-system?color=56BEB8">
+  
+  <img alt="Last commit" src="https://img.shields.io/github/last-commit/vxfontes/jm-system?color=56BEB8">
+
+  <img alt="Version" src="https://img.shields.io/github/package-json/v/vxfontes/jm-system?color=56BEB8">
 
   <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/vxfontes/jm-system?color=56BEB8" /> -->
 
