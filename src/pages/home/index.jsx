@@ -28,7 +28,7 @@ const Home = () => {
                             </Typography>
                         </CardContent>
                         <CardActions className={styles().grid}>
-                            <Link to='/jm-system/comissao' style={{ textDecoration: 'none' }}>
+                            <Link to='/comissao' style={{ textDecoration: 'none' }}>
                                 <Button style={{ display: 'flex' }} size="small">gerar um recibo de comissão</Button>
                             </Link>
                         </CardActions>
@@ -49,7 +49,7 @@ const Home = () => {
                             </Typography>
                         </CardContent>
                         <CardActions className={styles().grid}>
-                            <Link to='/jm-system/empresa' style={{ textDecoration: 'none' }}>
+                            <Link to='/empresa' style={{ textDecoration: 'none' }}>
                                 <Button size="small">gerar um recibo de venda</Button>
                             </Link>
                         </CardActions>
@@ -70,7 +70,7 @@ const Home = () => {
                             </Typography>
                         </CardContent>
                         <CardActions className={styles().grid}>
-                            <Link to='/jm-system/cliente' style={{ textDecoration: 'none' }}>
+                            <Link to='/cliente' style={{ textDecoration: 'none' }}>
                                 <Button size="small">gerar um recibo de venda</Button>
                             </Link>
                         </CardActions>

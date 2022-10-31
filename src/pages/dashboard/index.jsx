@@ -164,7 +164,7 @@ const Dashboard = () => {
                 setLoading(true);
             } else {
                 window.alert('Erro ao receber dados, por favor cadastre algum item')
-                window.location.replace("/jm-system/");
+                window.location.replace("/");
             }
         }, 5000)
     }, []);

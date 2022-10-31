@@ -59,17 +59,17 @@ const SideBar = ({ color }) => {
           {/* opções */}
           <Hidden smDown>
             <Box className={classes.options}>
-              <Link className={classes.link} to='/jm-system/dashboard'>
+              <Link className={classes.link} to='/dashboard'>
                 <Typography variant="h6">
                   Dashboard
                 </Typography>
               </Link>
-              <Link className={classes.link} to='/jm-system/comprovante'>
+              <Link className={classes.link} to='/comprovante'>
                 <Typography variant="h6">
                   Compra de palete
                 </Typography>
               </Link>
-              <Link className={classes.link} to='/jm-system/despesas'>
+              <Link className={classes.link} to='/despesas'>
                 <Typography variant="h6">
                   Cadastro de despesas
                 </Typography>
@@ -93,17 +93,17 @@ const SideBar = ({ color }) => {
               </IconButton>
             </Box>
             <Box className={classes.dialog}>
-              <Link className={classes.link} to='/jm-system/dashboard'>
+              <Link className={classes.link} to='/dashboard'>
                 <Typography variant="h6">
                   <strong>Dashboard</strong>
                 </Typography>
               </Link>
-              <Link className={classes.link} to='/jm-system/comprovante'>
+              <Link className={classes.link} to='/comprovante'>
                 <Typography variant="h6">
                   <strong>Compra de palete</strong>
                 </Typography>
               </Link>
-              <Link className={classes.link} to='/jm-system/despesas'>
+              <Link className={classes.link} to='/despesas'>
                 <Typography variant="h6">
                   <strong>Cadastro de despesas</strong>
                 </Typography>

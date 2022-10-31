@@ -241,7 +241,7 @@ const MainDashboard = (propsDash) => {
         // copy.filter(mes => deleting(mes, month))
         // console.log(copy)
         // setMonthsAll(copy);
-        window.location.replace('/jm-system')
+        window.location.replace('/')
     }
 
     return (
@@ -311,7 +311,7 @@ const MainDashboard = (propsDash) => {
                 {/* card lateral */}
                 <Grid container style={{ marginLeft: 10, marginRight: 10 }} xl={12} lg={12} md={12} sm={12} xs={12} spacing={2}>
                     <Grid item xl={2} lg={2} md={2} sm={12} xs={12}>
-                        <Link style={{ textDecoration: 'none', color: '#fff', }} to='/jm-system/' refresh="true">
+                        <Link style={{ textDecoration: 'none', color: '#fff', }} to='/' refresh="true">
                             <CardActionArea className={classes.actionArea}>
                                 <Card className={classes.cardRight} style={{ backgroundColor: '#08d898' }}>
                                     <CardContent className={classes.lucros}>

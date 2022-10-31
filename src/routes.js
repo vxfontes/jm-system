@@ -15,13 +15,13 @@ const RoutesComp = () => {
     return (
         <Router history={history}>
             <Switch>
-                <Route exact path="/jm-system" component={Home} />
-                <Route exact path="/jm-system/comissao" component={ReciboComissao} />
-                <Route exact path="/jm-system/empresa" component={ReciboEmpresa} />
-                <Route exact path="/jm-system/cliente" component={ReciboCliente} />
-                <Route exact path="/jm-system/comprovante" component={CompraPalete} />
-                <Route exact path="/jm-system/despesas" component={Despesas} />
-                <Route exact path="/jm-system/dashboard" component={Dashboard} />
+                <Route exact path="/" component={Home} />
+                <Route exact path="/comissao" component={ReciboComissao} />
+                <Route exact path="/empresa" component={ReciboEmpresa} />
+                <Route exact path="/cliente" component={ReciboCliente} />
+                <Route exact path="/comprovante" component={CompraPalete} />
+                <Route exact path="/despesas" component={Despesas} />
+                <Route exact path="/dashboard" component={Dashboard} />
             </Switch>
         </Router>
     );
