@@ -15,7 +15,6 @@
     "firebase": "^9.12.1",
     "firebase-tools": "^11.15.0",
     "formik": "^2.2.9",
-    "gh-pages": "^4.0.0",
     "pdfmake": "^0.2.5",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
