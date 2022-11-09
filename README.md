@@ -132,6 +132,8 @@ Temos três tipos de PDFs sendo gerados:
 :heavy_check_mark: ApexCharts;\
 :heavy_check_mark: Firebase;
 
+  <br />
+  
 ## :rocket: Tecnologias ##
 
 Tecnologias principais:
