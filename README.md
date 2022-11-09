@@ -114,10 +114,11 @@ Temos três tipos de PDFs sendo gerados:
   2. Recibo de comissão para funcionários: [Comissao=funcionario-09_11_2022.pdf](https://github.com/vxfontes/jm-system/files/9972958/Comissao.funcionario-09_11_2022.pdf)
   3. Comprovante de compra: [Comprovante=Palete Descartável-09_11_2022.pdf](https://github.com/vxfontes/jm-system/files/9972967/Comprovante.Palete.Descartavel-09_11_2022.pdf)
 
-  <img align="center" src="https://github.com/vxfontes/jm-system/blob/master/src/image/project/pdfs/venda.png" width="33%" height="45%">
-  <img align="center" src="https://github.com/vxfontes/jm-system/blob/master/src/image/project/pdfs/comissao.png" width="33%" height="45%">
-  <img align="center" src="https://github.com/vxfontes/jm-system/blob/master/src/image/project/pdfs/comprovante.png" width="33%" height="45%">
-
+<div style="display: inline_block" align="center" >
+  <img align="center" src="https://github.com/vxfontes/jm-system/blob/master/src/image/project/pdfs/venda.png" width="80%" height="45%">
+  <img align="center" src="https://github.com/vxfontes/jm-system/blob/master/src/image/project/pdfs/comissao.png" width="80%" height="45%">
+  <img align="center" src="https://github.com/vxfontes/jm-system/blob/master/src/image/project/pdfs/comprovante.png" width="80%" height="45%">
+</div>
   
 <br />
   
