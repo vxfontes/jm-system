@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => (
         container: {
             width: '100%',
             height: '88vh',
-            marginTop: '7vh',
+            marginTop: '2vh',
             margin: 0,
             padding: 0,
             backgroundColor: 'white',

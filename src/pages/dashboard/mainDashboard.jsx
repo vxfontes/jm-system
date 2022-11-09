@@ -63,7 +63,7 @@ const MainDashboard = (propsDash) => {
 
     const optionsLineBt = {
         chart: {
-            id: "basic-bar",
+            id: "basic-bar1",
             sparkline: {
                 enabled: true
             },
@@ -77,6 +77,76 @@ const MainDashboard = (propsDash) => {
         },
         xaxis: {
             categories: propsDash.database.databaseBruto.categories,
+        },
+        tooltip: {
+            fixed: {
+                enabled: true,
+                position: 'right'
+            },
+            x: {
+                show: false
+            }
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        markers: {
+            size: 0
+        },
+        colors: ['#fff']
+    }
+
+    const optionsLinePv = {
+        chart: {
+            id: "basic-bar1",
+            sparkline: {
+                enabled: true
+            },
+            group: 'sparklines'
+        },
+        grid: {
+            row: {
+                colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
+                opacity: 0.5
+            },
+        },
+        xaxis: {
+            categories: propsDash.database.paletesVenda.categories,
+        },
+        tooltip: {
+            fixed: {
+                enabled: true,
+                position: 'right'
+            },
+            x: {
+                show: false
+            }
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        markers: {
+            size: 0
+        },
+        colors: ['#fff']
+    }
+
+    const optionsLinePc = {
+        chart: {
+            id: "basic-bar2",
+            sparkline: {
+                enabled: true
+            },
+            group: 'sparklines'
+        },
+        grid: {
+            row: {
+                colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
+                opacity: 0.5
+            },
+        },
+        xaxis: {
+            categories: propsDash.database.paletesCompra.categories,
         },
         tooltip: {
             fixed: {
@@ -229,7 +299,7 @@ const MainDashboard = (propsDash) => {
     }
 
     function deleting(alteracao, defaults) {
-        if(alteracao.id !== defaults.id)
+        if (alteracao.id !== defaults.id)
             return alteracao
     }
 
@@ -252,15 +322,15 @@ const MainDashboard = (propsDash) => {
                 <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
                     <CardActionArea className={classes.actionArea}>
                         <Card className={classes.card}>
-                            <StorefrontIcon className={classes.icons} />
+                            <AddCircleOutlineIcon className={classes.icons} />
                             <CardContent style={{ height: '100%', width: '100%' }}>
                                 <Grid container direction='row' justifyContent='space-between' alignItems="flex-start" spacing={0}>
                                     <Grid item xl={7} lg={8} md={7} sm={7} xs={7}>
-                                        <Typography className={classes.text} variant="h5" component="h2" align='left'>{propsDash.main.paletesVenda} paletes</Typography>
-                                        <Typography className={classes.lilText} variant="body2" component="p" align='left'>Paletes vendidos no mês</Typography>
+                                        <Typography className={classes.text} variant="h5" component="h2" align='left'>{propsDash.main.paletesCompra} paletes</Typography>
+                                        <Typography className={classes.lilText} variant="body2" align='left'>Paletes comprados no mês</Typography>
                                     </Grid>
                                     <Grid item xl={5} lg={4} md={5} sm={5} xs={5}>
-                                        <Chart options={optionsLineBt} series={propsDash.database.paletesVenda.series} type="line" width="100%" />
+                                        <Chart options={optionsLinePc} series={propsDash.database.paletesCompra.series} type="line" width="100%" />
                                     </Grid>
                                 </Grid>
                             </CardContent>
@@ -272,15 +342,15 @@ const MainDashboard = (propsDash) => {
                 <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
                     <CardActionArea className={classes.actionArea}>
                         <Card className={classes.card} style={{ backgroundColor: '#08d898' }}>
-                            <AddCircleOutlineIcon className={classes.icons} />
+                            <LocalAtmIcon className={classes.icons} />
                             <CardContent style={{ height: '100%', width: '100%' }}>
-                                <Grid container direction='row' justifyContent='space-between' alignItems="flex-start" spacing={0}>
-                                    <Grid item xl={7} lg={8} md={7} sm={7} xs={7}>
-                                        <Typography className={classes.text} variant="h5" component="h2" align='left'>{propsDash.main.paletesCompra} paletes</Typography>
-                                        <Typography className={classes.lilText} variant="body2" align='left'>Paletes comprados no mês</Typography>
+                                <Grid container direction='row' justifyContent='space-between' alignItems="flex-start" spacing={4}>
+                                    <Grid item xl={7} lg={7} md={7} sm={7} xs={7}>
+                                        <Typography className={classes.text} variant="h5" component="h2" align='left'>R${propsDash.main.lucroBruto} reais</Typography>
+                                        <Typography className={classes.lilText} variant="body2" component="p" align='left'>Lucro bruto do mês</Typography>
                                     </Grid>
-                                    <Grid item xl={5} lg={4} md={5} sm={5} xs={5}>
-                                        <Chart options={optionsLineBt} series={propsDash.database.paletesCompra.series} type="line" width="100%" />
+                                    <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
+                                        <Chart options={optionsLineBt} series={propsDash.database.databaseBruto.series} type="line" width="100%" />
                                     </Grid>
                                 </Grid>
                             </CardContent>
@@ -292,15 +362,15 @@ const MainDashboard = (propsDash) => {
                 <Grid item xl={4} lg={4} md={4} sm={6} xs={12}>
                     <CardActionArea className={classes.actionArea}>
                         <Card className={classes.card} style={{ backgroundColor: '#208ce4' }}>
-                            <LocalAtmIcon className={classes.icons} />
+                            <StorefrontIcon className={classes.icons} />
                             <CardContent style={{ height: '100%', width: '100%' }}>
-                                <Grid container direction='row' justifyContent='space-between' alignItems="flex-start" spacing={4}>
-                                    <Grid item xl={7} lg={7} md={7} sm={7} xs={7}>
-                                        <Typography className={classes.text} variant="h5" component="h2" align='left'>R${propsDash.main.lucroBruto} reais</Typography>
-                                        <Typography className={classes.lilText} variant="body2" component="p" align='left'>Lucro bruto do mês</Typography>
+                                <Grid container direction='row' justifyContent='space-between' alignItems="flex-start" spacing={0}>
+                                    <Grid item xl={7} lg={8} md={7} sm={7} xs={7}>
+                                        <Typography className={classes.text} variant="h5" component="h2" align='left'>{propsDash.main.paletesVenda} paletes</Typography>
+                                        <Typography className={classes.lilText} variant="body2" component="p" align='left'>Paletes vendidos no mês</Typography>
                                     </Grid>
-                                    <Grid item xl={5} lg={5} md={5} sm={5} xs={5}>
-                                        <Chart options={optionsLineBt} series={propsDash.database.databaseBruto.series} type="line" width="100%" />
+                                    <Grid item xl={5} lg={4} md={5} sm={5} xs={5}>
+                                        <Chart options={optionsLinePv} series={propsDash.database.paletesVenda.series} type="line" width="100%" />
                                     </Grid>
                                 </Grid>
                             </CardContent>
