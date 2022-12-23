@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Dialog, Box, Slide, Hidden, Button } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, IconButton, Dialog, Box, Slide, Hidden } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { Menu, Close } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core';

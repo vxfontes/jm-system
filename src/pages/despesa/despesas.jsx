@@ -7,7 +7,6 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import 'date-fns';
 
 // local
-import ComprovantePDF from "../../PDF/comprovanteCompra";
 import { schemaDespesas } from '../../utils/schema';
 import palete from '../../image/palete.png';
 import styles from './styles';

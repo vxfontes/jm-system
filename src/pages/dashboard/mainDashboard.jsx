@@ -1,7 +1,6 @@
-// import { Chart } from "react-google-charts";
 import {
     Box, Button, Card, CardActionArea, CardContent, Dialog,
-    DialogContent, DialogContentText, DialogTitle,
+    DialogContent, DialogTitle,
     Divider, Grid, Table, TableBody, TableCell, TableRow,
     Typography, useMediaQuery, useTheme
 } from '@material-ui/core';
@@ -13,32 +12,16 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import useStyles from './styles';
 import Chart from "react-apexcharts";
 import { Link } from 'react-router-dom';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { dataBaseApp } from '../../firebase';
 import { deleteDoc, doc } from 'firebase/firestore';
-import { LaptopWindows, RemoveRedEye } from '@material-ui/icons';
-import { useEffect } from 'react';
-
-
-// propsDash: {
-//     main,
-//     totalGeral,
-//     months = [], 
-//     database = {
-//         databasePrincipal,
-//         databaseBruto,
-//         databaseLiquido,
-//         saidasTotais
-//     }
-// }
-
+import { RemoveRedEye } from '@material-ui/icons';
 
 const MainDashboard = (propsDash) => {
     const classes = useStyles();
     const theme = useTheme();
     const [openModal, setOpenModal] = useState(false);
     const [openModalView, setOpenModalView] = useState(false);
-    const [deleted, setDeleted] = useState(false);
     const showLess = useMediaQuery(theme.breakpoints.only('lg'));
     const showMore = useMediaQuery(theme.breakpoints.only('xl'));
     const showSomething = useMediaQuery(theme.breakpoints.down('md'));
@@ -296,11 +279,6 @@ const MainDashboard = (propsDash) => {
         return (
             result
         )
-    }
-
-    function deleting(alteracao, defaults) {
-        if (alteracao.id !== defaults.id)
-            return alteracao
     }
 
     async function handleDelete(month, type) {

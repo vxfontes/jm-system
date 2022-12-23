@@ -173,6 +173,7 @@ const ReciboCliente = () => {
                                     <MenuItem value='Palete PBR'>Palete PBR</MenuItem>
                                     <MenuItem value="Palete Descartável">Palete Descartável</MenuItem>
                                     <MenuItem value="Chapatex">Chapatex</MenuItem>
+                                    <MenuItem value="Outros">Outros</MenuItem>
                                 </TextField>
                                 <Field className={styles().textField} name='quantidade' type='number' component={MuiComp} placeholder="Quantidade" />
                                 <Field className={styles().textField} name='valorUnitario' type='number' component={MuiComp} placeholder="Valor Unitário" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />

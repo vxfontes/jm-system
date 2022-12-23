@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { dataBaseApp } from "../../firebase";
 import MainDashboard from './mainDashboard';
 import { format } from 'date-fns';
-import { Box, CircularProgress, Grid } from '@material-ui/core';
+import { CircularProgress, Grid } from '@material-ui/core';
 
 const timeElapsed = Date.now();
 const today = format(new Date(timeElapsed), 'yyyy-MM-01').toString();
@@ -17,7 +17,7 @@ const mes = format(new Date(timeElapsed), 'MM-yyyy').toString();
 
 
 const Dashboard = () => {
-    let data, empty, db, totalGeral = {}, databases = {}, ultimasAlteracoes = [], arrayAlteracoes = {};
+    let data, empty, db, totalGeral = {}, databases = {}, arrayAlteracoes = {};
     let totalVendas = 0, totalCompras = 0, totalComissao = 0, totalDespesas = 0;
     let paletesVenda = 0, paletesCompra = 0;
     let saidasTotais = 0, lucroLiq = 0;
@@ -168,20 +168,6 @@ const Dashboard = () => {
             }
         }, 5000)
     }, []);
-
-
-    function consoles() {
-        console.log("total compra", totalCompras)
-        console.log("total venda", totalVendas)
-        console.log("total despesa", totalDespesas)
-        console.log("total comissao", totalComissao)
-        console.log("valor mes", month)
-        console.log('erro tamanho', erroLenght)
-        console.log('total', totalGeral);
-        console.log('mes', saidasTotaisMes, lucroLiqMes, paletesVendaMes, paletesCompraMes);
-        console.log('imprimindo meses', meses);
-        console.log('database', databases)
-    }
 
     function enviarMes() {
         setDoc(doc(dataBaseApp, "mainMonth", "mainMonth"), {
