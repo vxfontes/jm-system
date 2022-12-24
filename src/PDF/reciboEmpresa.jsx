@@ -27,43 +27,68 @@ const ReciboEmpresaPDF = (dados, vendas, perfil, dado, quantTotal) => {
                     {
                         columns: [
                             {
-                                text: 'First column first line',
-                                width: '35%'
+                                text: 'M. DE F. F. BOAVENTURA EIRELI ME',
+                                fontSize: 12,
+                                width: '100%'
                             },
                         ]
                     },
-
                     {
                         columns: [
                             {
-                                text: 'First column second line',
-                                width: '35%'
+                                text: 'CNPJ: 39.545.113/0001-08, TEL.: (75) 98122-7004 / (75) 98165-9822',
+                                fontSize: 12,
+                                width: '100%'
                             },
                         ]
-                    }
+                    },
+                    {
+                        columns: [
+                            {
+                                text: 'Av. Eduado Froes da Mota, nº 19030, 44020-292, Feira de Santana, Bahia, Brasil',
+                                fontSize: 12,
+                                width: '100%'
+                            },
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                text: 'BR-324, KM 11, 44137-000, Feira de Santana, Bahia, Brasil',
+                                fontSize: 12,
+                                width: '100%'
+                            },
+                        ]
+                    },
                 ],
-                width: '*',
-                margin: [30, 50, 0, 0],
+                fontSize: 12,
+                width: '100%',
+                margin: [40, 50, 0, 0],
             },
-            {
-                text: "Recibo",
-                fontSize: 20,
-                bold: true,
-                margin: [20, 60, 0, 20], //letf top right botton
-                alignment: 'right',
-            },
-            {
-                text: "R$ " + total,
-                fontSize: 20,
-                bold: true,
-                margin: [0, 60, 30, 20], //letf top right botton
-                alignment: 'right',
-            }
         ]
     };
-
-
+    
+    
     const content = [
+        {
+            stack: [
+                {
+                    text: "Recibo",
+                    fontSize: 20,
+                    bold: true,
+                    margin: [250, 10, 0, 0], //letf top right botton
+                    alignment: 'justify',
+                },
+                {
+                    text: "R$ " + total,
+                    fontSize: 20,
+                    bold: true,
+                    margin: [0, -24, 15, 0], //letf top right botton
+                    alignment: 'right',
+                }
+            ],
+        },
+        
         {
             text: perfil.inicio + ' ' + dados.nome + ' de ' + perfil.masc + ' nº ' + dado + ' está realizando uma compra de ' + quantTotal + ' itens na unidade do(a) ' + dados.unidade + ' de total: ' + total,
             fontSize: 12,
@@ -93,6 +118,17 @@ const ReciboEmpresaPDF = (dados, vendas, perfil, dado, quantTotal) => {
             margin: [15, 0, 15, 0],
             fontSize: 12,
         },
+        {
+            text: '__________________________________________________________________',
+            alignment: 'right',
+            margin: [15, 45, 15, 0],
+        },
+        {
+            text: 'Responsável pela venda',
+            alignment: 'right',
+            margin: [15, 3, 15, 0],
+            fontSize: 12,
+        }
     ]
 
 
