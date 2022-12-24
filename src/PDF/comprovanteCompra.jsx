@@ -48,7 +48,7 @@ const ComprovantePDF = (dados) => {
                 headerRows: 1,
                 widths: [170, '*', '*', '*'],
                 body: [
-                    [{ text: 'Tipo de palete', style: 'tableHeader', alignment: 'center' }, { text: 'Quantidade de paletes', style: 'tableHeader', alignment: 'center' }, { text: 'Valor de cada palete', style: 'tableHeader', alignment: 'center' }, { text: 'Total', style: 'tableHeader', alignment: 'center' }],
+                    [{ text: 'Tipo', style: 'tableHeader', alignment: 'center' }, { text: 'Quantidade', style: 'tableHeader', alignment: 'center' }, { text: 'Valor individual', style: 'tableHeader', alignment: 'center' }, { text: 'Total', style: 'tableHeader', alignment: 'center' }],
                     [dados.tipoDePalete, dados.quantidade, "R$ " + dados.valorUnitario, "R$ " + total],
                 ],
             }

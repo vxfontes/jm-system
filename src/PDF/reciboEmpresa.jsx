@@ -12,7 +12,7 @@ const ReciboEmpresaPDF = (dados, vendas, perfil, dado, quantTotal) => {
 
     const paletes = vendas.map((v) => {
         total = Number(parseFloat(total) + (parseFloat(v.total))).toFixed(2);
-        return [v.tipoDePalete, v.quantidade, "R$ "+v.valorUnitario, "R$ "+v.total]
+        return [v.tipoDePalete, v.quantidade, "R$ " + v.valorUnitario, "R$ " + v.total]
     })
 
     const reportTitle = {
@@ -23,10 +23,33 @@ const ReciboEmpresaPDF = (dados, vendas, perfil, dado, quantTotal) => {
                 width: 50,
             },
             {
+                stack: [
+                    {
+                        columns: [
+                            {
+                                text: 'First column first line',
+                                width: '35%'
+                            },
+                        ]
+                    },
+
+                    {
+                        columns: [
+                            {
+                                text: 'First column second line',
+                                width: '35%'
+                            },
+                        ]
+                    }
+                ],
+                width: '*',
+                margin: [30, 50, 0, 0],
+            },
+            {
                 text: "Recibo",
                 fontSize: 20,
                 bold: true,
-                margin: [100, 60, 0, 20], //letf top right botton
+                margin: [20, 60, 0, 20], //letf top right botton
                 alignment: 'right',
             },
             {
@@ -42,7 +65,7 @@ const ReciboEmpresaPDF = (dados, vendas, perfil, dado, quantTotal) => {
 
     const content = [
         {
-            text: perfil.inicio + ' ' + dados.nome + ' de '+perfil.masc+' nº ' + dado + ' está realizando uma compra de ' + quantTotal + ' itens na unidade do(a) ' + dados.unidade + ' de total: ' + total,
+            text: perfil.inicio + ' ' + dados.nome + ' de ' + perfil.masc + ' nº ' + dado + ' está realizando uma compra de ' + quantTotal + ' itens na unidade do(a) ' + dados.unidade + ' de total: ' + total,
             fontSize: 12,
             margin: [15, 30, 15, 0]
         },
@@ -52,9 +75,9 @@ const ReciboEmpresaPDF = (dados, vendas, perfil, dado, quantTotal) => {
                 headerRows: 1,
                 widths: [170, '*', '*', '*'],
                 body: [
-                    [{ text: 'Tipo de palete', style: 'tableHeader', alignment: 'center' }, { text: 'Quantidade de paletes', style: 'tableHeader', alignment: 'center' }, { text: 'Valor de cada palete', style: 'tableHeader', alignment: 'center' }, { text: 'Total', style: 'tableHeader', alignment: 'center' }],
+                    [{ text: 'Tipo', style: 'tableHeader', alignment: 'center' }, { text: 'Quantidade', style: 'tableHeader', alignment: 'center' }, { text: 'Valor individual', style: 'tableHeader', alignment: 'center' }, { text: 'Total', style: 'tableHeader', alignment: 'center' }],
                     ...paletes,
-                    [{text: 'Total', style: 'tableHeader'}, {text: '---', alignment: 'center'}, {text: '---', alignment: 'center'}, {text: 'R$ '+total}]
+                    [{ text: 'Total', style: 'tableHeader' }, { text: '---', alignment: 'center' }, { text: '---', alignment: 'center' }, { text: 'R$ ' + total }]
                 ],
             }
         },

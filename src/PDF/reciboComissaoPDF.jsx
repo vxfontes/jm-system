@@ -42,7 +42,7 @@ const ReciboPDF = (dados, cpf) => {
 
     const content = [
         {
-            text: "Eu " + dados.nome + " inscrito no CPF nº "+cpf+", comprovo o recebimento da comissão referente ao total de " + dados.quantidade + " paletes do valor de " + dados.valorUnitario + " por unidade. Totaliza-se " + total + " reais referente ao mês " + (dados.data).slice(5, -3) + " de 2022.",
+            text: "Eu " + dados.nome + " inscrito no CPF nº "+cpf+", comprovo o recebimento da comissão referente ao total de " + dados.quantidade + " itens do valor de " + dados.valorUnitario + " por unidade. Totaliza-se " + total + " reais referente ao mês " + (dados.data).slice(5, -3) + " de 2022.",
             fontSize: 12,
             margin: [15, 30, 15, 0]
         },
