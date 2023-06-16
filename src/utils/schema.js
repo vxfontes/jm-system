@@ -4,15 +4,10 @@ export const schemaReciboComissao = yup.object().shape({
     nome: yup
         .string()
         .required("Escreva seu nome"),
-    valorUnitario: yup
+    valor: yup
         .number()
         .positive("O número precisa ser positivo")
-        .required("Informe o valor de cada palete"),
-    quantidade: yup
-        .number()
-        .positive("O número precisa ser positivo")
-        .integer('Quantidade não pode ser um valor decimal')
-        .required("Informe a quantidade de paletes"),
+        .required("Informe o valor"),
     unidade: yup
         .string()
         .ensure()
