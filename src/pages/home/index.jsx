@@ -18,7 +18,7 @@ const Home = () => {
                     <Card className={styles().rooters}>
                         <CardContent>
                             <Typography variant="h5" component="h2">
-                                Comissão
+                                Adiantamento
                             </Typography>
                             <Typography className={styles().pos} color="textSecondary">
                                 Destinado a funcionários da empresa
@@ -29,7 +29,7 @@ const Home = () => {
                         </CardContent>
                         <CardActions className={styles().grid}>
                             <Link to='/comissao' style={{ textDecoration: 'none' }}>
-                                <Button style={{ display: 'flex' }} size="small">gerar um recibo de comissão</Button>
+                                <Button style={{ display: 'flex' }} size="small">gerar um recibo de adiantamento</Button>
                             </Link>
                         </CardActions>
                     </Card>
