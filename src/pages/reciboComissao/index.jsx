@@ -16,19 +16,16 @@ import { cpfMask } from "../../components/cpf";
 import { dataBaseApp } from "../../firebase";
 
 const ReciboComissao = () => {
-    const refTabela = collection(dataBaseApp, "comissao")
+    const refTabela = collection(dataBaseApp, "adiantamento")
     const [cpf, setCpf] = useState();
     const [openAlert, setOpenAlert] = useState(false);
 
-    async function enviandoValores(values, total) {
+    async function enviandoValores(values) {
         try {
             const docRef = await addDoc(refTabela, {
-                quantidade: values.quantidade,
-                valor: values.valorUnitario,
-                total: Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade)).toFixed(2),
+                valor: values.valor,
                 data: values.data,
-                type: 'comissao',
-                unidade: values.unidade,
+                type: 'adiantamento',
                 funcionario: {
                     nome: values.nome,
                     cpf: cpf,
@@ -77,9 +74,8 @@ const ReciboComissao = () => {
             <Grid item sm={8} xs={12} className={styles().containerPrincipal} style={{ display: 'block' }}>
                 <Formik initialValues={{
                     nome: '',
-                    quantidade: '',
-                    valorUnitario: '',
                     unidade: '',
+                    valor: '',
                     data: ''
                 }}
                     validationSchema={schemaReciboComissao}
@@ -98,10 +94,7 @@ const ReciboComissao = () => {
                             <Container>
                                 <Field className={styles().textField} name='nome' type='text' component={MuiComp} placeholder="Nome do funcionário" />
                                 <TextField className={styles().textField} variant="filled" name='cpf' type='text' placeholder="CPF" maxLength='14' value={cpf} onChange={handleChangeCPF} />
-                                <Field className={styles().textField} name='quantidade' type='number' component={MuiComp} placeholder="Quantidade" />
-                                <Field className={styles().textField} name='valorUnitario' type='number' component={MuiComp} placeholder="Valor Unitário" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
-                                <TextField className={styles().textField} name='total' disabled variant="filled" placeholder="Total" value={(Number(parseFloat(values.valorUnitario) * parseFloat(values.quantidade))).toFixed(2)}
-                                    InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
+                                <Field className={styles().textField} name='valor' type='number' component={MuiComp} placeholder="Valor Unitário" InputProps={{ startAdornment: (<InputAdornment position="start">$</InputAdornment>) }} />
                                 <TextField name='data' className={styles().textField} type='date' variant="filled" format="dd/MM/yyyy" label='Data'
                                     value={values.data} onChange={handleChange} error={touched.data && Boolean(errors.data)}
                                     helperText={touched.data && errors.data} />

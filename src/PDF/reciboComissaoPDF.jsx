@@ -4,11 +4,6 @@ import jmLogo from '../image/jmLogo.png'
 
 const ReciboPDF = (dados, cpf) => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
-    const total = Number(parseFloat(dados.valorUnitario) * parseFloat(dados.quantidade));
-
-    // data
-    // const date = new Date();
-    // const currentMonth = date.getMonth() + 1;
 
     const timeElapsed = Date.now();
     const today = new Date(timeElapsed);
@@ -30,7 +25,7 @@ const ReciboPDF = (dados, cpf) => {
                 alignment: 'right',
             },
             {
-                text: "R$ " + total,
+                text: "R$ " + valor,
                 fontSize: 20,
                 bold: true,
                 margin: [0, 60, 30, 20], //letf top right botton
@@ -42,7 +37,7 @@ const ReciboPDF = (dados, cpf) => {
 
     const content = [
         {
-            text: "Eu " + dados.nome + " inscrito no CPF nº "+cpf+", comprovo o recebimento da comissão referente ao total de " + dados.quantidade + " itens do valor de " + dados.valorUnitario + " por unidade. Totaliza-se " + total + " reais referente ao mês " + (dados.data).slice(5, -3) + " de 2022.",
+            text: "Eu " + dados.nome + " inscrito no CPF nº "+cpf+", comprovo o recebimento do adiantamento referente à semana. Totaliza-se " + valor + " reais.",
             fontSize: 12,
             margin: [15, 30, 15, 0]
         },
@@ -87,7 +82,7 @@ const ReciboPDF = (dados, cpf) => {
         footer: rodape,
     }
 
-    pdfMake.createPdf(docDefinitions).download("Comissao="+dados.nome+"-"+data);
+    pdfMake.createPdf(docDefinitions).download("Adiantamento="+dados.nome+"-"+data);
 }
 
 export default ReciboPDF;
