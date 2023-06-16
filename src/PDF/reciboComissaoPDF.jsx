@@ -25,7 +25,7 @@ const ReciboPDF = (dados, cpf) => {
                 alignment: 'right',
             },
             {
-                text: "R$ " + valor,
+                text: "R$ " + dados.valor,
                 fontSize: 20,
                 bold: true,
                 margin: [0, 60, 30, 20], //letf top right botton
@@ -37,7 +37,7 @@ const ReciboPDF = (dados, cpf) => {
 
     const content = [
         {
-            text: "Eu " + dados.nome + " inscrito no CPF nº "+cpf+", comprovo o recebimento do adiantamento referente à semana. Totaliza-se " + valor + " reais.",
+            text: "Eu " + dados.nome + " inscrito no CPF nº "+cpf+", comprovo o recebimento do adiantamento referente à semana. Totaliza-se " + dados.valor + " reais.",
             fontSize: 12,
             margin: [15, 30, 15, 0]
         },
